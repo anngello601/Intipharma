@@ -1,0 +1,8 @@
+        /* Sidebar y colores de cards */
+        .menu-item { color: white; cursor: pointer; }
+        .card-red { background-color: #ff3b30; color: white; text-align: center; }
+        .card-orange { background-color: #ff9500; color: white; text-align: center; }
+        .card-green { background-color: #34c759; color: white; text-align: center; }
+        .badge-vencido { background-color: #ff3b30; color: white; padding: 5px 10px; border-radius: 8px; }
+        .badge-porvencer { background-color: #ff9500; color: white; padding: 5px 10px; border-radius: 8px; }
+        .badge-vigente { background-color: #34c759; color: white; padding: 5px 10px; border-radius: 8px; }
