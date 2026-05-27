@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ControladorInicio {
 
-    @GetMapping("/index")
+    @GetMapping("/alertaProducto")
     public String dashboard() {
-        return "html/index";
+        return "html/alertaProducto";
     }
 
     @GetMapping("/productos")
