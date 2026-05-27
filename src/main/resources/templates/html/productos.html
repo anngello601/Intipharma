@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          th:href="@{/css/cssProductos.css}">
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <div class="row flex-nowrap">
+
+ 
+       <nav class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 bg-warning d-flex flex-column vh-100">
+
+            <!-- TITULO -->
+            <h2 class="mt-3 ps-3 text-white fw-bold">
+                IntiPharma s.a.c.
+            </h2><br><br><br>
+
+            <!-- MENU -->
+           <h5> <a class="menu-item ps-3 mb-2 active-menu text-white text-decoration-none"
+               href="index.html">
+
+                🛡️ Alerta de productos
+
+            </h5></a><br><br>
+
+            <h5><a class="menu-item ps-3 mb-2 text-white text-decoration-none"
+               href="inventario">
+
+                📑 Inventario
+
+            </h5></a><br><br>
+
+            <h5><a class="menu-item ps-3 mb-2 text-white text-decoration-none"
+               href="productos">
+
+                📦 Productos
+
+           </h5></a><br><br>
+
+            <h5><a class="menu-item ps-3 mb-2 text-white text-decoration-none"
+               href="configuracion.html">
+
+                ⚙️ Configuración
+
+           </h5> </a>
+
+            <!-- BOTON -->
+            <button class="btn btn-light mt-auto mb-3 ms-3 me-3"
+                    onclick="window.location.href='/login'">
+
+                Cerrar sesión
+
+            </button>
+
+        </nav>
+
+        <!-- MAIN -->
+        <main class="col py-4 px-4">
+
+            <!-- TITULO -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h2 class="title-products">
+                    Gestión de Productos
+                </h2>
+
+                <button class="btn btn-warning text-white">
+
+                    <i class="bi bi-plus-lg"></i>
+
+                    Nuevo Producto
+
+                </button>
+
+            </div>
+
+            <!-- FILTROS -->
+            <div class="card p-3 mb-4 shadow-sm border-0">
+
+                <div class="row g-3">
+
+                    <div class="col-md-5">
+
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Buscar producto...">
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <select class="form-select">
+
+                            <option>Todas las categorías</option>
+                            <option>Medicamentos</option>
+                            <option>Insumos</option>
+                            <option>Vitaminas</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <button class="btn btn-primary w-100">
+
+                            Buscar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- TABLA -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-light">
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Código</th>
+                                <th>Categoría</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            <tr>
+
+                                <td>1</td>
+
+                                <td>Paracetamol 500mg</td>
+
+                                <td>PR-001</td>
+
+                                <td>Medicamentos</td>
+
+                                <td>120</td>
+
+                                <td>
+                                    <span class="badge bg-success">
+
+                                        Disponible
+
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <i class="bi bi-pencil-square action-icon"></i>
+
+                                    <i class="bi bi-trash action-icon"></i>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>2</td>
+
+                                <td>Ibuprofeno</td>
+
+                                <td>PR-002</td>
+
+                                <td>Medicamentos</td>
+
+                                <td>45</td>
+
+                                <td>
+                                    <span class="badge bg-danger">
+
+                                        Stock Bajo
+
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <i class="bi bi-pencil-square action-icon"></i>
+
+                                    <i class="bi bi-trash action-icon"></i>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>3</td>
+
+                                <td>Vitamina C</td>
+
+                                <td>PR-003</td>
+
+                                <td>Vitaminas</td>
+
+                                <td>80</td>
+
+                                <td>
+                                    <span class="badge bg-success">
+
+                                        Disponible
+
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <i class="bi bi-pencil-square action-icon"></i>
+
+                                    <i class="bi bi-trash action-icon"></i>
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+</body>
+</html>
