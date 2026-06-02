@@ -11,4 +11,8 @@ public class controladorInventario {
         return "html/inventario";
     }
 
+    @GetMapping("/cerrarSesion")
+    public String cerrarSesion() {
+        return "html/cerrarSesion";
+    }
 }
