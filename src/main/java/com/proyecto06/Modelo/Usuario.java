@@ -1,9 +1,9 @@
 package com.proyecto06.Modelo;
-public class Persona {
+public class Usuario {
     private String dni;
     private String nombre;
     private double sueldo;
-    public Persona(){}
+    public Usuario(){}
     public String getDni() {    return dni;    }
     public void setDni(String dni) {    this.dni = dni;    }
     public String getNombre() {     return nombre;    }
