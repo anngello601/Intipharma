@@ -1,5 +1,9 @@
 /* GENERAL */
 
+.menu-item:hover{
+    background: rgba(255,255,255,0.2);
+}
+
 *{
     margin: 0;
     padding: 0;

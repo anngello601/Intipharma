@@ -6,6 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ControladorInicio {
 
+    // Página inicial
+    @GetMapping("/")
+    public String login() {
+        return "html/login";
+    }
+
+    // Dashboard después del login
     @GetMapping("/alertaProducto")
     public String dashboard() {
         return "html/alertaProducto";

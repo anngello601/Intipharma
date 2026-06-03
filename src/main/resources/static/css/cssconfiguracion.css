@@ -1,0 +1,62 @@
+body{
+    background: #f5f6fa;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu-item:hover{
+    background: rgba(255,255,255,0.2);
+}
+
+
+.title-config{
+    color: #294b8d;
+    font-weight: bold;
+}
+
+
+.subtitle{
+    color: gray;
+}
+
+
+.config-menu{
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+
+.config-item{
+    padding: 8px 12px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+
+.config-item:hover{
+    background: #f1f3f5;
+}
+
+
+.active-option{
+    background: #fff3d6;
+    color: #c99512;
+}
+
+
+.config-box{
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+
+.table td,
+.table th{
+    vertical-align: middle;
+}
