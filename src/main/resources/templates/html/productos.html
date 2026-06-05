@@ -265,4 +265,112 @@
 </div>
 
 </body>
+
+<script>
+
+// ACTIVAR EDITAR Y ELIMINAR
+function activarBotones() {
+
+    document.querySelectorAll(".bi-trash").forEach(btn => {
+
+        btn.onclick = function() {
+
+            if(confirm("¿Eliminar producto?")) {
+                this.closest("tr").remove();
+            }
+
+        };
+
+    });
+
+    document.querySelectorAll(".bi-pencil-square").forEach(btn => {
+
+        btn.onclick = function() {
+
+            let fila = this.closest("tr");
+
+            let nombre = prompt("Nombre:", fila.cells[1].innerText);
+            let codigo = prompt("Código:", fila.cells[2].innerText);
+            let categoria = prompt("Categoría:", fila.cells[3].innerText);
+            let stock = prompt("Stock:", fila.cells[4].innerText);
+
+            if(nombre) fila.cells[1].innerText = nombre;
+            if(codigo) fila.cells[2].innerText = codigo;
+            if(categoria) fila.cells[3].innerText = categoria;
+            if(stock) fila.cells[4].innerText = stock;
+
+        };
+
+    });
+
+}
+
+activarBotones();
+
+
+// NUEVO PRODUCTO
+document.querySelector(".btn-warning.text-white").addEventListener("click", function() {
+
+    let nombre = prompt("Nombre del producto:");
+    if(!nombre) return;
+
+    let codigo = prompt("Código:");
+    if(!codigo) return;
+
+    let categoria = prompt("Categoría:");
+    if(!categoria) return;
+
+    let stock = prompt("Stock:");
+    if(!stock) return;
+
+    let tabla = document.querySelector("tbody");
+
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${tabla.rows.length + 1}</td>
+        <td>${nombre}</td>
+        <td>${codigo}</td>
+        <td>${categoria}</td>
+        <td>${stock}</td>
+        <td>
+            <span class="badge bg-success">
+                Disponible
+            </span>
+        </td>
+        <td>
+            <i class="bi bi-pencil-square action-icon"></i>
+            <i class="bi bi-trash action-icon"></i>
+        </td>
+    `;
+
+    tabla.appendChild(fila);
+
+    activarBotones();
+
+});
+
+
+// BUSCAR PRODUCTO
+document.querySelector(".btn-primary").addEventListener("click", function() {
+
+    let texto = document.querySelector("input.form-control")
+        .value
+        .toLowerCase();
+
+    document.querySelectorAll("tbody tr").forEach(fila => {
+
+        let nombre = fila.cells[1].innerText.toLowerCase();
+
+        if(nombre.includes(texto)) {
+            fila.style.display = "";
+        } else {
+            fila.style.display = "none";
+        }
+
+    });
+
+});
+
+</script>
 </html>
