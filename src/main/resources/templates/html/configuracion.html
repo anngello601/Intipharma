@@ -129,425 +129,289 @@
 
                 <!-- MENU CONFIG -->
 
+                <div class="col-md-3">
 
-<div class="col-md-3">
+    <div class="card shadow-sm border-0 rounded-4">
 
+        <div class="card-body">
 
-    <div class="config-menu">
+            <div class="config-menu">
 
+                <!-- BOTON 1 -->
+                <button class="config-item active-option w-100"
+                        onclick="mostrarSeccion('usuarios')">
 
-        <!-- BOTON 1 -->
-        <button class="config-item active-option"
-                onclick="mostrarSeccion('usuarios')">
+                    <i class="bi bi-people"></i>
+                    Gestión de Usuarios
 
+                </button>
 
-            <i class="bi bi-people"></i>
+                <br><br>
 
+                <!-- BOTON 2 -->
+                <button class="config-item w-100"
+                        onclick="mostrarSeccion('alertas')">
 
-            Gestión de Usuarios
+                    <i class="bi bi-bell"></i>
+                    Configuración de Alertas
 
+                </button>
 
-        </button><br><br>
+                <br><br>
 
+                <!-- BOTON 3 -->
+                <button class="config-item w-100"
+                        onclick="mostrarSeccion('correos')">
 
-        <!-- BOTON 2 -->
-        <button class="config-item"
-                onclick="mostrarSeccion('alertas')">
+                    <i class="bi bi-envelope"></i>
+                    Correos Automáticos
 
+                </button>
 
-            <i class="bi bi-bell"></i>
+                <br><br>
 
+                <!-- BOTON 4 -->
+                <button class="config-item w-100"
+                        onclick="mostrarSeccion('seguridad')">
 
-            Configuración de Alertas
+                    <i class="bi bi-shield-lock"></i>
+                    Seguridad
 
+                </button>
 
-        </button><br><br>
+                <br><br>
 
+                <!-- BOTON 5 -->
+                <button class="config-item w-100"
+                        onclick="mostrarSeccion('notificaciones')">
 
-        <!-- BOTON 3 -->
-        <button class="config-item"
-                onclick="mostrarSeccion('correos')">
+                    <i class="bi bi-app-indicator"></i>
+                    Notificaciones
 
+                </button>
 
-            <i class="bi bi-envelope"></i>
+                <br><br>
 
+                <!-- BOTON 6 -->
+                <button class="config-item w-100"
+                        onclick="mostrarSeccion('backup')">
 
-            Correos Automáticos
+                    <i class="bi bi-database"></i>
+                    Copia de Seguridad
 
+                </button>
 
-        </button><br><br>
+            </div>
 
-
-        <!-- BOTON 4 -->
-        <button class="config-item"
-                onclick="mostrarSeccion('seguridad')">
-
-
-            <i class="bi bi-shield-lock"></i>
-
-
-            Seguridad
-
-
-        </button><br><br>
-
-
-        <!-- BOTON 5 -->
-        <button class="config-item"
-                onclick="mostrarSeccion('notificaciones')">
-
-
-            <i class="bi bi-app-indicator"></i>
-
-
-            Notificaciones
-
-
-        </button><br><br>
-
-
-        <!-- BOTON 6 -->
-        <button class="config-item"
-                onclick="mostrarSeccion('backup')">
-
-
-            <i class="bi bi-database"></i>
-
-
-            Copia de Seguridad
-
-
-        </button>
-
+        </div>
 
     </div>
-
 
 </div>
 
 
-                <!-- CONTENIDO -->
-                <div class="col-md-9">
+<!-- CONTENIDO -->
+<div class="col-md-9">
 
+    <div class="card shadow-sm border-0 rounded-4">
 
-                    <!-- USUARIOS -->
-                    <div class="config-box seccion"
-                         id="usuarios">
+        <div class="card-body">
 
+            <!-- USUARIOS -->
+            <div class="config-box seccion" id="usuarios">
 
-                        <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
 
-
-                            <div>
-                                <h4>Gestión de Usuarios</h4>
-                                <p class="text-muted">
-                                    Administra accesos del sistema.
-                                </p>
-                            </div>
-
-
-                            <button class="btn btn-warning text-white"
-                                    onclick="agregarUsuario()">
-
-
-                                <i class="bi bi-person-plus"></i>
-                                Añadir Usuario
-
-
-                            </button>
-
-
-                        </div>
-
-
-                        <table class="table align-middle">
-
-
-                            <thead>
-
-
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>Rol</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-
-
-                            </thead>
-
-
-                            <tbody id="tablaUsuarios">
-
-
-                            <tr>
-
-
-                                <td>Juan Torres</td>
-                                <td>juan@intipharma.com</td>
-                                <td>
-                                    <span class="badge bg-primary">
-                                        Administrador
-                                    </span>
-                                </td>
-
-
-                                <td>
-                                    <span class="text-success fw-bold">
-                                        Activo
-                                    </span>
-                                </td>
-
-
-                                <td>
-
-
-                                    <button class="btn btn-sm btn-primary"
-                                            onclick="editarUsuario(this)">
-
-
-                                        <i class="bi bi-pencil"></i>
-
-
-                                    </button>
-
-
-                                    <button class="btn btn-sm btn-danger"
-                                            onclick="eliminarUsuario(this)">
-
-
-                                        <i class="bi bi-trash"></i>
-
-
-                                    </button>
-
-
-                                </td>
-
-
-                            </tr>
-
-
-                            </tbody>
-
-
-                        </table>
-
-
-                    </div>
-
-
-                    <!-- ALERTAS -->
-                    <div class="config-box seccion d-none"
-                         id="alertas">
-
-
-                        <h4>Configuración de Alertas</h4>
-
-
-                        <br>
-
-
-                        <label>
-                            Días previos para alertar vencimiento:
-                        </label>
-
-
-                        <input type="number"
-                               class="form-control mb-3"
-                               value="15">
-
-
-                        <label>
-                            Prioridad de alertas:
-                        </label>
-
-
-                        <select class="form-select">
-
-
-                            <option>Alta</option>
-                            <option>Media</option>
-                            <option>Baja</option>
-
-
-                        </select>
-
-
-                    </div>
-
-
-                    <!-- CORREOS -->
-                    <div class="config-box seccion d-none"
-                         id="correos">
-
-
-                        <h4>Correos Automáticos</h4>
-
-
-                        <br>
-
-
-                        <label>
-                            Correo principal:
-                        </label>
-
-
-                        <input type="email"
-                               class="form-control mb-3"
-                               placeholder="correo@empresa.com">
-
-
-                        <div class="form-check">
-
-
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   checked>
-
-
-                            <label class="form-check-label">
-
-
-                                Enviar alertas automáticas
-
-
-                            </label>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- SEGURIDAD -->
-                    <div class="config-box seccion d-none"
-                         id="seguridad">
-
-
-                        <h4>Seguridad</h4>
-
-
-                        <br>
-
-
-                        <label>
-                            Cambiar contraseña:
-                        </label>
-
-
-                        <input type="password"
-                               class="form-control mb-3"
-                               placeholder="Nueva contraseña">
-
-
-                        <button class="btn btn-primary">
-
-
-                            Actualizar contraseña
-
-
-                        </button>
-
-
-                    </div>
-
-
-                    <!-- NOTIFICACIONES -->
-                    <div class="config-box seccion d-none"
-                         id="notificaciones">
-
-
-                        <h4>Notificaciones</h4>
-
-
-                        <br>
-
-
-                        <div class="form-check mb-3">
-
-
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   checked>
-
-
-                            <label class="form-check-label">
-
-
-                                Notificaciones del sistema
-
-
-                            </label>
-
-
-                        </div>
-
-
-                        <div class="form-check">
-
-
-                            <input class="form-check-input"
-                                   type="checkbox">
-
-
-                            <label class="form-check-label">
-
-
-                                Sonidos de alerta
-
-
-                            </label>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- BACKUP -->
-                    <div class="config-box seccion d-none"
-                         id="backup">
-
-
-                        <h4>Copia de Seguridad</h4>
-
-
-                        <br>
-
-
-                        <p>
-                            Última copia:
-                            20/05/2026
+                    <div>
+                        <h4>Gestión de Usuarios</h4>
+                        <p class="text-muted">
+                            Administra accesos del sistema.
                         </p>
-
-
-                        <button class="btn btn-success">
-
-
-                            Generar respaldo
-
-
-                        </button>
-
-
                     </div>
 
+                    <button class="btn btn-warning text-white"
+                            onclick="agregarUsuario()">
+
+                        <i class="bi bi-person-plus"></i>
+                        Añadir Usuario
+
+                    </button>
 
                 </div>
 
+                <table class="table align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaUsuarios">
+
+                        <tr>
+                            <td>Juan Torres</td>
+                            <td>juan@intipharma.com</td>
+
+                            <td>
+                                <span class="badge bg-primary">
+                                    Administrador
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="text-success fw-bold">
+                                    Activo
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <button class="btn btn-sm btn-primary"
+                                        onclick="editarUsuario(this)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-danger"
+                                        onclick="eliminarUsuario(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 
+            <!-- ALERTAS -->
+            <div class="config-box seccion d-none" id="alertas">
 
-        </main>
+                <h4>Configuración de Alertas</h4>
 
+                <br>
+
+                <label>Días previos para alertar vencimiento:</label>
+
+                <input type="number"
+                       class="form-control mb-3"
+                       value="15">
+
+                <label>Prioridad de alertas:</label>
+
+                <select class="form-select">
+                    <option>Alta</option>
+                    <option>Media</option>
+                    <option>Baja</option>
+                </select>
+
+            </div>
+
+            <!-- CORREOS -->
+            <div class="config-box seccion d-none" id="correos">
+
+                <h4>Correos Automáticos</h4>
+
+                <br>
+
+                <label>Correo principal:</label>
+
+                <input type="email"
+                       class="form-control mb-3"
+                       placeholder="correo@empresa.com">
+
+                <div class="form-check">
+
+                    <input class="form-check-input"
+                           type="checkbox"
+                           checked>
+
+                    <label class="form-check-label">
+                        Enviar alertas automáticas
+                    </label>
+
+                </div>
+
+            </div>
+
+            <!-- SEGURIDAD -->
+            <div class="config-box seccion d-none" id="seguridad">
+
+                <h4>Seguridad</h4>
+
+                <br>
+
+                <label>Cambiar contraseña:</label>
+
+                <input type="password"
+                       class="form-control mb-3"
+                       placeholder="Nueva contraseña">
+
+                <button class="btn btn-primary">
+                    Actualizar contraseña
+                </button>
+
+            </div>
+
+            <!-- NOTIFICACIONES -->
+            <div class="config-box seccion d-none" id="notificaciones">
+
+                <h4>Notificaciones</h4>
+
+                <br>
+
+                <div class="form-check mb-3">
+
+                    <input class="form-check-input"
+                           type="checkbox"
+                           checked>
+
+                    <label class="form-check-label">
+                        Notificaciones del sistema
+                    </label>
+
+                </div>
+
+                <div class="form-check">
+
+                    <input class="form-check-input"
+                           type="checkbox">
+
+                    <label class="form-check-label">
+                        Sonidos de alerta
+                    </label>
+
+                </div>
+
+            </div>
+
+            <!-- BACKUP -->
+            <div class="config-box seccion d-none" id="backup">
+
+                <h4>Copia de Seguridad</h4>
+
+                <br>
+
+                <p>
+                    Última copia: 20/05/2026
+                </p>
+
+                <button class="btn btn-success">
+                    Generar respaldo
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
-
 
 </div>
 

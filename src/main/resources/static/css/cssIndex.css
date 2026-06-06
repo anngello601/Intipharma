@@ -12,13 +12,13 @@
     box-sizing: border-box;
 }
 
-body { 
-    font-family: 'DM Sans', sans-serif; 
-    background: var(--bg); 
-    color: var(--text-dark); 
-    display: flex; 
-    height: 100vh; 
-    overflow: hidden; 
+body{
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .menu-item:hover{
@@ -76,7 +76,7 @@ body {
     color: gray;
 }
 
-.main {
+.main{
     flex-grow: 1;
     height: 100vh;
     overflow: auto;
@@ -101,4 +101,5 @@ body {
     background: white;
     border-radius: 18px;
     padding: 25px;
-    box-shadow
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
