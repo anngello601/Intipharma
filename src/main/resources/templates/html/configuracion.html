@@ -83,20 +83,45 @@
 
 
             <!-- TITULO -->
-            <div class="mb-4">
+          <div class="topbar">
 
+    <div class="header-left">
+        <h1>Configuración</h1>
 
-                <h2 class="title-config">
-                    Configuración
-                </h2>
+        <p class="subtitle">
+            Administra usuarios, alertas, seguridad y preferencias del sistema.
+        </p>
+    </div>
 
+    <div class="topbar-right">
 
-                <p class="subtitle">
-                    Administra usuarios, alertas, seguridad y preferencias del sistema.
-                </p>
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text"
+                   id="globalSearch"
+                   placeholder="Buscar..."
+                   oninput="applyFilters()">
+        </div>
 
+        <div class="user-chip">
+            <img src="https://i.pravatar.cc/40?img=12" alt="Admin">
 
-            </div><br><br>
+            <div class="user-chip-text">
+                <div class="user-chip-name">
+                    Administrador
+                </div>
+
+                <div class="user-chip-role">
+                    Juan Torres
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<br><br>
 
 
             <div class="row">
