@@ -1,0 +1,85 @@
+ body{
+            background:#f5f6fa;
+            min-height:100vh;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        .login-wrapper{
+            min-height:100vh;
+        }
+
+        .left-panel{
+            background:
+                linear-gradient(rgba(30,55,120,.85),rgba(30,55,120,.85)),
+                url('https://fvi.edu/wp-content/uploads/2023/07/AdobeStock_168113446-1024x683.jpeg');
+            background-size:cover;
+            background-position:center;
+            color:#fff;
+            padding:60px;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .left-panel h1{
+            font-size:3rem;
+            font-weight:700;
+        }
+
+        .highlight{
+            color:#d4a017;
+        }
+
+        .security-card{
+            margin-top:40px;
+            padding:20px;
+            border:1px solid rgba(255,255,255,.2);
+            border-radius:15px;
+            background:rgba(255,255,255,.05);
+        }
+
+        .right-panel{
+            background:#fff;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px;
+        }
+
+        .login-card{
+            width:100%;
+            max-width:500px;
+        }
+
+        .logo{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        .logo img{
+            max-width:250px;
+        }
+
+        .btn-login{
+            background:#c9971a;
+            border:none;
+            color:white;
+            height:55px;
+            border-radius:10px;
+            font-weight:600;
+        }
+
+        .btn-login:hover{
+            background:#b68715;
+        }
+
+        .form-control{
+            height:52px;
+            border-radius:10px;
+        }
+
+        @media(max-width:992px){
+            .left-panel{
+                display:none;
+            }
+        }

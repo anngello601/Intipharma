@@ -1,0 +1,330 @@
+/* GENERAL */
+
+.menu-item:hover{
+    background: rgba(255, 255, 255, 0.14);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background:#f5f6fa;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.topbar-right{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-box{
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.search-box input{
+    border: none;
+    outline: none;
+    margin-left: 8px;
+}
+
+.user-chip{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.user-chip img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user-chip-name{
+    font-weight: bold;
+}
+
+.user-chip-role{
+    font-size: 12px;
+    color: gray;
+}
+
+
+
+
+
+
+/* CONTENIDO */
+
+.content{
+    padding: 30px;
+}
+
+/* TITULO */
+
+.page-title{
+    margin-bottom: 20px;
+}
+
+.page-title h2{
+    color: #294b8d;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* CONTENEDOR */
+
+.products-container{
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* FILTROS */
+
+.filters{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.search-product{
+    flex: 1;
+
+    background: #f5f6fa;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 10px;
+
+    padding: 12px 15px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-product i{
+    color: #999;
+}
+
+.search-product input{
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+}
+
+/* SELECT */
+
+.category-select{
+    width: 240px;
+    border-radius: 10px;
+}
+
+/* BOTON */
+
+.add-btn{
+    background: #c99512;
+    color: white;
+
+    border: none;
+
+    padding: 12px 22px;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+.add-btn:hover{
+    background: #b7880d;
+    color: white;
+}
+
+/* TABLA */
+
+.custom-table thead th{
+    color: #294b8d;
+
+    font-size: 14px;
+
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.custom-table tbody td{
+    padding: 18px 10px;
+
+    color: #555;
+
+    font-size: 14px;
+}
+
+/* BADGES */
+
+.product-badge{
+    padding: 7px 14px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.badge-medic{
+    background: #dce8ff;
+    color: #3564c9;
+}
+
+.badge-material{
+    background: #ffe9c7;
+    color: #d18a00;
+}
+
+.badge-suplemento{
+    background: #daf5df;
+    color: #149b4a;
+}
+
+.badge-insumo{
+    background: #eddcff;
+    color: #9a47da;
+}
+
+/* ICONOS */
+
+.action-icon{
+    color: #777;
+
+    margin-right: 12px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.action-icon:hover{
+    color: black;
+}
+
+/* FOOTER */
+
+.table-footer{
+    margin-top: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* PAGINACION */
+
+.pagination-custom{
+    display: flex;
+    gap: 8px;
+}
+
+.pagination-custom button{
+    width: 35px;
+    height: 35px;
+
+    border: none;
+
+    background: #f0f0f0;
+
+    border-radius: 8px;
+}
+
+.active-page{
+    background: #c99512 !important;
+    color: white;
+}
+
+/* CARDS */
+
+.bottom-cards{
+    margin-top: 30px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 20px;
+}
+
+.info-card{
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.info-card i{
+    font-size: 28px;
+}
+
+.info-card h5{
+    margin: 0;
+
+    font-size: 18px;
+
+    font-weight: bold;
+}
+
+.info-card p{
+    margin-top: 5px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+/* COLORES */
+
+.blue-card i,
+.blue-card h5{
+    color: #4a6cf7;
+}
+
+.yellow-card i,
+.yellow-card h5{
+    color: #c99512;
+}
+
+.red-card i,
+.red-card h5{
+    color: #ef476f;
+}
