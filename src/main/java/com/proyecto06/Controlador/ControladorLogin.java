@@ -58,7 +58,7 @@ public class ControladorLogin {
 
     @GetMapping("/register")
     public String mostrarRegistro() {
-        return "register"; // register.html en templates
+        return "Register";
     }
 
     public String getMethodName(@RequestParam String param) {
