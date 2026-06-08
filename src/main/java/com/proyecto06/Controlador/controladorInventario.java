@@ -8,11 +8,11 @@ public class controladorInventario {
 
     @GetMapping("/inventario")
     public String inventario() {
-        return "html/inventario";
+        return "inventario";
     }
 
     @GetMapping("/cerrarSesion")
     public String cerrarSesion() {
-        return "html/cerrarSesion";
+        return "cerrarSesion";
     }
 }

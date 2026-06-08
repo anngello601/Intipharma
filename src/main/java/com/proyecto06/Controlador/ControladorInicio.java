@@ -8,24 +8,23 @@ public class ControladorInicio {
 
     // Página inicial
     @GetMapping("/")
-    public String login() {
-        return "html/login";
+    public String loginPage() {
+        return "login";
     }
 
-    // Dashboard después del login
-    @GetMapping("/alertaProducto")
-    public String dashboard() {
-        return "html/alertaProducto";
+    @GetMapping("/login")
+    public String home() { 
+        return "login";
     }
 
     @GetMapping("/productos")
     public String productos() {
-        return "html/productos";
+        return "productos";
     }
 
     @GetMapping("/configuracion")
     public String configuracion() {
-        return "html/configuracion";
+        return "configuracion";
     }
 
 }
