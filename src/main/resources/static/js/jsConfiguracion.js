@@ -29,22 +29,15 @@ function prepararEdicion(boton) {
 }
 
 function llenarModal(boton) {
-    // Obtenemos los valores desde el botón
-    const id = boton.getAttribute('data-id');
-    const dni = boton.getAttribute('data-dni');
-    const nombre = boton.getAttribute('data-nombre');
-    const apellido = boton.getAttribute('data-apellido');
-    const correo = boton.getAttribute('data-correo');
+    document.getElementById('editId').value = boton.getAttribute('data-id');
+    document.getElementById('editDni').value = boton.getAttribute('data-dni');
+    document.getElementById('editNombre').value = boton.getAttribute('data-nombre');
+    document.getElementById('editApellido').value = boton.getAttribute('data-apellido');
+    document.getElementById('editCorreo').value = boton.getAttribute('data-correo');
 
-    // Asignamos los valores a los inputs del modal
-    // Usamos el ID del elemento para buscar el input
-    document.getElementById('editId').value = id || '';
-    document.getElementById('editDni').value = dni || '';
-    document.getElementById('editNombre').value = nombre || '';
-    document.getElementById('editApellido').value = apellido || '';
-    document.getElementById('editCorreo').value = correo || '';
+    // Asignar el valor al select de rol
+    document.getElementById('editRol').value = boton.getAttribute('data-rol');
 
-    // Limpiamos el password por seguridad
     document.getElementById('editPassword').value = '';
 }
 

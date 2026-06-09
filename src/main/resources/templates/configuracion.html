@@ -211,9 +211,12 @@
                                         <td><span class="text-success fw-bold">Activo</span></td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editarUsuarioModal"
-                                                th:attr="data-id=${u.idUsuario}, data-dni=${u.dni}, data-nombre=${u.nombre}, data-apellido=${u.apellido}, data-correo=${u.correo}"
-                                                onclick="llenarModal(this)">
+                                                data-bs-target="#editarUsuarioModal" th:attr="data-id=${u.idUsuario}, 
+                 data-dni=${u.dni}, 
+                 data-nombre=${u.nombre}, 
+                 data-apellido=${u.apellido}, 
+                 data-correo=${u.correo},
+                 data-rol=${u.rol.idRol}" onclick="llenarModal(this)">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
 
@@ -323,6 +326,13 @@
                             <div class="col-md-6 mb-3">
                                 <label>Correo:</label>
                                 <input type="email" name="correo" id="editCorreo" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Rol:</label>
+                                <select name="rol.idRol" id="editRol" class="form-select" required>
+                                    <option th:each="r : ${roles}" th:value="${r.idRol}" th:text="${r.nombreRol}">
+                                    </option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label>Nueva Contraseña (dejar vacío para no cambiar):</label>

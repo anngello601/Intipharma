@@ -1,6 +1,7 @@
 package com.proyecto06.Controlador;
 
 import com.proyecto06.Modelo.Producto;
+import com.proyecto06.Modelo.Rol;
 import com.proyecto06.Modelo.Usuario;
 import com.proyecto06.Repository.CategoriaRepository;
 import com.proyecto06.Repository.ProductoRepository;
@@ -24,6 +25,8 @@ public class ControladorInicio {
 
     @Autowired
     private UsuarioRepository usuarioRepo;
+    @Autowired
+    private com.proyecto06.Repository.RolRepository rolRepo;
 
     // Sin @Autowired, Spring lo detecta solo por ser el único constructor
     public ControladorInicio(CategoriaRepository categoriaRepository, ProductoRepository productoRepository) {
@@ -90,7 +93,7 @@ public class ControladorInicio {
 
         // 2. Si es admin, cargar datos para la vista (esto es código alcanzable)
         model.addAttribute("usuarios", usuarioRepo.findAll());
-
+        model.addAttribute("roles", rolRepo.findAll());
         // 3. Retornar la vista
         return "configuracion";
     }
@@ -108,25 +111,26 @@ public class ControladorInicio {
 
     @PostMapping("/configuracion/editar")
     public String actualizarUsuario(@ModelAttribute Usuario usuario) {
-        // 1. Buscamos al usuario real en la base de datos por su ID
         Usuario usuarioExistente = usuarioRepo.findById(usuario.getIdUsuario()).orElse(null);
 
         if (usuarioExistente != null) {
-            // 2. Actualizamos los datos básicos
             usuarioExistente.setDni(usuario.getDni());
             usuarioExistente.setNombre(usuario.getNombre());
             usuarioExistente.setApellido(usuario.getApellido());
             usuarioExistente.setCorreo(usuario.getCorreo());
 
-            // 3. SOLO actualizamos la contraseña si el usuario escribió algo nuevo
-            if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
-                usuarioExistente.setPassword(usuario.getPassword()); // Aquí deberías aplicar BCrypt
+            // Actualizar el Rol
+            if (usuario.getRol() != null && usuario.getRol().getIdRol() != null) {
+                Rol nuevoRol = rolRepo.findById(usuario.getRol().getIdRol()).orElse(null);
+                usuarioExistente.setRol(nuevoRol);
             }
 
-            // 4. Guardamos
+            if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+                usuarioExistente.setPassword(usuario.getPassword());
+            }
+
             usuarioRepo.save(usuarioExistente);
         }
-
         return "redirect:/configuracion";
     }
 
