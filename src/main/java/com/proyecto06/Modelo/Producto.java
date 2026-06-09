@@ -1,15 +1,8 @@
 package com.proyecto06.Modelo;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "productos")
@@ -17,59 +10,41 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id_producto")
+    private Integer idProducto;
 
-    private String nombre;
-    private String descripcion;
-    private Double precio;
-    private Integer stock;
+    private String nombreProducto;
     private String lote;
-
-    @Column(name = "fecha_vencimiento")
     private LocalDate fechaVencimiento;
+    private Integer cantidad;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    public Integer getId() {
-        return id;
+    // Campo transitorio para rendimiento (no se guarda en BD)
+    @Transient
+    public Long getDiasParaVencer() {
+        if (this.fechaVencimiento == null)
+            return 0L;
+        return ChronoUnit.DAYS.between(LocalDate.now(), this.fechaVencimiento);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    // Getters y Setters...
+    public Integer getIdProducto() {
+        return idProducto;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public String getNombreProducto() {
+        return nombreProducto;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 
     public String getLote() {
@@ -88,6 +63,14 @@ public class Producto {
         this.fechaVencimiento = fechaVencimiento;
     }
 
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public Categoria getCategoria() {
         return categoria;
     }
@@ -95,10 +78,4 @@ public class Producto {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-
-    public Producto() {
-    }
-
-    
-    
 }

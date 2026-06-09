@@ -1,11 +1,6 @@
-
 package com.proyecto06.Modelo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "categorias")
@@ -13,30 +8,39 @@ public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id_categoria")
+    private Integer idCategoria;
 
-    private String nombre;
+    @Column(name = "nombre_categoria")
+    private String nombreCategoria;
+
     private String descripcion;
-    public Integer getId() {
-        return id;
+
+    public Categoria() {
     }
-    public void setId(Integer id) {
-        this.id = id;
+
+    public Integer getIdCategoria() {
+        return idCategoria;
     }
-    public String getNombre() {
-        return nombre;
+
+    public void setIdCategoria(Integer idCategoria) {
+        this.idCategoria = idCategoria;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public String getNombreCategoria() {
+        return nombreCategoria;
     }
+
+    public void setNombreCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-    
-    public Categoria() {
     }
 
     

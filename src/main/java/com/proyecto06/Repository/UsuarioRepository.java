@@ -1,14 +1,13 @@
 package com.proyecto06.Repository;
 
-import java.util.Optional;
-
+import com.proyecto06.Modelo.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.proyecto06.Modelo.Usuario;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    Optional<Usuario> findByUsernameAndPassword(String username, String password);
+    // Spring crea la consulta automáticamente por el nombre del método
+    Optional<Usuario> findByCorreoAndPassword(String correo, String password);
 }

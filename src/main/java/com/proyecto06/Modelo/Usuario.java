@@ -1,11 +1,6 @@
 package com.proyecto06.Modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
@@ -13,23 +8,35 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
 
+    private String dni;
     private String nombre;
-
-    @Column(name = "username", unique = true)
-    private String username;
-
+    private String apellido;
+    private String correo;
     private String password;
 
-    private String correo;
+    // Relación con la tabla roles
+    @ManyToOne
+    @JoinColumn(name = "id_rol")
+    private Rol rol;
 
-    public Integer getId() {
-        return id;
+    // Getters y Setters
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {
@@ -40,20 +47,12 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getUsername() {
-        return username;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {
@@ -64,9 +63,19 @@ public class Usuario {
         this.correo = correo;
     }
 
-    // Constructor
-    public Usuario() {
+    public String getPassword() {
+        return password;
     }
-    
-    
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 }
