@@ -66,3 +66,29 @@ function probarConexion() {
     alert("¡La conexión entre HTML y JS funciona correctamente!");
     console.log("Función ejecutada exitosamente.");
 }
+
+function filtrarPorNombre() {
+    // Obtener el texto escrito y convertirlo a minúsculas
+    let input = document.getElementById("inputBuscarNombre");
+    let filtro = input.value.toLowerCase();
+
+    // Obtener la tabla y todas sus filas
+    let tabla = document.getElementById("tablaUsuarios");
+    let filas = tabla.getElementsByTagName("tr");
+
+    // Recorrer las filas (empezando desde la primera)
+    for (let i = 0; i < filas.length; i++) {
+        // La columna 0 es donde está el nombre (según tu código)
+        let celdaNombre = filas[i].getElementsByTagName("td")[0];
+
+        if (celdaNombre) {
+            let texto = celdaNombre.textContent || celdaNombre.innerText;
+            // Si el texto coincide, mostramos la fila, si no, la ocultamos
+            if (texto.toLowerCase().indexOf(filtro) > -1) {
+                filas[i].style.display = "";
+            } else {
+                filas[i].style.display = "none";
+            }
+        }
+    }
+}
