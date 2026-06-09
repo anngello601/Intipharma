@@ -1,5 +1,6 @@
 package com.proyecto06.Controlador;
 
+import com.proyecto06.Repository.CategoriaRepository;
 import com.proyecto06.Repository.ProductoRepository;
 import com.proyecto06.Repository.UbicacionRepository;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.proyecto06.Modelo.Categoria;
 import com.proyecto06.Modelo.Producto;
 import com.proyecto06.Modelo.Ubicacion;
 
@@ -26,6 +28,9 @@ public class controladorInventario {
 
     @Autowired
     private UbicacionRepository ubicacionRepository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @GetMapping("/inventario")
     public String irAlInventario(HttpSession session, Model model) {
@@ -43,7 +48,8 @@ public class controladorInventario {
         // 1. Obtener listas
         List<Producto> productos = productoRepository.findAll();
         List<Ubicacion> ubicaciones = ubicacionRepository.findAll();
-
+        List<Categoria> categorias = categoriaRepository.findAll();
+        model.addAttribute("listaCategorias", categorias);
         // 2. Calcular los totales
         long totalLotes = productos.size();
         long bajoStock = productos.stream().filter(p -> p.getCantidad() < 10).count(); // Ajusta el límite (ej. < 10)
@@ -63,17 +69,54 @@ public class controladorInventario {
     }
 
     @PostMapping("/guardarInventario")
-    public String guardarInventario(@ModelAttribute Producto producto) {
-        // Esto guarda los cambios hechos en el modal
-        productoRepository.save(producto);
-        return "redirect:/inventario"; // Recarga la página después de guardar
+public String guardarInventario(@ModelAttribute Producto productoEditado) {
+    
+    // 1. Si ID es 0, lo tratamos como nulo para indicar "Nuevo registro"
+    if (productoEditado.getIdProducto() != null && productoEditado.getIdProducto() == 0) {
+        productoEditado.setIdProducto(null);
     }
 
+    Producto productoGuardar;
+
+    // 2. Si ID es null, creamos objeto nuevo; si tiene ID, buscamos el existente
+    if (productoEditado.getIdProducto() == null) {
+        productoGuardar = productoEditado;
+        productoGuardar.setFechaIngreso(java.time.LocalDate.now()); // Solo al crear
+    } else {
+        productoGuardar = productoRepository.findById(productoEditado.getIdProducto())
+                .orElseThrow(() -> new IllegalArgumentException("ID no encontrado"));
+        
+        // Actualizamos los campos del objeto existente
+        productoGuardar.setNombreProducto(productoEditado.getNombreProducto());
+        productoGuardar.setCodigoBarras(productoEditado.getCodigoBarras());
+        productoGuardar.setDescripcion(productoEditado.getDescripcion());
+        productoGuardar.setLote(productoEditado.getLote());
+        productoGuardar.setLaboratorio(productoEditado.getLaboratorio());
+        productoGuardar.setRegistroSanitario(productoEditado.getRegistroSanitario());
+        productoGuardar.setUnidadMedida(productoEditado.getUnidadMedida());
+        productoGuardar.setPrecio(productoEditado.getPrecio());
+        productoGuardar.setCantidad(productoEditado.getCantidad());
+        productoGuardar.setFechaVencimiento(productoEditado.getFechaVencimiento());
+        productoGuardar.setEstado(productoEditado.getEstado());
+        productoGuardar.setIdUbicacion(productoEditado.getIdUbicacion());
+    }
+
+    // 3. Manejo de Categoría (Relación)
+    if (productoEditado.getCategoria() != null && productoEditado.getCategoria().getIdCategoria() != null) {
+        Categoria cat = categoriaRepository.findById(productoEditado.getCategoria().getIdCategoria()).orElse(null);
+        productoGuardar.setCategoria(cat);
+    }
+
+    productoRepository.save(productoGuardar);
+    return "redirect:/inventario";
+}
+
+
+    // Asegúrate de que el path sea el mismo que usas en el HTML
     @GetMapping("/eliminarInventario/{id}")
     public String eliminarInventario(@PathVariable("id") Integer id) {
-        // Esto borra el producto
         productoRepository.deleteById(id);
-        return "redirect:/inventario"; // Recarga la página después de borrar
+        return "redirect:/inventario";
     }
 
     @GetMapping("/cerrarSesion")

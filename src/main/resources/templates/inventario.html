@@ -95,7 +95,7 @@
           <p>Supervise y controle el inventario de medicamentos.</p>
         </div>
         <div class="action-btns">
-          <button class="btn-gold" onclick="openModal('add')">
+          <button class="btn-gold" onclick="prepararFormularioAgregar()">
             <i class="bi bi-plus-lg"></i> Agregar producto
           </button>
         </div>
@@ -196,11 +196,18 @@
                 <div class="action-buttons" style="display: flex; gap: 10px;">
                   <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                     data-bs-target="#modalEditar" th:data-id="${p.idProducto}" th:data-nombre="${p.nombreProducto}"
-                    th:data-lote="${p.lote}" th:data-cantidad="${p.cantidad}" th:data-ubicacion="${p.idUbicacion}"
-                    th:data-vencimiento="${p.fechaVencimiento}" th:data-estado="${p.estado}">
+                    th:data-codigo="${p.codigoBarras}" th:data-descripcion="${p.descripcion}" th:data-lote="${p.lote}"
+                    th:data-laboratorio="${p.laboratorio}" th:data-registro="${p.registroSanitario}"
+                    th:data-precio="${p.precio}" th:data-cantidad="${p.cantidad}" th:data-unidad="${p.unidadMedida}"
+                    th:data-vencimiento="${p.fechaVencimiento}" th:data-estado="${p.estado}"
+                    th:data-categoria="${p.categoria != null ? p.categoria.idCategoria : ''}"
+                    th:data-ubicacion="${p.idUbicacion}" onclick="llenarModalEditar(this)">
+
                     <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button class="btn-delete" title="Eliminar" th:onclick="cargarDatosDirecto([[${p}]])">
+
+                  <button class="btn-delete" title="Eliminar" th:attr="data-id=${p.idProducto}"
+                    onclick="prepararEliminacion(this)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
@@ -219,49 +226,92 @@
 
   <!-- MODAL AGREGAR / EDITAR -->
   <div class="modal fade" id="modalEditar" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <form th:action="@{/guardarInventario}" method="post" class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Editar Producto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-
         <div class="modal-body">
           <input type="hidden" name="idProducto" id="editId">
 
-          <div class="mb-3">
-            <label>Producto:</label>
-            <input type="text" name="nombreProducto" id="editNombre" class="form-control">
+          <div class="row">
+            <div class="col-md-6 mb-2">
+              <label>Nombre:</label>
+              <input type="text" name="nombreProducto" id="editNombre" class="form-control">
+            </div>
+            <div class="col-md-6 mb-2">
+              <label>Código Barras:</label>
+              <input type="text" name="codigoBarras" id="editCodigo" class="form-control">
+            </div>
+          </div>
+          <div class="mb-2">
+            <label>Descripción:</label>
+            <input type="text" name="descripcion" id="editDescripcion" class="form-control">
           </div>
           <div class="mb-3">
-            <label>Lote:</label>
-            <input type="text" name="lote" id="editLote" class="form-control">
-          </div>
-          <div class="mb-3">
-            <label>Cantidad:</label>
-            <input type="number" name="cantidad" id="editStock" class="form-control">
+            <label>Categoría:</label>
+            <select name="categoria.idCategoria" id="editCategoria" class="form-select">
+              <option value="">Seleccione una categoría</option>
+              <option th:each="c : ${listaCategorias}" th:value="${c.idCategoria}" th:text="${c.nombreCategoria}">
+              </option>
+            </select>
           </div>
 
           <div class="mb-3">
-            <label>Ubicación:</label>
+            <label>Ubicación (Pasillo):</label>
             <select name="idUbicacion" id="editUbicacion" class="form-select">
               <option th:each="u : ${listaUbicaciones}" th:value="${u.idUbicacion}" th:text="${u.pasillo}"></option>
             </select>
           </div>
-
-          <div class="mb-3">
-            <label>Vencimiento:</label>
-            <input type="date" name="fechaVencimiento" id="editVencimiento" class="form-control">
+          <div class="row">
+            <div class="col-md-4 mb-2">
+              <label>Lote:</label>
+              <input type="text" name="lote" id="editLote" class="form-control">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label>Laboratorio:</label>
+              <input type="text" name="laboratorio" id="editLaboratorio" class="form-control">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label>Reg. Sanitario:</label>
+              <input type="text" name="registroSanitario" id="editRegistro" class="form-control">
+            </div>
           </div>
-          <div class="mb-3">
-            <label>Estado:</label>
-            <select name="estado" id="editEstado" class="form-select">
-              <option value="Activo">Activo</option>
-              <option value="Bajo stock">Bajo stock</option>
-            </select>
+          <div class="row">
+            <div class="col-md-4 mb-2">
+              <label>Precio:</label>
+              <input type="number" step="0.01" name="precio" id="editPrecio" class="form-control">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label>Cantidad:</label>
+              <input type="number" name="cantidad" id="editCantidad" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label>Unidad de Medida:</label>
+              <select name="unidadMedida" id="editUnidad" class="form-select">
+                <option value="Caja">Caja</option>
+                <option value="Frasco">Frasco</option>
+                <option value="Tubo">Tubo</option>
+                <option value="Ampolla">Ampolla</option>
+                <option value="Tableta">Tableta</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-2">
+              <label>Vencimiento:</label>
+              <input type="date" name="fechaVencimiento" id="editVencimiento" class="form-control">
+            </div>
+            <div class="col-md-6 mb-2">
+              <label>Estado:</label>
+              <select name="estado" id="editEstado" class="form-select">
+                <option value="Activo">Activo</option>
+                <option value="Bajo stock">Bajo stock</option>
+              </select>
+            </div>
           </div>
         </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -270,17 +320,19 @@
     </div>
   </div>
   <!-- MODAL ELIMINAR -->
-  <div class="modal-overlay" id="modalDelete">
+  <div class="modal-overlay" id="modalDelete" style="display:none;">
     <div class="modal-box" style="max-width:400px">
       <div class="modal-header">
         <h3>Eliminar producto</h3>
-        <button class="modal-close" onclick="closeModal('modalDelete')">&times;</button>
+        <button class="modal-close" onclick="cerrarModalEliminar()">&times;</button>
       </div>
-      <p class="confirm-text">¿Estás seguro de que deseas eliminar <span class="confirm-highlight"
-          id="deleteProductName"></span>? Esta acción no se puede deshacer.</p>
+      <p class="confirm-text">¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.</p>
+
+      <input type="hidden" id="idProductoAEliminar">
+
       <div class="modal-footer">
-        <button class="btn-cancel" onclick="closeModal('modalDelete')">Cancelar</button>
-        <button class="btn-danger" onclick="confirmDelete()">Eliminar</button>
+        <button class="btn-cancel" onclick="cerrarModalEliminar()">Cancelar</button>
+        <button class="btn-danger" onclick="ejecutarEliminacion()">Eliminar</button>
       </div>
     </div>
   </div>
