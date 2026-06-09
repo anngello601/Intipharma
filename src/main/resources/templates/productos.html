@@ -131,9 +131,14 @@
                         <td>
                             <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalEditar" th:data-id="${p.idProducto}"
-                                th:data-nombre="${p.nombreProducto}" th:data-stock="${p.cantidad}"
-                                th:data-codigo="${p.codigoBarras}" th:data-lote="${p.lote}"
-                                th:data-id-cat="${p.categoria != null ? p.categoria.idCategoria : ''}">
+                                th:data-nombre="${p.nombreProducto}" th:data-codigo="${p.codigoBarras}"
+                                th:data-descripcion="${p.descripcion}"
+                                th:data-categoria="${p.categoria != null ? p.categoria.idCategoria : ''}"
+                                th:data-ubicacion="${p.idUbicacion}" th:data-lote="${p.lote}"
+                                th:data-laboratorio="${p.laboratorio}" th:data-registro="${p.registroSanitario}"
+                                th:data-precio="${p.precio}" th:data-cantidad="${p.cantidad}"
+                                th:data-unidad="${p.unidadMedida}" th:data-vencimiento="${p.fechaVencimiento}"
+                                th:data-estado="${p.estado}" onclick="llenarModalEditar(this)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
 
@@ -148,48 +153,103 @@
             </table>
         </div>
     </main>
-    <div class="modal fade" id="modalEditar" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <form th:action="@{/guardarProducto}" method="post" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar Producto</h5>
+                    <h5 class="modal-title">Gestión de Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="idProducto" id="editId">
-                    <input type="hidden" name="lote" id="editLote">
-                    <input type="hidden" name="laboratorio" id="editLaboratorio">
-                    <input type="hidden" name="registroSanitario" id="editRegistro">
-                    <input type="hidden" name="fechaIngreso" id="editFechaIngreso">
-                    <input type="hidden" name="estado" id="editEstado">
-                    <input type="hidden" name="idUbicacion" id="editIdUbicacion">
-                    <input type="hidden" name="idUsuario" id="editIdUsuario">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label>Nombre:</label>
+                            <input type="text" name="nombreProducto" id="editNombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label>Código Barras:</label>
+                            <input type="text" name="codigoBarras" id="editCodigo" class="form-control">
+                        </div>
+                    </div>
 
                     <div class="mb-2">
-                        <label>Nombre:</label>
-                        <input type="text" name="nombreProducto" id="editNombre" class="form-control" required>
+                        <label>Descripción:</label>
+                        <input type="text" name="descripcion" id="editDescripcion" class="form-control">
                     </div>
-                    <div class="mb-2">
-                        <label>Código de Barras:</label>
-                        <input type="text" name="codigoBarras" id="editCodigo" class="form-control">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label>Categoría:</label>
+                            <select name="categoria.idCategoria" id="editCategoria" class="form-select">
+                                <option value="">Seleccione...</option>
+                                <option th:each="c : ${categorias}" th:value="${c.idCategoria}"
+                                    th:text="${c.nombreCategoria}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label>Ubicación (Pasillo):</label>
+                            <select name="idUbicacion" id="editUbicacion" class="form-select">
+                                <option value="">Seleccione una ubicación</option>
+                                <option th:each="u : ${listaUbicaciones}" th:value="${u.idUbicacion}"
+                                    th:text="${u.pasillo}">Pasillo</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <label>Categoría:</label>
-                        <select name="categoria.idCategoria" id="editCategoria" class="form-select">
-                            <option th:each="cat : ${categorias}" th:value="${cat.idCategoria}"
-                                th:text="${cat.nombreCategoria}">
-                            </option>
-                        </select>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <label>Lote:</label>
+                            <input type="text" name="lote" id="editLote" class="form-control">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>Laboratorio:</label>
+                            <input type="text" name="laboratorio" id="editLaboratorio" class="form-control">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>Reg. Sanitario:</label>
+                            <input type="text" name="registroSanitario" id="editRegistro" class="form-control">
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <label>Stock:</label>
-                        <input type="number" name="cantidad" id="editStock" class="form-control">
+
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <label>Precio:</label>
+                            <input type="number" step="0.01" name="precio" id="editPrecio" class="form-control">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>Cantidad:</label>
+                            <input type="number" name="cantidad" id="editCantidad" class="form-control">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Unidad de Medida:</label>
+                            <select name="unidadMedida" id="editUnidad" class="form-select">
+                                <option value="Caja">Caja</option>
+                                <option value="Frasco">Frasco</option>
+                                <option value="Tubo">Tubo</option>
+                                <option value="Ampolla">Ampolla</option>
+                                <option value="Tableta">Tableta</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <label>Fecha Vencimiento:</label>
-                        <input type="date" name="fechaVencimiento" id="editFechaVenc" class="form-control">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label>Vencimiento:</label>
+                            <input type="date" name="fechaVencimiento" id="editVencimiento" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label>Estado:</label>
+                            <select name="estado" id="editEstado" class="form-select">
+                                <option value="Activo">Activo</option>
+                                <option value="Bajo stock">Bajo stock</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 </div>
             </form>
@@ -209,53 +269,9 @@
             </div>
         </div>
     </div>
-
+    <script th:src="@{/js/jsProductos.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Lógica de búsqueda y filtrado
-        document.getElementById('buscarProducto').addEventListener('keyup', filtrarTabla);
-        document.getElementById('filtroCategoria').addEventListener('change', filtrarTabla);
 
-        function filtrarTabla() {
-            const texto = document.getElementById('buscarProducto').value.toLowerCase();
-            const catFiltro = document.getElementById('filtroCategoria').value;
-            const filas = document.querySelectorAll('#tablaProductos tbody tr');
-
-            filas.forEach(fila => {
-                const nombre = fila.cells[1].innerText.toLowerCase();
-                const cat = fila.cells[3].innerText;
-                const coincideTexto = nombre.includes(texto);
-                const coincideCat = (catFiltro === "" || cat === catFiltro);
-                fila.style.display = (coincideTexto && coincideCat) ? "" : "none";
-            });
-        }
-        // Lógica para el botón eliminar
-        document.getElementById('modalEliminar').addEventListener('show.bs.modal', e =>
-            document.getElementById('btnConfirmarEliminar').href = e.relatedTarget.getAttribute('data-url'));
-        // Lógica para el botón editar    
-        // Lógica para el botón editar (Bootstrap 5)
-        const modalEditar = document.getElementById('modalEditar');
-        modalEditar.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; // El botón que disparó el modal
-
-            // Extraer datos del botón
-            const id = button.getAttribute('data-id');
-            const nombre = button.getAttribute('data-nombre');
-            const stock = button.getAttribute('data-stock');
-            const codigo = button.getAttribute('data-codigo');
-            const lote = button.getAttribute('data-lote');
-            const cat = button.getAttribute('data-id-cat');
-
-            // Asignar a los campos del formulario
-            document.getElementById('editId').value = id;
-            document.getElementById('editNombre').value = nombre;
-            document.getElementById('editStock').value = stock;
-            document.getElementById('editCodigo').value = codigo;
-            document.getElementById('editLote').value = lote;
-            document.getElementById('editCategoria').value = cat;
-        });
-
-    </script>
 </body>
 
 </html>

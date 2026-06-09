@@ -1,10 +1,12 @@
 package com.proyecto06.Controlador;
 
+import com.proyecto06.Modelo.Categoria;
 import com.proyecto06.Modelo.Producto;
 import com.proyecto06.Modelo.Rol;
 import com.proyecto06.Modelo.Usuario;
 import com.proyecto06.Repository.CategoriaRepository;
 import com.proyecto06.Repository.ProductoRepository;
+import com.proyecto06.Repository.UbicacionRepository;
 import com.proyecto06.Repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class ControladorInicio {
     private UsuarioRepository usuarioRepo;
     @Autowired
     private com.proyecto06.Repository.RolRepository rolRepo;
+
+    @Autowired
+    private UbicacionRepository ubicacionRepo;
 
     // Sin @Autowired, Spring lo detecta solo por ser el único constructor
     public ControladorInicio(CategoriaRepository categoriaRepository, ProductoRepository productoRepository) {
@@ -63,15 +68,48 @@ public class ControladorInicio {
         // Si es 0 o 1, dejamos que continúe con la lógica normal
         model.addAttribute("productos", productoRepository.findAll());
         model.addAttribute("categorias", categoriaRepository.findAll());
+        model.addAttribute("listaUbicaciones", ubicacionRepo.findAll());
 
         return "productos";
     }
 
     @PostMapping("/guardarProducto")
-    public String guardarProducto(@ModelAttribute Producto producto) {
-        // Esto guarda los cambios hechos en el modal
-        productoRepository.save(producto);
-        return "redirect:/productos"; // Recarga la página después de guardar
+    public String guardarProducto(@ModelAttribute Producto productoEditado) {
+        if (productoEditado.getIdProducto() != null && productoEditado.getIdProducto() == 0) {
+            productoEditado.setIdProducto(null);
+        }
+
+        if (productoEditado.getIdProducto() == null) {
+            productoEditado.setFechaIngreso(java.time.LocalDate.now());
+            productoRepository.save(productoEditado);
+        } else {
+            Producto p = productoRepository.findById(productoEditado.getIdProducto())
+                    .orElseThrow(() -> new IllegalArgumentException("ID no encontrado"));
+
+            // ACTUALIZA TODOS LOS CAMPOS
+            p.setNombreProducto(productoEditado.getNombreProducto());
+            p.setDescripcion(productoEditado.getDescripcion());
+            p.setCodigoBarras(productoEditado.getCodigoBarras());
+            p.setLote(productoEditado.getLote());
+            p.setLaboratorio(productoEditado.getLaboratorio());
+            p.setRegistroSanitario(productoEditado.getRegistroSanitario());
+            p.setPrecio(productoEditado.getPrecio());
+            p.setCantidad(productoEditado.getCantidad());
+            p.setUnidadMedida(productoEditado.getUnidadMedida());
+            p.setFechaVencimiento(productoEditado.getFechaVencimiento());
+            p.setEstado(productoEditado.getEstado());
+            p.setIdUbicacion(productoEditado.getIdUbicacion()); // <--- AHORA SÍ SE GUARDARÁ
+
+            // Manejo de Categoría
+            if (productoEditado.getCategoria() != null && productoEditado.getCategoria().getIdCategoria() != null) {
+                Categoria cat = categoriaRepository.findById(productoEditado.getCategoria().getIdCategoria())
+                        .orElse(null);
+                p.setCategoria(cat);
+            }
+
+            productoRepository.save(p);
+        }
+        return "redirect:/productos";
     }
 
     @GetMapping("/eliminarProducto/{id}")
