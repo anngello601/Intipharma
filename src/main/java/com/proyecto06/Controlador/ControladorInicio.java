@@ -20,7 +20,21 @@ public class ControladorInicio {
     }
 
     @GetMapping("/productos")
-    public String productos() {
+    public String listarProductos(HttpSession session) {
+        // 1. Verificar si hay sesión
+        if (session.getAttribute("nombre") == null) {
+            return "redirect:/";
+        }
+
+        // 2. Verificar el rol
+        Integer rol = (Integer) session.getAttribute("rol");
+
+        // Si el rol es 2, le impedimos el acceso y lo enviamos a las alertas
+        if (rol == 2) {
+            return "redirect:/alertaProducto";
+        }
+
+        // Si es 0 o 1, dejamos que continúe con la lógica normal
         return "productos";
     }
 

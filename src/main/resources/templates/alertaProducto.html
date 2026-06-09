@@ -38,6 +38,7 @@
         <div class="topbar d-flex justify-content-between align-items-center">
             <h1>Alerta de productos</h1>
             <div class="user-chip">
+                <img src="https://i.pravatar.cc/40?img=12" alt="Admin">
                 <div class="user-chip-text">
                     <div class="fw-bold" th:text="${session.nombre + ' ' + (session.apellido != null ? session.apellido : '')}"></div>
                     <div class="small text-muted" th:text="${session.rol == 0 ? 'Administrador' : (session.rol == 1 ? 'Asistente' : 'Usuario')}"></div>
