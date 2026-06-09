@@ -11,16 +11,15 @@ public class Ubicacion {
     @Column(name = "id_ubicacion")
     private Integer idUbicacion;
 
-    @Column(name = "nombre_ubicacion")
-    private String nombreUbicacion;
+    @Column(name = "pasillo")
+    private String pasillo;
 
-    private String descripcion;
+    @Column(name = "estante")
+    private String estante;
 
-    public Ubicacion() {
-    }
+    public Ubicacion() {}
 
-    // getters y setters
-
+    // ¡ESTO ES LO MÁS IMPORTANTE! Deben ser public
     public Integer getIdUbicacion() {
         return idUbicacion;
     }
@@ -29,19 +28,19 @@ public class Ubicacion {
         this.idUbicacion = idUbicacion;
     }
 
-    public String getNombreUbicacion() {
-        return nombreUbicacion;
+    public String getPasillo() {
+        return pasillo;
     }
 
-    public void setNombreUbicacion(String nombreUbicacion) {
-        this.nombreUbicacion = nombreUbicacion;
+    public void setPasillo(String pasillo) {
+        this.pasillo = pasillo;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getEstante() {
+        return estante;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setEstante(String estante) {
+        this.estante = estante;
     }
 }

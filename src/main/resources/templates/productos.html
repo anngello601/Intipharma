@@ -129,15 +129,12 @@
                         </td>
 
                         <td>
-                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalEditar" th:data-id="${p.idProducto}"
                                 th:data-nombre="${p.nombreProducto}" th:data-stock="${p.cantidad}"
-                                th:data-fecha-venc="${p.fechaVencimiento}" th:data-codigo="${p.codigoBarras}"
-                                th:data-lote="${p.lote}" th:data-lab="${p.laboratorio}"
-                                th:data-registro="${p.registroSanitario}"
-                                th:data-id-cat="${p.categoria != null ? p.categoria.idCategoria : ''}"
-                                th:data-id-ubi="${p.idUbicacion}" th:data-id-user="${p.idUsuario}">
-                                <i class="bi bi-pencil"></i>
+                                th:data-codigo="${p.codigoBarras}" th:data-lote="${p.lote}"
+                                th:data-id-cat="${p.categoria != null ? p.categoria.idCategoria : ''}">
+                                <i class="bi bi-pencil-square"></i>
                             </button>
 
                             <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
@@ -236,23 +233,28 @@
         document.getElementById('modalEliminar').addEventListener('show.bs.modal', e =>
             document.getElementById('btnConfirmarEliminar').href = e.relatedTarget.getAttribute('data-url'));
         // Lógica para el botón editar    
-        document.getElementById('modalEditar').addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; // El botón que abrió el modal
+        // Lógica para el botón editar (Bootstrap 5)
+        const modalEditar = document.getElementById('modalEditar');
+        modalEditar.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // El botón que disparó el modal
 
-            // Campos editables
-            document.getElementById('editId').value = button.getAttribute('data-id');
-            document.getElementById('editNombre').value = button.getAttribute('data-nombre');
-            document.getElementById('editStock').value = button.getAttribute('data-stock');
-            document.getElementById('editFechaVenc').value = button.getAttribute('data-fecha-venc');
-            document.getElementById('editCategoria').value = button.getAttribute('data-id-cat');
-            document.getElementById('editCodigo').value = button.getAttribute('data-codigo');
-            // Campos que se mantienen (ocultos)
-            document.getElementById('editLote').value = button.getAttribute('data-lote');
-            document.getElementById('editLaboratorio').value = button.getAttribute('data-lab');
-            document.getElementById('editRegistro').value = button.getAttribute('data-registro');
-            document.getElementById('editUbicacion').value = button.getAttribute('data-id-ubi');
-            document.getElementById('editUsuario').value = button.getAttribute('data-id-user');
+            // Extraer datos del botón
+            const id = button.getAttribute('data-id');
+            const nombre = button.getAttribute('data-nombre');
+            const stock = button.getAttribute('data-stock');
+            const codigo = button.getAttribute('data-codigo');
+            const lote = button.getAttribute('data-lote');
+            const cat = button.getAttribute('data-id-cat');
+
+            // Asignar a los campos del formulario
+            document.getElementById('editId').value = id;
+            document.getElementById('editNombre').value = nombre;
+            document.getElementById('editStock').value = stock;
+            document.getElementById('editCodigo').value = codigo;
+            document.getElementById('editLote').value = lote;
+            document.getElementById('editCategoria').value = cat;
         });
+
     </script>
 </body>
 

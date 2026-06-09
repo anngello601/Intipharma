@@ -34,10 +34,6 @@ public class Producto {
     // Supongo que tienes entidades para Ubicacion y Usuario, si no, usa Integer
     @Column(name = "id_ubicacion")
     private Integer idUbicacion;
-
-    @Column(name = "id_usuario")
-    private Integer idUsuario;
-
     @Transient
     public Long getDiasParaVencer() {
         if (this.fechaVencimiento == null)
@@ -172,13 +168,5 @@ public class Producto {
 
     public void setIdUbicacion(Integer idUbicacion) {
         this.idUbicacion = idUbicacion;
-    }
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
     }
 }
