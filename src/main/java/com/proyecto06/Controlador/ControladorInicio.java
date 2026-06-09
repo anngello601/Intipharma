@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -70,5 +71,25 @@ public class ControladorInicio {
         productoRepository.deleteById(id);
         return "redirect:/productos"; // Recarga la página después de borrar
     }
+
+
+@GetMapping("/configuracion")
+public String irAConfiguracion(HttpSession session, HttpServletRequest request) {
+    Integer rol = (Integer) session.getAttribute("rol");
+    
+    if (rol != null && rol == 0) {
+        return "configuracion";
+    } else {
+        // Obtenemos la página anterior
+        String referer = request.getHeader("Referer");
+        
+        // Si existe un referer, regresa a él; si no, manda a productos por defecto
+        if (referer != null && !referer.isEmpty()) {
+            return "redirect:" + referer;
+        } else {
+            return "redirect:/alertaProducto"; // Si no hay referer, lo mandamos a un lugar seguro
+        }
+    }
+}
 
 }

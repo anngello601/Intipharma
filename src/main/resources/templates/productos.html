@@ -68,7 +68,7 @@
 
     <main class="col py-4 px-4 flex-grow-1 vh-100 overflow-auto bg-light">
         <div class="topbar d-flex justify-content-between align-items-center">
-            <h1>Alerta de productos</h1>
+            <h1>Gestión de productos</h1>
 
             <div class="user-chip d-flex align-items-center bg-white p-2 rounded-pill shadow-sm border">
 
@@ -131,9 +131,12 @@
                         <td>
                             <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalEditar" th:data-id="${p.idProducto}"
-                                th:data-nombre="${p.nombreProducto}" th:data-codigo="${p.codigoBarras}"
-                                th:data-stock="${p.cantidad}"
-                                th:data-cat="${p.categoria != null ? p.categoria.idCategoria : ''}">
+                                th:data-nombre="${p.nombreProducto}" th:data-stock="${p.cantidad}"
+                                th:data-fecha-venc="${p.fechaVencimiento}" th:data-codigo="${p.codigoBarras}"
+                                th:data-lote="${p.lote}" th:data-lab="${p.laboratorio}"
+                                th:data-registro="${p.registroSanitario}"
+                                th:data-id-cat="${p.categoria != null ? p.categoria.idCategoria : ''}"
+                                th:data-id-ubi="${p.idUbicacion}" th:data-id-user="${p.idUsuario}">
                                 <i class="bi bi-pencil"></i>
                             </button>
 
@@ -156,29 +159,40 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="idProducto" id="editId">
+                    <input type="hidden" name="lote" id="editLote">
+                    <input type="hidden" name="laboratorio" id="editLaboratorio">
+                    <input type="hidden" name="registroSanitario" id="editRegistro">
+                    <input type="hidden" name="fechaIngreso" id="editFechaIngreso">
+                    <input type="hidden" name="estado" id="editEstado">
+                    <input type="hidden" name="idUbicacion" id="editIdUbicacion">
+                    <input type="hidden" name="idUsuario" id="editIdUsuario">
 
                     <div class="mb-2">
                         <label>Nombre:</label>
                         <input type="text" name="nombreProducto" id="editNombre" class="form-control" required>
                     </div>
                     <div class="mb-2">
-                        <label>Código:</label>
+                        <label>Código de Barras:</label>
                         <input type="text" name="codigoBarras" id="editCodigo" class="form-control">
+                    </div>
+                    <div class="mb-2">
+                        <label>Categoría:</label>
+                        <select name="categoria.idCategoria" id="editCategoria" class="form-select">
+                            <option th:each="cat : ${categorias}" th:value="${cat.idCategoria}"
+                                th:text="${cat.nombreCategoria}">
+                            </option>
+                        </select>
                     </div>
                     <div class="mb-2">
                         <label>Stock:</label>
                         <input type="number" name="cantidad" id="editStock" class="form-control">
                     </div>
                     <div class="mb-2">
-                        <label>Categoría:</label>
-                        <select name="categoria.idCategoria" id="editCategoria" class="form-control">
-                            <option th:each="cat : ${categorias}" th:value="${cat.idCategoria}"
-                                th:text="${cat.nombreCategoria}"></option>
-                        </select>
+                        <label>Fecha Vencimiento:</label>
+                        <input type="date" name="fechaVencimiento" id="editFechaVenc" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 </div>
             </form>
@@ -222,13 +236,22 @@
         document.getElementById('modalEliminar').addEventListener('show.bs.modal', e =>
             document.getElementById('btnConfirmarEliminar').href = e.relatedTarget.getAttribute('data-url'));
         // Lógica para el botón editar    
-        document.getElementById('modalEditar').addEventListener('show.bs.modal', e => {
-            const btn = e.relatedTarget;
-            document.getElementById('editId').value = btn.getAttribute('data-id');
-            document.getElementById('editNombre').value = btn.getAttribute('data-nombre');
-            document.getElementById('editCodigo').value = btn.getAttribute('data-codigo');
-            document.getElementById('editStock').value = btn.getAttribute('data-stock');
-            document.getElementById('editCategoria').value = btn.getAttribute('data-cat');
+        document.getElementById('modalEditar').addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // El botón que abrió el modal
+
+            // Campos editables
+            document.getElementById('editId').value = button.getAttribute('data-id');
+            document.getElementById('editNombre').value = button.getAttribute('data-nombre');
+            document.getElementById('editStock').value = button.getAttribute('data-stock');
+            document.getElementById('editFechaVenc').value = button.getAttribute('data-fecha-venc');
+            document.getElementById('editCategoria').value = button.getAttribute('data-id-cat');
+            document.getElementById('editCodigo').value = button.getAttribute('data-codigo');
+            // Campos que se mantienen (ocultos)
+            document.getElementById('editLote').value = button.getAttribute('data-lote');
+            document.getElementById('editLaboratorio').value = button.getAttribute('data-lab');
+            document.getElementById('editRegistro').value = button.getAttribute('data-registro');
+            document.getElementById('editUbicacion').value = button.getAttribute('data-id-ubi');
+            document.getElementById('editUsuario').value = button.getAttribute('data-id-user');
         });
     </script>
 </body>
