@@ -52,7 +52,9 @@ public class controladorInventario {
         model.addAttribute("listaCategorias", categorias);
         // 2. Calcular los totales
         long totalLotes = productos.size();
-        long bajoStock = productos.stream().filter(p -> p.getCantidad() < 10).count(); // Ajusta el límite (ej. < 10)
+        long bajoStock = productos.stream()
+                .filter(p -> "Bajo stock".equalsIgnoreCase(p.getEstado()))
+                .count();
         long ubicacionesActivas = productos.stream()
                 .map(Producto::getIdUbicacion)
                 .distinct()
@@ -69,48 +71,54 @@ public class controladorInventario {
     }
 
     @PostMapping("/guardarInventario")
-public String guardarInventario(@ModelAttribute Producto productoEditado) {
-    
-    // 1. Si ID es 0, lo tratamos como nulo para indicar "Nuevo registro"
-    if (productoEditado.getIdProducto() != null && productoEditado.getIdProducto() == 0) {
-        productoEditado.setIdProducto(null);
+    public String guardarInventario(@ModelAttribute Producto productoEditado) {
+
+        // 1. Si ID es 0, lo tratamos como nulo para indicar "Nuevo registro"
+        if (productoEditado.getIdProducto() != null && productoEditado.getIdProducto() == 0) {
+            productoEditado.setIdProducto(null);
+        }
+
+        Producto productoGuardar;
+
+        // 2. Si ID es null, creamos objeto nuevo; si tiene ID, buscamos el existente
+        if (productoEditado.getIdProducto() == null) {
+            productoGuardar = productoEditado;
+            productoGuardar.setFechaIngreso(java.time.LocalDate.now()); // Solo al crear
+        } else {
+            productoGuardar = productoRepository.findById(productoEditado.getIdProducto())
+                    .orElseThrow(() -> new IllegalArgumentException("ID no encontrado"));
+
+            // Actualizamos los campos del objeto existente
+            productoGuardar.setNombreProducto(productoEditado.getNombreProducto());
+            productoGuardar.setCodigoBarras(productoEditado.getCodigoBarras());
+            productoGuardar.setDescripcion(productoEditado.getDescripcion());
+            productoGuardar.setLote(productoEditado.getLote());
+            productoGuardar.setLaboratorio(productoEditado.getLaboratorio());
+            productoGuardar.setRegistroSanitario(productoEditado.getRegistroSanitario());
+            productoGuardar.setUnidadMedida(productoEditado.getUnidadMedida());
+            productoGuardar.setPrecio(productoEditado.getPrecio());
+            productoGuardar.setCantidad(productoEditado.getCantidad());
+            productoGuardar.setFechaVencimiento(productoEditado.getFechaVencimiento());
+            productoGuardar.setEstado(productoEditado.getEstado());
+            productoGuardar.setIdUbicacion(productoEditado.getIdUbicacion());
+        }
+
+        // 3. Manejo de Categoría (Relación)
+        if (productoEditado.getCategoria() != null && productoEditado.getCategoria().getIdCategoria() != null) {
+            Categoria cat = categoriaRepository.findById(productoEditado.getCategoria().getIdCategoria()).orElse(null);
+            productoGuardar.setCategoria(cat);
+        }
+
+        // REGLA DE NEGOCIO AUTOMÁTICA
+        if (productoGuardar.getCantidad() < 10) {
+            productoGuardar.setEstado("Bajo stock");
+        } else {
+            productoGuardar.setEstado("Activo");
+        }
+
+        productoRepository.save(productoGuardar);
+        return "redirect:/inventario";
     }
-
-    Producto productoGuardar;
-
-    // 2. Si ID es null, creamos objeto nuevo; si tiene ID, buscamos el existente
-    if (productoEditado.getIdProducto() == null) {
-        productoGuardar = productoEditado;
-        productoGuardar.setFechaIngreso(java.time.LocalDate.now()); // Solo al crear
-    } else {
-        productoGuardar = productoRepository.findById(productoEditado.getIdProducto())
-                .orElseThrow(() -> new IllegalArgumentException("ID no encontrado"));
-        
-        // Actualizamos los campos del objeto existente
-        productoGuardar.setNombreProducto(productoEditado.getNombreProducto());
-        productoGuardar.setCodigoBarras(productoEditado.getCodigoBarras());
-        productoGuardar.setDescripcion(productoEditado.getDescripcion());
-        productoGuardar.setLote(productoEditado.getLote());
-        productoGuardar.setLaboratorio(productoEditado.getLaboratorio());
-        productoGuardar.setRegistroSanitario(productoEditado.getRegistroSanitario());
-        productoGuardar.setUnidadMedida(productoEditado.getUnidadMedida());
-        productoGuardar.setPrecio(productoEditado.getPrecio());
-        productoGuardar.setCantidad(productoEditado.getCantidad());
-        productoGuardar.setFechaVencimiento(productoEditado.getFechaVencimiento());
-        productoGuardar.setEstado(productoEditado.getEstado());
-        productoGuardar.setIdUbicacion(productoEditado.getIdUbicacion());
-    }
-
-    // 3. Manejo de Categoría (Relación)
-    if (productoEditado.getCategoria() != null && productoEditado.getCategoria().getIdCategoria() != null) {
-        Categoria cat = categoriaRepository.findById(productoEditado.getCategoria().getIdCategoria()).orElse(null);
-        productoGuardar.setCategoria(cat);
-    }
-
-    productoRepository.save(productoGuardar);
-    return "redirect:/inventario";
-}
-
 
     // Asegúrate de que el path sea el mismo que usas en el HTML
     @GetMapping("/eliminarInventario/{id}")
