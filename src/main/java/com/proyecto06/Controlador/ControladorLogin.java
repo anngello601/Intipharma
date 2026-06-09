@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.proyecto06.Modelo.Categoria;
 import com.proyecto06.Modelo.Producto;
 import com.proyecto06.Modelo.Rol;
 import com.proyecto06.Modelo.Usuario;
