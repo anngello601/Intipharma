@@ -14,15 +14,30 @@ public class Producto {
     private Integer idProducto;
 
     private String nombreProducto;
+    private String descripcion;
+    private String codigoBarras;
     private String lote;
-    private LocalDate fechaVencimiento;
+    private String laboratorio;
+    private String registroSanitario;
+    private String unidadMedida;
+    private Double precio;
     private Integer cantidad;
+    private LocalDate fechaIngreso;
+    private LocalDate fechaVencimiento;
+    private String estado;
+    private String imagen;
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    // Campo transitorio para rendimiento (no se guarda en BD)
+    // Supongo que tienes entidades para Ubicacion y Usuario, si no, usa Integer
+    @Column(name = "id_ubicacion")
+    private Integer idUbicacion;
+
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
+
     @Transient
     public Long getDiasParaVencer() {
         if (this.fechaVencimiento == null)
@@ -30,7 +45,7 @@ public class Producto {
         return ChronoUnit.DAYS.between(LocalDate.now(), this.fechaVencimiento);
     }
 
-    // Getters y Setters...
+    // Getters y Setters actualizados
     public Integer getIdProducto() {
         return idProducto;
     }
@@ -47,6 +62,22 @@ public class Producto {
         this.nombreProducto = nombreProducto;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getCodigoBarras() {
+        return codigoBarras;
+    }
+
+    public void setCodigoBarras(String codigoBarras) {
+        this.codigoBarras = codigoBarras;
+    }
+
     public String getLote() {
         return lote;
     }
@@ -55,12 +86,36 @@ public class Producto {
         this.lote = lote;
     }
 
-    public LocalDate getFechaVencimiento() {
-        return fechaVencimiento;
+    public String getLaboratorio() {
+        return laboratorio;
     }
 
-    public void setFechaVencimiento(LocalDate fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
+    public void setLaboratorio(String laboratorio) {
+        this.laboratorio = laboratorio;
+    }
+
+    public String getRegistroSanitario() {
+        return registroSanitario;
+    }
+
+    public void setRegistroSanitario(String registroSanitario) {
+        this.registroSanitario = registroSanitario;
+    }
+
+    public String getUnidadMedida() {
+        return unidadMedida;
+    }
+
+    public void setUnidadMedida(String unidadMedida) {
+        this.unidadMedida = unidadMedida;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 
     public Integer getCantidad() {
@@ -71,11 +126,59 @@ public class Producto {
         this.cantidad = cantidad;
     }
 
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(LocalDate fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public LocalDate getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(LocalDate fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
     public Categoria getCategoria() {
         return categoria;
     }
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Integer getIdUbicacion() {
+        return idUbicacion;
+    }
+
+    public void setIdUbicacion(Integer idUbicacion) {
+        this.idUbicacion = idUbicacion;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

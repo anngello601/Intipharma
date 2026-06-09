@@ -34,21 +34,20 @@ public class ControladorLogin {
     private CategoriaRepository categoriaRepo;
 
     @GetMapping("/alertaProducto")
-    public String listarAlertas(Model model) {
+    public String mostrarAlertas(Model model) {
         List<Producto> productos = productoRepo.findAll();
-        List<Categoria> categorias = categoriaRepo.findAll(); // Cargamos categorías
 
-        // Cálculos rápidos
+        // Contadores
         long vencidos = productos.stream().filter(p -> p.getDiasParaVencer() <= 0).count();
         long porVencer = productos.stream().filter(p -> p.getDiasParaVencer() > 0 && p.getDiasParaVencer() <= 30)
                 .count();
         long vigentes = productos.stream().filter(p -> p.getDiasParaVencer() > 30).count();
 
+        model.addAttribute("vencidosCount", vencidos);
+        model.addAttribute("porVencerCount", porVencer);
+        model.addAttribute("vigentesCount", vigentes);
         model.addAttribute("productos", productos);
-        model.addAttribute("categorias", categorias); // Enviamos la lista al HTML
-        model.addAttribute("vencidos", vencidos);
-        model.addAttribute("porVencer", porVencer);
-        model.addAttribute("vigentes", vigentes);
+        model.addAttribute("categorias", categoriaRepo.findAll());
 
         return "alertaProducto";
     }
@@ -65,6 +64,7 @@ public class ControladorLogin {
 
             // Guardamos datos en sesión
             session.setAttribute("nombre", usuario.getNombre());
+            session.setAttribute("apellido", usuario.getApellido());
             session.setAttribute("rol", usuario.getRol().getIdRol()); // 0: Admin, 1: Asistente, 2: Usuario
 
             return "redirect:/alertaProducto";

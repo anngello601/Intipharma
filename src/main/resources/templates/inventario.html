@@ -1,684 +1,1396 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Inventario - IntiPharma S.A.C.</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <title>Inventario - IntiPharma S.A.C.</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  :root {
-    --gold: #C8972A;
-    --gold-dark: #A87820;
-    --gold-light: #E8B84B;
-    --sidebar-bg: #C8972A;
-    --text-dark: #1a1a2e;
-    --text-mid: #4a4a6a;
-    --text-light: #8888aa;
-    --bg: #f4f6fb;
-    --white: #ffffff;
-    --border: #e2e8f0;
-    --green: #22c55e;
-    --green-bg: #dcfce7;
-    --orange: #f59e0b;
-    --orange-bg: #fef3c7;
-    --red: #ef4444;
-    --red-bg: #fee2e2;
-    --blue: #3b82f6;
-    --blue-bg: #dbeafe;
-    --shadow: 0 2px 12px rgba(0,0,0,0.07);
-    --radius: 12px;
-  }
+    :root {
+      --gold: #C8972A;
+      --gold-dark: #A87820;
+      --gold-light: #E8B84B;
+      --sidebar-bg: #C8972A;
+      --text-dark: #1a1a2e;
+      --text-mid: #4a4a6a;
+      --text-light: #8888aa;
+      --bg: #f4f6fb;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --green: #22c55e;
+      --green-bg: #dcfce7;
+      --orange: #f59e0b;
+      --orange-bg: #fef3c7;
+      --red: #ef4444;
+      --red-bg: #fee2e2;
+      --blue: #3b82f6;
+      --blue-bg: #dbeafe;
+      --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      --radius: 12px;
+    }
 
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text-dark); display: flex; height: 100vh; overflow: hidden; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-  /* SIDEBAR */
-  .sidebar {
-    width: 210px; min-width: 210px; background: var(--sidebar-bg);
-    display: flex; flex-direction: column; padding: 0; height: 100vh;
-    position: relative; z-index: 10;
-  }
-  .sidebar-logo {
-    font-family: 'Sora', sans-serif; color: #fff; font-size: 1.15rem;
-    font-weight: 700; padding: 28px 20px 24px; line-height: 1.3;
-    border-bottom: 1px solid rgba(255,255,255,0.18);
-  }
-  .sidebar-nav { flex: 1; padding: 18px 0; }
-  .nav-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 11px 20px; color: rgba(255,255,255,0.82);
-    text-decoration: none; font-size: 0.92rem; font-weight: 500;
-    border-radius: 0; transition: background 0.18s, color 0.18s;
-    cursor: pointer; border: none; background: none; width: 100%;
-  }
-  .nav-item:hover, .nav-item.active {
-    background: rgba(255,255,255,0.18); color: #fff;
-  }
-  .nav-item .nav-icon { font-size: 1.2rem; width: 22px; text-align: center; color: #fff; }
-  .nav-item .nav-icon svg { width: 20px; height: 20px; fill: white; display: block; }
-  .sidebar-footer { padding: 16px 16px 20px; }
-  .btn-logout {
-    width: 100%; background: #fff; color: var(--gold-dark);
-    border: none; border-radius: 8px; padding: 9px 0;
-    font-weight: 600; font-size: 0.88rem; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    transition: background 0.15s;
-  }
-  .btn-logout:hover { background: #f0e4c5; }
+    /* SIDEBAR */
+    .sidebar {
+      width: 210px;
+      min-width: 210px;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      height: 100vh;
+      position: relative;
+      z-index: 10;
+    }
 
-  /* MAIN */
-  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .sidebar-logo {
+      font-family: 'Sora', sans-serif;
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 28px 20px 24px;
+      line-height: 1.3;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    }
 
-  /* TOPBAR */
-  .topbar {
-    background: #fff; padding: 0 28px; height: 62px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid var(--border); flex-shrink: 0;
-  }
-  .topbar h1 { font-family: 'Sora', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--text-dark); }
-  .topbar-right { display: flex; align-items: center; gap: 14px; }
-  .search-box {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 8px; padding: 7px 14px; font-size: 0.88rem; color: var(--text-mid);
-  }
-  .search-box input { border: none; background: none; outline: none; font-size: 0.88rem; color: var(--text-dark); width: 180px; }
-  .user-chip {
-    display: flex; align-items: center; gap: 8px;
-    padding: 5px 12px 5px 5px;
-    border-left: 1px solid var(--border);
-  }
-  .user-chip img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
-  .user-chip-text { line-height: 1.2; }
-  .user-chip-name { font-weight: 600; font-size: 0.88rem; color: var(--text-dark); }
-  .user-chip-role { font-size: 0.76rem; color: var(--text-light); }
+    .sidebar-nav {
+      flex: 1;
+      padding: 18px 0;
+    }
 
-  /* CONTENT */
-  .content { flex: 1; overflow-y: auto; padding: 24px 28px; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 20px;
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      border-radius: 0;
+      transition: background 0.18s, color 0.18s;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+    }
 
-  /* HEADER SECTION */
-  .header-section {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    margin-bottom: 22px; flex-wrap: wrap; gap: 14px;
-  }
-  .header-section h2 { font-family: 'Sora', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--gold-dark); margin-bottom: 3px; }
-  .header-section p { font-size: 0.88rem; color: var(--text-mid); }
-  .action-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-  .btn-gold {
-    background: var(--gold); color: #fff; border: none;
-    border-radius: 8px; padding: 9px 16px; font-size: 0.87rem; font-weight: 600;
-    cursor: pointer; display: flex; align-items: center; gap: 6px;
-    transition: background 0.15s, transform 0.1s; white-space: nowrap;
-  }
-  .btn-gold:hover { background: var(--gold-dark); transform: translateY(-1px); }
-  .btn-gold i { font-size: 0.95rem; }
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
 
-  /* CARDS */
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 22px; }
-  .card-box {
-    background: #fff; border-radius: var(--radius); padding: 18px 20px;
-    box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px;
-    border: 1px solid var(--border);
-  }
-  .card-icon {
-    width: 46px; height: 46px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem; flex-shrink: 0;
-  }
-  .card-icon.blue { background: #dbeafe; color: #3b82f6; }
-  .card-icon.orange { background: #fef3c7; color: #f59e0b; }
-  .card-icon.purple { background: #ede9fe; color: #7c3aed; }
-  .card-body-text h3 { font-size: 0.8rem; color: var(--text-light); font-weight: 500; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .card-body-text h1 { font-family: 'Sora', sans-serif; font-size: 1.7rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1px; line-height: 1; }
-  .card-body-text p { font-size: 0.78rem; color: var(--text-light); }
+    .nav-item .nav-icon {
+      font-size: 1.2rem;
+      width: 22px;
+      text-align: center;
+      color: #fff;
+    }
 
-  /* FILTERS BAR */
-  .filters-bar {
-    background: #fff; border-radius: var(--radius); padding: 13px 16px;
-    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
-    box-shadow: var(--shadow); border: 1px solid var(--border); flex-wrap: wrap;
-  }
-  .filter-search {
-    flex: 1; min-width: 200px; display: flex; align-items: center; gap: 8px;
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 14px;
-  }
-  .filter-search input { border: none; background: none; outline: none; font-size: 0.87rem; width: 100%; color: var(--text-dark); }
-  .filter-search i { color: var(--text-light); font-size: 0.95rem; }
-  .filter-select {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 12px; font-size: 0.87rem; color: var(--text-mid);
-  }
-  .filter-select select { border: none; background: none; outline: none; font-size: 0.87rem; color: var(--text-dark); cursor: pointer; }
-  .toggle-container { display: flex; align-items: center; gap: 8px; font-size: 0.87rem; color: var(--text-mid); white-space: nowrap; }
-  .toggle { position: relative; width: 40px; height: 22px; }
-  .toggle input { opacity: 0; width: 0; height: 0; }
-  .slider {
-    position: absolute; inset: 0; background: #d1d5db; border-radius: 22px;
-    cursor: pointer; transition: 0.2s;
-  }
-  .slider::before {
-    content: ''; position: absolute; height: 16px; width: 16px; left: 3px; bottom: 3px;
-    background: #fff; border-radius: 50%; transition: 0.2s;
-  }
-  input:checked + .slider { background: var(--gold); }
-  input:checked + .slider::before { transform: translateX(18px); }
+    .nav-item .nav-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+      display: block;
+    }
 
-  /* TABLE */
-  .table-container { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
-  .table { width: 100%; border-collapse: collapse; }
-  .table thead tr { border-bottom: 2px solid var(--border); background: #fafbff; }
-  .table th {
-    padding: 12px 16px; font-size: 0.8rem; font-weight: 600;
-    color: var(--gold-dark); text-transform: uppercase; letter-spacing: 0.05em;
-    text-align: left; white-space: nowrap;
-  }
-  .table td { padding: 13px 16px; font-size: 0.87rem; color: var(--text-dark); vertical-align: middle; border-bottom: 1px solid var(--border); }
-  .table tbody tr:last-child td { border-bottom: none; }
-  .table tbody tr { transition: background 0.13s; }
-  .table tbody tr:hover { background: #fafbff; }
-  .prod-name { font-weight: 600; color: var(--blue); display: flex; align-items: center; gap: 6px; }
-  .prod-alert { font-size: 0.85rem; }
-  .lote-code { font-family: monospace; font-size: 0.83rem; color: var(--text-mid); }
-  .location-cell { display: flex; align-items: center; gap: 4px; color: var(--text-mid); font-size: 0.85rem; }
-  .location-cell i { font-size: 0.8rem; color: var(--gold); }
+    .sidebar-footer {
+      padding: 16px 16px 20px;
+    }
 
-  /* BADGES */
-  .badge-status {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 11px; border-radius: 99px; font-size: 0.78rem; font-weight: 600;
-  }
-  .badge-disponible { background: var(--green-bg); color: #15803d; }
-  .badge-bajo { background: var(--orange-bg); color: #b45309; }
-  .badge-agotado { background: var(--red-bg); color: #b91c1c; }
-  .badge-completado { background: var(--blue-bg); color: #1d4ed8; }
+    .btn-logout {
+      width: 100%;
+      background: #fff;
+      color: var(--gold-dark);
+      border: none;
+      border-radius: 8px;
+      padding: 9px 0;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
 
-  /* ACTION BUTTON */
-  .btn-action {
-    background: none; border: 1px solid var(--border); border-radius: 7px;
-    padding: 5px 9px; cursor: pointer; color: var(--text-mid);
-    font-size: 0.88rem; transition: background 0.13s, color 0.13s;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .btn-action:hover { background: var(--bg); color: var(--text-dark); }
+    .btn-logout:hover {
+      background: #f0e4c5;
+    }
 
-  /* PAGINATION */
-  .pagination-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 16px; border-top: 1px solid var(--border);
-    font-size: 0.84rem; color: var(--text-mid);
-  }
-  .pag-btns { display: flex; gap: 6px; align-items: center; }
-  .pag-btn {
-    width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border);
-    background: #fff; cursor: pointer; font-size: 0.84rem; font-weight: 500;
-    color: var(--text-mid); display: flex; align-items: center; justify-content: center;
-    transition: background 0.12s, color 0.12s;
-  }
-  .pag-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
-  .pag-btn:hover:not(.active) { background: var(--bg); }
-  .pag-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    /* MAIN */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-  /* MODAL */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
-    z-index: 1000; align-items: center; justify-content: center;
-  }
-  .modal-overlay.show { display: flex; }
-  .modal-box {
-    background: #fff; border-radius: 14px; width: 480px; max-width: 95vw;
-    padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: modalIn 0.2s ease;
-  }
-  @keyframes modalIn { from { transform: scale(0.93) translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .modal-header h3 { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-dark); }
-  .modal-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-light); line-height: 1; }
-  .modal-close:hover { color: var(--text-dark); }
-  .form-group { margin-bottom: 15px; }
-  .form-group label { display: block; font-size: 0.83rem; font-weight: 600; color: var(--text-mid); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .form-group input, .form-group select {
-    width: 100%; border: 1.5px solid var(--border); border-radius: 8px;
-    padding: 9px 12px; font-size: 0.9rem; outline: none; font-family: inherit;
-    transition: border-color 0.15s; color: var(--text-dark); background: #fff;
-  }
-  .form-group input:focus, .form-group select:focus { border-color: var(--gold); }
-  .form-hint { font-size: 0.76rem; color: var(--text-light); margin-top: 4px; }
-  .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; }
-  .btn-cancel {
-    background: none; border: 1.5px solid var(--border); border-radius: 8px;
-    padding: 9px 20px; cursor: pointer; font-size: 0.88rem; font-weight: 600;
-    color: var(--text-mid); transition: background 0.13s;
-  }
-  .btn-cancel:hover { background: var(--bg); }
-  .btn-save {
-    background: var(--gold); color: #fff; border: none; border-radius: 8px;
-    padding: 9px 22px; cursor: pointer; font-size: 0.88rem; font-weight: 600;
-    transition: background 0.13s;
-  }
-  .btn-save:hover { background: var(--gold-dark); }
-  .btn-danger {
-    background: var(--red); color: #fff; border: none; border-radius: 8px;
-    padding: 9px 22px; cursor: pointer; font-size: 0.88rem; font-weight: 600;
-    transition: background 0.13s;
-  }
-  .btn-danger:hover { background: #dc2626; }
+    /* TOPBAR */
+    .topbar {
+      background: #fff;
+      padding: 0 28px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
 
-  /* ACTION DROPDOWN */
-  .dropdown-action { position: relative; }
-  .dropdown-menu-custom {
-    display: none; position: absolute; right: 0; top: 110%; z-index: 100;
-    background: #fff; border: 1px solid var(--border); border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 180px; overflow: hidden;
-  }
-  .dropdown-menu-custom.show { display: block; }
-  .drop-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 14px; font-size: 0.86rem; cursor: pointer;
-    color: var(--text-dark); transition: background 0.12s;
-  }
-  .drop-item:hover { background: var(--bg); }
-  .drop-item i { font-size: 0.9rem; width: 18px; }
-  .drop-item.green { color: #15803d; }
-  .drop-item.red { color: #b91c1c; }
-  .drop-item.blue { color: #1d4ed8; }
-  .drop-item.orange { color: #b45309; }
+    .topbar h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
 
-  /* TOAST */
-  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
-  .toast {
-    background: var(--text-dark); color: #fff; border-radius: 10px;
-    padding: 12px 18px; font-size: 0.87rem; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    display: flex; align-items: center; gap: 8px; animation: toastIn 0.25s ease;
-    max-width: 300px;
-  }
-  @keyframes toastIn { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
-  .toast.success { background: #15803d; }
-  .toast.error { background: #b91c1c; }
-  .toast.info { background: #1d4ed8; }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-  /* SORT */
-  .sort-btn { background: none; border: none; cursor: pointer; color: var(--gold-dark); font-size: 0.8rem; padding: 0 2px; }
-  .sort-btn:hover { color: var(--gold); }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 0.88rem;
+      color: var(--text-mid);
+    }
 
-  /* DELETE CONFIRM */
-  .confirm-text { font-size: 0.93rem; color: var(--text-mid); line-height: 1.6; margin-bottom: 8px; }
-  .confirm-highlight { font-weight: 700; color: var(--text-dark); }
+    .search-box input {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 0.88rem;
+      color: var(--text-dark);
+      width: 180px;
+    }
 
-  .empty-row td { text-align: center; color: var(--text-light); padding: 32px; font-size: 0.92rem; }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px 5px 5px;
+      border-left: 1px solid var(--border);
+    }
 
-  .select-list { display: flex; flex-direction: column; gap: 6px; max-height: 340px; overflow-y: auto; margin-bottom: 4px; }
-  .select-list::-webkit-scrollbar { width: 5px; }
-  .select-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-  .select-item {
-    padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 9px;
-    cursor: pointer; transition: background 0.13s, border-color 0.13s;
-  }
-  .select-item:hover { background: #fff8ec; border-color: var(--gold-light); }
-  .select-item-name { font-weight: 600; font-size: 0.9rem; color: var(--text-dark); margin-bottom: 4px; }
-  .select-item-meta { font-size: 0.78rem; color: var(--text-light); display: flex; align-items: center; gap: 6px; }
+    .user-chip img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
-  /* Scrollbar */
-  .content::-webkit-scrollbar { width: 6px; }
-  .content::-webkit-scrollbar-track { background: transparent; }
-  .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
-</style>
+    .user-chip-text {
+      line-height: 1.2;
+    }
+
+    .user-chip-name {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text-dark);
+    }
+
+    .user-chip-role {
+      font-size: 0.76rem;
+      color: var(--text-light);
+    }
+
+    /* CONTENT */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 28px;
+    }
+
+    /* HEADER SECTION */
+    .header-section {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .header-section h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+      margin-bottom: 3px;
+    }
+
+    .header-section p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 16px;
+      font-size: 0.87rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold i {
+      font-size: 0.95rem;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .card-box {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .card-icon.blue {
+      background: #dbeafe;
+      color: #3b82f6;
+    }
+
+    .card-icon.orange {
+      background: #fef3c7;
+      color: #f59e0b;
+    }
+
+    .card-icon.purple {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+
+    .card-body-text h3 {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-weight: 500;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .card-body-text h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1px;
+      line-height: 1;
+    }
+
+    .card-body-text p {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    /* FILTERS BAR */
+    .filters-bar {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .filter-search {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+    }
+
+    .filter-search input {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 0.87rem;
+      width: 100%;
+      color: var(--text-dark);
+    }
+
+    .filter-search i {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    .filter-select {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.87rem;
+      color: var(--text-mid);
+    }
+
+    .filter-select select {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 0.87rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.87rem;
+      color: var(--text-mid);
+      white-space: nowrap;
+    }
+
+    .toggle {
+      position: relative;
+      width: 40px;
+      height: 22px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #d1d5db;
+      border-radius: 22px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .slider::before {
+      content: '';
+      position: absolute;
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+
+    input:checked+.slider {
+      background: var(--gold);
+    }
+
+    input:checked+.slider::before {
+      transform: translateX(18px);
+    }
+
+    /* TABLE */
+    .table-container {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table thead tr {
+      border-bottom: 2px solid var(--border);
+      background: #fafbff;
+    }
+
+    .table th {
+      padding: 12px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .table td {
+      padding: 13px 16px;
+      font-size: 0.87rem;
+      color: var(--text-dark);
+      vertical-align: middle;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table tbody tr {
+      transition: background 0.13s;
+    }
+
+    .table tbody tr:hover {
+      background: #fafbff;
+    }
+
+    .prod-name {
+      font-weight: 600;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prod-alert {
+      font-size: 0.85rem;
+    }
+
+    .lote-code {
+      font-family: monospace;
+      font-size: 0.83rem;
+      color: var(--text-mid);
+    }
+
+    .location-cell {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+    }
+
+    .location-cell i {
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    /* BADGES */
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 11px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .badge-disponible {
+      background: var(--green-bg);
+      color: #15803d;
+    }
+
+    .badge-bajo {
+      background: var(--orange-bg);
+      color: #b45309;
+    }
+
+    .badge-agotado {
+      background: var(--red-bg);
+      color: #b91c1c;
+    }
+
+    .badge-completado {
+      background: var(--blue-bg);
+      color: #1d4ed8;
+    }
+
+    /* ACTION BUTTON */
+    .btn-action {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 9px;
+      cursor: pointer;
+      color: var(--text-mid);
+      font-size: 0.88rem;
+      transition: background 0.13s, color 0.13s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-action:hover {
+      background: var(--bg);
+      color: var(--text-dark);
+    }
+
+    /* PAGINATION */
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 0.84rem;
+      color: var(--text-mid);
+    }
+
+    .pag-btns {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .pag-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .pag-btn.active {
+      background: var(--gold);
+      color: #fff;
+      border-color: var(--gold);
+    }
+
+    .pag-btn:hover:not(.active) {
+      background: var(--bg);
+    }
+
+    .pag-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 14px;
+      width: 480px;
+      max-width: 95vw;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      animation: modalIn 0.2s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        transform: scale(0.93) translateY(-10px);
+        opacity: 0;
+      }
+
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--text-light);
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--text-dark);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.15s;
+      color: var(--text-dark);
+      background: #fff;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+    }
+
+    .form-hint {
+      font-size: 0.76rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 22px;
+    }
+
+    .btn-cancel {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 20px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      transition: background 0.13s;
+    }
+
+    .btn-cancel:hover {
+      background: var(--bg);
+    }
+
+    .btn-save {
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 22px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background 0.13s;
+    }
+
+    .btn-save:hover {
+      background: var(--gold-dark);
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 22px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background 0.13s;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    /* ACTION DROPDOWN */
+    .dropdown-action {
+      position: relative;
+    }
+
+    .dropdown-menu-custom {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 110%;
+      z-index: 100;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      min-width: 180px;
+      overflow: hidden;
+    }
+
+    .dropdown-menu-custom.show {
+      display: block;
+    }
+
+    .drop-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      font-size: 0.86rem;
+      cursor: pointer;
+      color: var(--text-dark);
+      transition: background 0.12s;
+    }
+
+    .drop-item:hover {
+      background: var(--bg);
+    }
+
+    .drop-item i {
+      font-size: 0.9rem;
+      width: 18px;
+    }
+
+    .drop-item.green {
+      color: #15803d;
+    }
+
+    .drop-item.red {
+      color: #b91c1c;
+    }
+
+    .drop-item.blue {
+      color: #1d4ed8;
+    }
+
+    .drop-item.orange {
+      color: #b45309;
+    }
+
+    /* TOAST */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: var(--text-dark);
+      color: #fff;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 0.87rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: toastIn 0.25s ease;
+      max-width: 300px;
+    }
+
+    @keyframes toastIn {
+      from {
+        transform: translateX(40px);
+        opacity: 0;
+      }
+
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    .toast.success {
+      background: #15803d;
+    }
+
+    .toast.error {
+      background: #b91c1c;
+    }
+
+    .toast.info {
+      background: #1d4ed8;
+    }
+
+    /* SORT */
+    .sort-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gold-dark);
+      font-size: 0.8rem;
+      padding: 0 2px;
+    }
+
+    .sort-btn:hover {
+      color: var(--gold);
+    }
+
+    /* DELETE CONFIRM */
+    .confirm-text {
+      font-size: 0.93rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .confirm-highlight {
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .empty-row td {
+      text-align: center;
+      color: var(--text-light);
+      padding: 32px;
+      font-size: 0.92rem;
+    }
+
+    .select-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 340px;
+      overflow-y: auto;
+      margin-bottom: 4px;
+    }
+
+    .select-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .select-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .select-item {
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: background 0.13s, border-color 0.13s;
+    }
+
+    .select-item:hover {
+      background: #fff8ec;
+      border-color: var(--gold-light);
+    }
+
+    .select-item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .select-item-meta {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Scrollbar */
+    .content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .content::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 6px;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- SIDEBAR -->
-<nav class="sidebar">
-  <div class="sidebar-logo">IntiPharma<br>S.A.C.</div>
-  <div class="sidebar-nav">
-    <a class="nav-item" th:href="@{/alertaProducto}">
-      <span class="nav-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V5L12 1zm0 2.18l7 3.12V11c0 4.1-2.93 7.93-7 9.07C7.93 18.93 5 15.1 5 11V6.3l7-3.12zM11 7v6h2V7h-2zm0 8v2h2v-2h-2z"/></svg>
-      </span> Alerta de productos
-    </a>
-    <a class="nav-item active" th:href="@{/inventario}">
-      <span class="nav-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-      </span> Inventario
-    </a>
-    <a class="nav-item" th:href="@{/productos}">
-      <span class="nav-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 7h-1V5c0-1.1-.9-2-2-2H7C5.9 3 5 3.9 5 5v2H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM7 5h10v2H7V5zm13 13H4V9h16v9zm-8-7c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-      </span> Productos
-    </a>
-    <a class="nav-item" th:href="@{/configuracion}">
-      <span class="nav-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-      </span> Configuración
-    </a>
-  </div>
-  <div class="sidebar-footer">
-    <button class="btn-logout" onclick="window.location.href='/cerrarSesion'">
-      <i class="bi bi-box-arrow-left"></i> Cerrar sesión
-    </button>
-  </div>
-</nav>
-
-<!-- MAIN -->
-<div class="main">
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <h1>Inventario</h1>
-    <div class="topbar-right">
-      <div class="search-box">
-        <i class="bi bi-search"></i>
-        <input type="text" id="globalSearch" placeholder="Buscar..." oninput="applyFilters()">
-      </div>
-      <div class="user-chip">
-        <img src="https://i.pravatar.cc/40?img=12" alt="Admin">
-        <div class="user-chip-text">
-          <div class="user-chip-name">Administrador</div>
-          <div class="user-chip-role">Juan Torres</div>
-        </div>
-      </div>
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">IntiPharma<br>S.A.C.</div>
+    <div class="sidebar-nav">
+      <a class="nav-item" th:href="@{/alertaProducto}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 1L3 5v6c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V5L12 1zm0 2.18l7 3.12V11c0 4.1-2.93 7.93-7 9.07C7.93 18.93 5 15.1 5 11V6.3l7-3.12zM11 7v6h2V7h-2zm0 8v2h2v-2h-2z" />
+          </svg>
+        </span> Alerta de productos
+      </a>
+      <a class="nav-item active" th:href="@{/inventario}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
+          </svg>
+        </span> Inventario
+      </a>
+      <a class="nav-item" th:href="@{/productos}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M20 7h-1V5c0-1.1-.9-2-2-2H7C5.9 3 5 3.9 5 5v2H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM7 5h10v2H7V5zm13 13H4V9h16v9zm-8-7c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+          </svg>
+        </span> Productos
+      </a>
+      <a class="nav-item" th:href="@{/configuracion}">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+          </svg>
+        </span> Configuración
+      </a>
     </div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="content">
-
-    <!-- HEADER -->
-    <div class="header-section">
-      <div>
-        <h2>Gestión de productos</h2>
-        <p>Supervise y controle el inventario de medicamentos.</p>
-      </div>
-      <div class="action-btns">
-        <button class="btn-gold" onclick="openModal('add')">
-          <i class="bi bi-plus-lg"></i> Agregar producto
-        </button>
-        <button class="btn-gold" onclick="openEditSelect()">
-          <i class="bi bi-pencil"></i> Editar producto
-        </button>
-        <button class="btn-gold" onclick="openDeleteSelect()">
-          <i class="bi bi-trash"></i> Eliminar producto
-        </button>
-      </div>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="window.location.href='/cerrarSesion'">
+        <i class="bi bi-box-arrow-left"></i> Cerrar sesión
+      </button>
     </div>
+  </nav>
 
-    <!-- CARDS -->
-    <div class="cards">
-      <div class="card-box">
-        <div class="card-icon blue"><i class="bi bi-upc-scan"></i></div>
-        <div class="card-body-text">
-          <h3>Lotes registrados</h3>
-          <h1 id="cardTotal">0</h1>
-          <p>Lotes en inventario</p>
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h1>Inventario</h1>
+      <div class="topbar-right">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="globalSearch" placeholder="Buscar..." oninput="applyFilters()">
         </div>
-      </div>
-      <div class="card-box">
-        <div class="card-icon orange"><i class="bi bi-exclamation-circle"></i></div>
-        <div class="card-body-text">
-          <h3>Bajo Stock</h3>
-          <h1 id="cardBajo">0</h1>
-          <p>Requieren reabastecimiento</p>
-        </div>
-      </div>
-      <div class="card-box">
-        <div class="card-icon purple"><i class="bi bi-layers"></i></div>
-        <div class="card-body-text">
-          <h3>Ubicaciones activas</h3>
-          <h1 id="cardUbicaciones">0</h1>
-          <p>Pasillos con productos activos</p>
+        <div class="user-chip d-flex align-items-center bg-white p-2 rounded-pill shadow-sm border">
+
+          <div class="me-2 text-primary">
+            <img src="https://i.pravatar.cc/40?img=12" alt="logoAvatar" class="rounded-circle" width="40" height="40">
+          </div>
+          <div class="user-chip-text d-flex flex-column">
+            <span class="fw-bold" style="line-height: 1.2;"
+              th:text="${session.nombre + ' ' + (session.apellido != null ? session.apellido : '')}">
+            </span>
+            <span class="small text-muted" style="line-height: 1.2;"
+              th:text="${session.rol == 0 ? 'Administrador' : (session.rol == 1 ? 'Asistente' : 'Usuario')}">
+            </span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- FILTERS -->
-    <div class="filters-bar">
-      <div class="filter-search">
-        <i class="bi bi-search"></i>
-        <input type="text" id="tableSearch" placeholder="Buscar por nombre o lote..." oninput="applyFilters()">
-      </div>
-      <div class="filter-select">
-        <i class="bi bi-funnel" style="color:var(--gold)"></i>
-        <select id="filterUbicacion" onchange="applyFilters()">
-          <option value="">Todas las ubicaciones</option>
-          <option>Pasillo A</option><option>Pasillo B</option><option>Pasillo C</option>
-          <option>Pasillo D</option><option>Pasillo E</option><option>Pasillo F</option>
-          <option>Pasillo G</option><option>Pasillo H</option><option>Pasillo I</option>
-          <option>Pasillo J</option>
-        </select>
-      </div>
-      <div class="filter-select">
-        <select id="filterEstado" onchange="applyFilters()">
-          <option value="">Todos los estados</option>
-          <option value="Disponible">Disponible</option>
-          <option value="Bajo stock">Bajo stock</option>
-          <option value="Agotado">Agotado</option>
-          <option value="Completado">Completado</option>
-        </select>
-      </div>
-      <label class="toggle-container">
-        <span class="toggle">
-          <input type="checkbox" id="soloAlertas" onchange="applyFilters()">
-          <span class="slider"></span>
-        </span>
-        Solo alertas
-      </label>
-    </div>
+    <!-- CONTENT -->
+    <div class="content">
 
-    <!-- TABLE -->
-    <div class="table-container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Producto <button class="sort-btn" onclick="sortTable('nombre')"><i class="bi bi-arrow-down-up"></i></button></th>
-            <th>Lote</th>
-            <th>Cantidad</th>
-            <th>Ubicación</th>
-            <th>Vencimiento</th>
-            <th>Estado</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-      <div class="pagination-bar">
-        <span id="pagInfo">Mostrando 0 de 0 productos</span>
-        <div class="pag-btns" id="pagBtns"></div>
+      <!-- HEADER -->
+      <div class="header-section">
+        <div>
+          <h2>Gestión de productos</h2>
+          <p>Supervise y controle el inventario de medicamentos.</p>
+        </div>
+        <div class="action-btns">
+          <button class="btn-gold" onclick="openModal('add')">
+            <i class="bi bi-plus-lg"></i> Agregar producto
+          </button>
+          <button class="btn-gold" onclick="openEditSelect()">
+            <i class="bi bi-pencil"></i> Editar producto
+          </button>
+          <button class="btn-gold" onclick="openDeleteSelect()">
+            <i class="bi bi-trash"></i> Eliminar producto
+          </button>
+        </div>
       </div>
-    </div>
 
-  </div>
-</div>
-
-<!-- MODAL AGREGAR / EDITAR -->
-<div class="modal-overlay" id="modalForm">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h3 id="modalTitle">Agregar producto</h3>
-      <button class="modal-close" onclick="closeModal('modalForm')">&times;</button>
-    </div>
-    <div class="form-group">
-      <label>Nombre del producto</label>
-      <input type="text" id="fieldNombre" placeholder="Ej: Amoxicilina 500mg">
-    </div>
-    <div class="form-group">
-      <label>Número de lote</label>
-      <input type="text" id="fieldLote" placeholder="Ej: 2029596" maxlength="20">
-      <div class="form-hint">Solo números. Ejemplo de referencia: 2029596</div>
-    </div>
-    <div class="form-group">
-      <label>Cantidad (unidades)</label>
-      <input type="number" id="fieldCantidad" min="0" max="20000" placeholder="0 – 20,000">
-      <div class="form-hint">Mínimo: 0 · Máximo: 20,000 unidades.</div>
-    </div>
-    <div style="display:flex;gap:12px;">
-      <div class="form-group" style="flex:1">
-        <label>Pasillo</label>
-        <select id="fieldPasillo">
-          <option value="A">Pasillo A</option><option value="B">Pasillo B</option>
-          <option value="C">Pasillo C</option><option value="D">Pasillo D</option>
-          <option value="E">Pasillo E</option><option value="F">Pasillo F</option>
-          <option value="G">Pasillo G</option><option value="H">Pasillo H</option>
-          <option value="I">Pasillo I</option><option value="J">Pasillo J</option>
-        </select>
+      <!-- CARDS -->
+      <div class="cards">
+        <div class="card-box">
+          <div class="card-icon blue"><i class="bi bi-upc-scan"></i></div>
+          <div class="card-body-text">
+            <h3>Lotes registrados</h3>
+            <h1 id="cardTotal">0</h1>
+            <p>Lotes en inventario</p>
+          </div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon orange"><i class="bi bi-exclamation-circle"></i></div>
+          <div class="card-body-text">
+            <h3>Bajo Stock</h3>
+            <h1 id="cardBajo">0</h1>
+            <p>Requieren reabastecimiento</p>
+          </div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon purple"><i class="bi bi-layers"></i></div>
+          <div class="card-body-text">
+            <h3>Ubicaciones activas</h3>
+            <h1 id="cardUbicaciones">0</h1>
+            <p>Pasillos con productos activos</p>
+          </div>
+        </div>
       </div>
-      <div class="form-group" style="flex:1">
-        <label>Estante (número)</label>
-        <input type="number" id="fieldEstante" min="1" max="99" placeholder="Ej: 4">
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Vencimiento (MM/AAAA)</label>
-      <input type="text" id="fieldVencimiento" placeholder="12/2025" maxlength="7">
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('modalForm')">Cancelar</button>
-      <button class="btn-save" id="btnSaveForm" onclick="saveForm()">Guardar</button>
-    </div>
-  </div>
-</div>
 
-<!-- MODAL ELIMINAR -->
-<div class="modal-overlay" id="modalDelete">
-  <div class="modal-box" style="max-width:400px">
-    <div class="modal-header">
-      <h3>Eliminar producto</h3>
-      <button class="modal-close" onclick="closeModal('modalDelete')">&times;</button>
-    </div>
-    <p class="confirm-text">¿Estás seguro de que deseas eliminar <span class="confirm-highlight" id="deleteProductName"></span>? Esta acción no se puede deshacer.</p>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('modalDelete')">Cancelar</button>
-      <button class="btn-danger" onclick="confirmDelete()">Eliminar</button>
+      <!-- FILTERS -->
+      <div class="filters-bar">
+        <div class="filter-search">
+          <i class="bi bi-search"></i>
+          <input type="text" id="tableSearch" placeholder="Buscar por nombre o lote..." oninput="applyFilters()">
+        </div>
+        <div class="filter-select">
+          <i class="bi bi-funnel" style="color:var(--gold)"></i>
+          <select id="filterUbicacion" onchange="applyFilters()">
+            <option value="">Todas las ubicaciones</option>
+            <option>Pasillo A</option>
+            <option>Pasillo B</option>
+            <option>Pasillo C</option>
+            <option>Pasillo D</option>
+            <option>Pasillo E</option>
+            <option>Pasillo F</option>
+            <option>Pasillo G</option>
+            <option>Pasillo H</option>
+            <option>Pasillo I</option>
+            <option>Pasillo J</option>
+          </select>
+        </div>
+        <div class="filter-select">
+          <select id="filterEstado" onchange="applyFilters()">
+            <option value="">Todos los estados</option>
+            <option value="Disponible">Disponible</option>
+            <option value="Bajo stock">Bajo stock</option>
+            <option value="Agotado">Agotado</option>
+            <option value="Completado">Completado</option>
+          </select>
+        </div>
+        <label class="toggle-container">
+          <span class="toggle">
+            <input type="checkbox" id="soloAlertas" onchange="applyFilters()">
+            <span class="slider"></span>
+          </span>
+          Solo alertas
+        </label>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Producto <button class="sort-btn" onclick="sortTable('nombre')"><i
+                    class="bi bi-arrow-down-up"></i></button></th>
+              <th>Lote</th>
+              <th>Cantidad</th>
+              <th>Ubicación</th>
+              <th>Vencimiento</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <div class="pagination-bar">
+          <span id="pagInfo">Mostrando 0 de 0 productos</span>
+          <div class="pag-btns" id="pagBtns"></div>
+        </div>
+      </div>
+
     </div>
   </div>
-</div>
 
-<!-- MODAL ACCIÓN COMPLETADO / REPOSICIÓN -->
-<div class="modal-overlay" id="modalAction">
-  <div class="modal-box" style="max-width:400px">
-    <div class="modal-header">
-      <h3 id="modalActionTitle">Acción de inventario</h3>
-      <button class="modal-close" onclick="closeModal('modalAction')">&times;</button>
+  <!-- MODAL AGREGAR / EDITAR -->
+  <div class="modal-overlay" id="modalForm">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Agregar producto</h3>
+        <button class="modal-close" onclick="closeModal('modalForm')">&times;</button>
+      </div>
+      <div class="form-group">
+        <label>Nombre del producto</label>
+        <input type="text" id="fieldNombre" placeholder="Ej: Amoxicilina 500mg">
+      </div>
+      <div class="form-group">
+        <label>Número de lote</label>
+        <input type="text" id="fieldLote" placeholder="Ej: 2029596" maxlength="20">
+        <div class="form-hint">Solo números. Ejemplo de referencia: 2029596</div>
+      </div>
+      <div class="form-group">
+        <label>Cantidad (unidades)</label>
+        <input type="number" id="fieldCantidad" min="0" max="20000" placeholder="0 – 20,000">
+        <div class="form-hint">Mínimo: 0 · Máximo: 20,000 unidades.</div>
+      </div>
+      <div style="display:flex;gap:12px;">
+        <div class="form-group" style="flex:1">
+          <label>Pasillo</label>
+          <select id="fieldPasillo">
+            <option value="A">Pasillo A</option>
+            <option value="B">Pasillo B</option>
+            <option value="C">Pasillo C</option>
+            <option value="D">Pasillo D</option>
+            <option value="E">Pasillo E</option>
+            <option value="F">Pasillo F</option>
+            <option value="G">Pasillo G</option>
+            <option value="H">Pasillo H</option>
+            <option value="I">Pasillo I</option>
+            <option value="J">Pasillo J</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1">
+          <label>Estante (número)</label>
+          <input type="number" id="fieldEstante" min="1" max="99" placeholder="Ej: 4">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Vencimiento (MM/AAAA)</label>
+        <input type="text" id="fieldVencimiento" placeholder="12/2025" maxlength="7">
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal('modalForm')">Cancelar</button>
+        <button class="btn-save" id="btnSaveForm" onclick="saveForm()">Guardar</button>
+      </div>
     </div>
-    <div id="modalActionContent"></div>
-    <div class="modal-footer" id="modalActionFooter"></div>
   </div>
-</div>
 
-<!-- MODAL SELECCIONAR PRODUCTO -->
-<div class="modal-overlay" id="modalSelect">
-  <div class="modal-box" style="max-width:440px">
-    <div class="modal-header">
-      <h3 id="modalSelectTitle">Seleccionar producto</h3>
-      <button class="modal-close" onclick="closeModal('modalSelect')">&times;</button>
-    </div>
-    <div id="modalSelectList" class="select-list"></div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('modalSelect')">Cancelar</button>
+  <!-- MODAL ELIMINAR -->
+  <div class="modal-overlay" id="modalDelete">
+    <div class="modal-box" style="max-width:400px">
+      <div class="modal-header">
+        <h3>Eliminar producto</h3>
+        <button class="modal-close" onclick="closeModal('modalDelete')">&times;</button>
+      </div>
+      <p class="confirm-text">¿Estás seguro de que deseas eliminar <span class="confirm-highlight"
+          id="deleteProductName"></span>? Esta acción no se puede deshacer.</p>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal('modalDelete')">Cancelar</button>
+        <button class="btn-danger" onclick="confirmDelete()">Eliminar</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- TOAST -->
-<div class="toast-container" id="toastContainer"></div>
+  <!-- MODAL ACCIÓN COMPLETADO / REPOSICIÓN -->
+  <div class="modal-overlay" id="modalAction">
+    <div class="modal-box" style="max-width:400px">
+      <div class="modal-header">
+        <h3 id="modalActionTitle">Acción de inventario</h3>
+        <button class="modal-close" onclick="closeModal('modalAction')">&times;</button>
+      </div>
+      <div id="modalActionContent"></div>
+      <div class="modal-footer" id="modalActionFooter"></div>
+    </div>
+  </div>
 
-<script>
-// ─── DATA ───────────────────────────────────────────────────────────────────
-let products = [
-  { id: 1, nombre: 'Amoxicilina 500mg',      lote: '2029596', cantidad: 450,  pasillo: 'A', estante: 4, vencimiento: '12/2025', completado: false },
-  { id: 2, nombre: 'Ibuprofeno 400mg',        lote: '2031872', cantidad: 12,   pasillo: 'B', estante: 1, vencimiento: '05/2024', completado: false },
-  { id: 3, nombre: 'Paracetamol 1g',          lote: '2024055', cantidad: 0,    pasillo: 'A', estante: 2, vencimiento: '08/2026', completado: false },
-  { id: 4, nombre: 'Vitamina C Efervescente', lote: '2024009', cantidad: 120,  pasillo: 'C', estante: 5, vencimiento: '03/2025', completado: false },
-];
-let nextId = 5;
-let currentPage = 1;
-const PAGE_SIZE = 8;
-let editingId = null;
-let deletingId = null;
-let actionId = null;
-let sortDir = 1;
-let filteredProducts = [];
+  <!-- MODAL SELECCIONAR PRODUCTO -->
+  <div class="modal-overlay" id="modalSelect">
+    <div class="modal-box" style="max-width:440px">
+      <div class="modal-header">
+        <h3 id="modalSelectTitle">Seleccionar producto</h3>
+        <button class="modal-close" onclick="closeModal('modalSelect')">&times;</button>
+      </div>
+      <div id="modalSelectList" class="select-list"></div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal('modalSelect')">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
-// ─── STATE LOGIC ─────────────────────────────────────────────────────────────
-function getEstado(p) {
-  if (p.completado) return 'Completado';
-  if (p.cantidad === 0) return 'Agotado';
-  if (p.cantidad < 100) return 'Bajo stock';
-  return 'Disponible';
-}
+  <!-- TOAST -->
+  <div class="toast-container" id="toastContainer"></div>
 
-function badgeHtml(estado) {
-  const map = {
-    'Disponible': 'badge-disponible',
-    'Bajo stock': 'badge-bajo',
-    'Agotado': 'badge-agotado',
-    'Completado': 'badge-completado'
-  };
-  return `<span class="badge-status ${map[estado] || ''}">${estado}</span>`;
-}
+  <script>
+    // ─── DATA ───────────────────────────────────────────────────────────────────
+    let products = [
+      { id: 1, nombre: 'Amoxicilina 500mg', lote: '2029596', cantidad: 450, pasillo: 'A', estante: 4, vencimiento: '12/2025', completado: false },
+      { id: 2, nombre: 'Ibuprofeno 400mg', lote: '2031872', cantidad: 12, pasillo: 'B', estante: 1, vencimiento: '05/2024', completado: false },
+      { id: 3, nombre: 'Paracetamol 1g', lote: '2024055', cantidad: 0, pasillo: 'A', estante: 2, vencimiento: '08/2026', completado: false },
+      { id: 4, nombre: 'Vitamina C Efervescente', lote: '2024009', cantidad: 120, pasillo: 'C', estante: 5, vencimiento: '03/2025', completado: false },
+    ];
+    let nextId = 5;
+    let currentPage = 1;
+    const PAGE_SIZE = 8;
+    let editingId = null;
+    let deletingId = null;
+    let actionId = null;
+    let sortDir = 1;
+    let filteredProducts = [];
 
-function alertIcon(estado) {
-  if (estado === 'Agotado') return `<span class="prod-alert" title="Agotado">🔴</span>`;
-  if (estado === 'Bajo stock') return `<span class="prod-alert" title="Bajo stock">🟡</span>`;
-  return '';
-}
+    // ─── STATE LOGIC ─────────────────────────────────────────────────────────────
+    function getEstado(p) {
+      if (p.completado) return 'Completado';
+      if (p.cantidad === 0) return 'Agotado';
+      if (p.cantidad < 100) return 'Bajo stock';
+      return 'Disponible';
+    }
 
-// ─── CARDS ───────────────────────────────────────────────────────────────────
-function updateCards() {
-  const total = products.length;
-  const bajo = products.filter(p => ['Bajo stock','Agotado'].includes(getEstado(p))).length;
-  const ubicActivas = new Set(
-    products.filter(p => ['Disponible','Bajo stock'].includes(getEstado(p)))
-            .map(p => `Pasillo ${p.pasillo}`)
-  ).size;
-  document.getElementById('cardTotal').textContent = total.toLocaleString();
-  document.getElementById('cardBajo').textContent = bajo.toLocaleString();
-  document.getElementById('cardUbicaciones').textContent = ubicActivas.toLocaleString();
-}
+    function badgeHtml(estado) {
+      const map = {
+        'Disponible': 'badge-disponible',
+        'Bajo stock': 'badge-bajo',
+        'Agotado': 'badge-agotado',
+        'Completado': 'badge-completado'
+      };
+      return `<span class="badge-status ${map[estado] || ''}">${estado}</span>`;
+    }
 
-// ─── FILTERS & TABLE ─────────────────────────────────────────────────────────
-function applyFilters() {
-  const q = (document.getElementById('tableSearch').value + document.getElementById('globalSearch').value).toLowerCase();
-  const ub = document.getElementById('filterUbicacion').value;
-  const est = document.getElementById('filterEstado').value;
-  const soloAl = document.getElementById('soloAlertas').checked;
+    function alertIcon(estado) {
+      if (estado === 'Agotado') return `<span class="prod-alert" title="Agotado">🔴</span>`;
+      if (estado === 'Bajo stock') return `<span class="prod-alert" title="Bajo stock">🟡</span>`;
+      return '';
+    }
 
-  filteredProducts = products.filter(p => {
-    const estado = getEstado(p);
-    const matchQ = !q || p.nombre.toLowerCase().includes(q) || p.lote.includes(q);
-    const matchU = !ub || `Pasillo ${p.pasillo}` === ub;
-    const matchE = !est || estado === est;
-    const matchA = !soloAl || ['Bajo stock','Agotado'].includes(estado);
-    return matchQ && matchU && matchE && matchA;
-  });
+    // ─── CARDS ───────────────────────────────────────────────────────────────────
+    function updateCards() {
+      const total = products.length;
+      const bajo = products.filter(p => ['Bajo stock', 'Agotado'].includes(getEstado(p))).length;
+      const ubicActivas = new Set(
+        products.filter(p => ['Disponible', 'Bajo stock'].includes(getEstado(p)))
+          .map(p => `Pasillo ${p.pasillo}`)
+      ).size;
+      document.getElementById('cardTotal').textContent = total.toLocaleString();
+      document.getElementById('cardBajo').textContent = bajo.toLocaleString();
+      document.getElementById('cardUbicaciones').textContent = ubicActivas.toLocaleString();
+    }
 
-  currentPage = 1;
-  renderTable();
-}
+    // ─── FILTERS & TABLE ─────────────────────────────────────────────────────────
+    function applyFilters() {
+      const q = (document.getElementById('tableSearch').value + document.getElementById('globalSearch').value).toLowerCase();
+      const ub = document.getElementById('filterUbicacion').value;
+      const est = document.getElementById('filterEstado').value;
+      const soloAl = document.getElementById('soloAlertas').checked;
 
-function sortTable(field) {
-  sortDir *= -1;
-  filteredProducts.sort((a, b) => a[field].localeCompare(b[field]) * sortDir);
-  renderTable();
-}
+      filteredProducts = products.filter(p => {
+        const estado = getEstado(p);
+        const matchQ = !q || p.nombre.toLowerCase().includes(q) || p.lote.includes(q);
+        const matchU = !ub || `Pasillo ${p.pasillo}` === ub;
+        const matchE = !est || estado === est;
+        const matchA = !soloAl || ['Bajo stock', 'Agotado'].includes(estado);
+        return matchQ && matchU && matchE && matchA;
+      });
 
-function renderTable() {
-  const tbody = document.getElementById('tableBody');
-  const total = filteredProducts.length;
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const slice = filteredProducts.slice(start, start + PAGE_SIZE);
+      currentPage = 1;
+      renderTable();
+    }
 
-  document.getElementById('pagInfo').textContent =
-    `Mostrando ${Math.min(start + 1, total)} – ${Math.min(start + slice.length, total)} de ${total} productos`;
+    function sortTable(field) {
+      sortDir *= -1;
+      filteredProducts.sort((a, b) => a[field].localeCompare(b[field]) * sortDir);
+      renderTable();
+    }
 
-  if (slice.length === 0) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">No se encontraron productos</td></tr>`;
-    renderPagination(total);
-    return;
-  }
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      const total = filteredProducts.length;
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const slice = filteredProducts.slice(start, start + PAGE_SIZE);
 
-  tbody.innerHTML = slice.map(p => {
-    const estado = getEstado(p);
-    return `
+      document.getElementById('pagInfo').textContent =
+        `Mostrando ${Math.min(start + 1, total)} – ${Math.min(start + slice.length, total)} de ${total} productos`;
+
+      if (slice.length === 0) {
+        tbody.innerHTML = `<tr class="empty-row"><td colspan="7">No se encontraron productos</td></tr>`;
+        renderPagination(total);
+        return;
+      }
+
+      tbody.innerHTML = slice.map(p => {
+        const estado = getEstado(p);
+        return `
     <tr>
       <td><span class="prod-name">${alertIcon(estado)} ${p.nombre}</span></td>
       <td><span class="lote-code">${p.lote}</span></td>
@@ -720,251 +1432,252 @@ function renderTable() {
         </div>
       </td>
     </tr>`;
-  }).join('');
+      }).join('');
 
-  renderPagination(total);
-}
+      renderPagination(total);
+    }
 
-function renderPagination(total) {
-  const pages = Math.ceil(total / PAGE_SIZE);
-  const cont = document.getElementById('pagBtns');
-  let html = `<button class="pag-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>
+    function renderPagination(total) {
+      const pages = Math.ceil(total / PAGE_SIZE);
+      const cont = document.getElementById('pagBtns');
+      let html = `<button class="pag-btn" onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
     <i class="bi bi-chevron-left"></i></button>`;
-  for (let i = 1; i <= pages; i++) {
-    html += `<button class="pag-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
-  }
-  html += `<button class="pag-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages||pages===0?'disabled':''}>
+      for (let i = 1; i <= pages; i++) {
+        html += `<button class="pag-btn ${i === currentPage ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+      }
+      html += `<button class="pag-btn" onclick="goPage(${currentPage + 1})" ${currentPage === pages || pages === 0 ? 'disabled' : ''}>
     <i class="bi bi-chevron-right"></i></button>`;
-  cont.innerHTML = html;
-}
-
-function goPage(p) {
-  const pages = Math.ceil(filteredProducts.length / PAGE_SIZE);
-  if (p < 1 || p > pages) return;
-  currentPage = p;
-  renderTable();
-}
-
-// ─── DROPDOWN ────────────────────────────────────────────────────────────────
-function toggleDropdown(id) {
-  document.querySelectorAll('.dropdown-menu-custom').forEach(d => {
-    if (d.id !== `ddm-${id}`) d.classList.remove('show');
-  });
-  document.getElementById(`ddm-${id}`).classList.toggle('show');
-}
-document.addEventListener('click', e => {
-  if (!e.target.closest('.dropdown-action')) {
-    document.querySelectorAll('.dropdown-menu-custom').forEach(d => d.classList.remove('show'));
-  }
-});
-
-// ─── MODAL FORM ───────────────────────────────────────────────────────────────
-function openModal(mode, id = null) {
-  editingId = id;
-  document.getElementById('modalTitle').textContent = mode === 'add' ? 'Agregar producto' : 'Editar producto';
-  document.getElementById('btnSaveForm').textContent = mode === 'add' ? 'Guardar' : 'Actualizar';
-  // Reset
-  ['fieldNombre','fieldLote','fieldCantidad','fieldVencimiento'].forEach(f => document.getElementById(f).value = '');
-  document.getElementById('fieldPasillo').value = 'A';
-  document.getElementById('fieldEstante').value = '';
-
-  if (mode === 'edit' && id !== null) {
-    const p = products.find(x => x.id === id);
-    if (p) {
-      document.getElementById('fieldNombre').value = p.nombre;
-      document.getElementById('fieldLote').value = p.lote;
-      document.getElementById('fieldCantidad').value = p.cantidad;
-      document.getElementById('fieldPasillo').value = p.pasillo;
-      document.getElementById('fieldEstante').value = p.estante;
-      document.getElementById('fieldVencimiento').value = p.vencimiento;
+      cont.innerHTML = html;
     }
-  }
-  document.getElementById('modalForm').classList.add('show');
-  closeAllDropdowns();
-}
 
-function saveForm() {
-  const nombre = document.getElementById('fieldNombre').value.trim();
-  const lote = document.getElementById('fieldLote').value.trim();
-  const cantRaw = parseInt(document.getElementById('fieldCantidad').value);
-  const pasillo = document.getElementById('fieldPasillo').value;
-  const estante = parseInt(document.getElementById('fieldEstante').value);
-  const vencimiento = document.getElementById('fieldVencimiento').value.trim();
-
-  if (!nombre) return toast('El nombre es obligatorio.', 'error');
-  if (!lote || !/^\d+$/.test(lote)) return toast('El lote debe ser numérico. Ej: 2029596', 'error');
-  if (isNaN(cantRaw) || cantRaw < 0 || cantRaw > 20000) return toast('Cantidad entre 0 y 20,000 unidades.', 'error');
-  if (isNaN(estante) || estante < 1) return toast('Ingresa un número de estante válido.', 'error');
-  if (!vencimiento || !/^\d{2}\/\d{4}$/.test(vencimiento)) return toast('Vencimiento en formato MM/AAAA.', 'error');
-
-  if (editingId !== null) {
-    const p = products.find(x => x.id === editingId);
-    if (p) {
-      p.nombre = nombre; p.lote = lote; p.cantidad = cantRaw;
-      p.pasillo = pasillo; p.estante = estante; p.vencimiento = vencimiento;
-      p.completado = false; // reset on edit
+    function goPage(p) {
+      const pages = Math.ceil(filteredProducts.length / PAGE_SIZE);
+      if (p < 1 || p > pages) return;
+      currentPage = p;
+      renderTable();
     }
-    toast('Producto actualizado correctamente.', 'success');
-  } else {
-    products.push({ id: nextId++, nombre, lote, cantidad: cantRaw, pasillo, estante, vencimiento, completado: false });
-    toast('Producto agregado al inventario.', 'success');
-  }
 
-  closeModal('modalForm');
-  refresh();
-}
+    // ─── DROPDOWN ────────────────────────────────────────────────────────────────
+    function toggleDropdown(id) {
+      document.querySelectorAll('.dropdown-menu-custom').forEach(d => {
+        if (d.id !== `ddm-${id}`) d.classList.remove('show');
+      });
+      document.getElementById(`ddm-${id}`).classList.toggle('show');
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.dropdown-action')) {
+        document.querySelectorAll('.dropdown-menu-custom').forEach(d => d.classList.remove('show'));
+      }
+    });
 
-// ─── EDIT / DELETE SELECT ────────────────────────────────────────────────────
-function openEditSelect() {
-  if (products.length === 0) return toast('No hay productos en el inventario.', 'error');
-  openSelectModal('edit');
-}
-function openDeleteSelect() {
-  if (products.length === 0) return toast('No hay productos en el inventario.', 'error');
-  openSelectModal('delete');
-}
+    // ─── MODAL FORM ───────────────────────────────────────────────────────────────
+    function openModal(mode, id = null) {
+      editingId = id;
+      document.getElementById('modalTitle').textContent = mode === 'add' ? 'Agregar producto' : 'Editar producto';
+      document.getElementById('btnSaveForm').textContent = mode === 'add' ? 'Guardar' : 'Actualizar';
+      // Reset
+      ['fieldNombre', 'fieldLote', 'fieldCantidad', 'fieldVencimiento'].forEach(f => document.getElementById(f).value = '');
+      document.getElementById('fieldPasillo').value = 'A';
+      document.getElementById('fieldEstante').value = '';
 
-function openSelectModal(mode) {
-  const modal = document.getElementById('modalSelect');
-  const title = document.getElementById('modalSelectTitle');
-  const list = document.getElementById('modalSelectList');
-  title.textContent = mode === 'edit' ? 'Seleccionar producto a editar' : 'Seleccionar producto a eliminar';
-  list.innerHTML = products.map(p => {
-    const estado = getEstado(p);
-    return `
+      if (mode === 'edit' && id !== null) {
+        const p = products.find(x => x.id === id);
+        if (p) {
+          document.getElementById('fieldNombre').value = p.nombre;
+          document.getElementById('fieldLote').value = p.lote;
+          document.getElementById('fieldCantidad').value = p.cantidad;
+          document.getElementById('fieldPasillo').value = p.pasillo;
+          document.getElementById('fieldEstante').value = p.estante;
+          document.getElementById('fieldVencimiento').value = p.vencimiento;
+        }
+      }
+      document.getElementById('modalForm').classList.add('show');
+      closeAllDropdowns();
+    }
+
+    function saveForm() {
+      const nombre = document.getElementById('fieldNombre').value.trim();
+      const lote = document.getElementById('fieldLote').value.trim();
+      const cantRaw = parseInt(document.getElementById('fieldCantidad').value);
+      const pasillo = document.getElementById('fieldPasillo').value;
+      const estante = parseInt(document.getElementById('fieldEstante').value);
+      const vencimiento = document.getElementById('fieldVencimiento').value.trim();
+
+      if (!nombre) return toast('El nombre es obligatorio.', 'error');
+      if (!lote || !/^\d+$/.test(lote)) return toast('El lote debe ser numérico. Ej: 2029596', 'error');
+      if (isNaN(cantRaw) || cantRaw < 0 || cantRaw > 20000) return toast('Cantidad entre 0 y 20,000 unidades.', 'error');
+      if (isNaN(estante) || estante < 1) return toast('Ingresa un número de estante válido.', 'error');
+      if (!vencimiento || !/^\d{2}\/\d{4}$/.test(vencimiento)) return toast('Vencimiento en formato MM/AAAA.', 'error');
+
+      if (editingId !== null) {
+        const p = products.find(x => x.id === editingId);
+        if (p) {
+          p.nombre = nombre; p.lote = lote; p.cantidad = cantRaw;
+          p.pasillo = pasillo; p.estante = estante; p.vencimiento = vencimiento;
+          p.completado = false; // reset on edit
+        }
+        toast('Producto actualizado correctamente.', 'success');
+      } else {
+        products.push({ id: nextId++, nombre, lote, cantidad: cantRaw, pasillo, estante, vencimiento, completado: false });
+        toast('Producto agregado al inventario.', 'success');
+      }
+
+      closeModal('modalForm');
+      refresh();
+    }
+
+    // ─── EDIT / DELETE SELECT ────────────────────────────────────────────────────
+    function openEditSelect() {
+      if (products.length === 0) return toast('No hay productos en el inventario.', 'error');
+      openSelectModal('edit');
+    }
+    function openDeleteSelect() {
+      if (products.length === 0) return toast('No hay productos en el inventario.', 'error');
+      openSelectModal('delete');
+    }
+
+    function openSelectModal(mode) {
+      const modal = document.getElementById('modalSelect');
+      const title = document.getElementById('modalSelectTitle');
+      const list = document.getElementById('modalSelectList');
+      title.textContent = mode === 'edit' ? 'Seleccionar producto a editar' : 'Seleccionar producto a eliminar';
+      list.innerHTML = products.map(p => {
+        const estado = getEstado(p);
+        return `
     <div class="select-item" onclick="selectProduct(${p.id},'${mode}')">
       <div class="select-item-name">${p.nombre}</div>
       <div class="select-item-meta">Lote: ${p.lote} &nbsp;·&nbsp; ${badgeHtml(estado)}</div>
     </div>`;
-  }).join('');
-  modal.classList.add('show');
-}
+      }).join('');
+      modal.classList.add('show');
+    }
 
-function selectProduct(id, mode) {
-  closeModal('modalSelect');
-  if (mode === 'edit') {
-    openModal('edit', id);
-  } else {
-    openModalDelete(id);
-  }
-}
+    function selectProduct(id, mode) {
+      closeModal('modalSelect');
+      if (mode === 'edit') {
+        openModal('edit', id);
+      } else {
+        openModalDelete(id);
+      }
+    }
 
-// ─── DELETE ───────────────────────────────────────────────────────────────────
-function openModalDelete(id) {
-  deletingId = id;
-  const p = products.find(x => x.id === id);
-  document.getElementById('deleteProductName').textContent = p ? p.nombre : '';
-  document.getElementById('modalDelete').classList.add('show');
-  closeAllDropdowns();
-}
-function confirmDelete() {
-  products = products.filter(x => x.id !== deletingId);
-  closeModal('modalDelete');
-  toast('Producto eliminado.', 'success');
-  refresh();
-}
+    // ─── DELETE ───────────────────────────────────────────────────────────────────
+    function openModalDelete(id) {
+      deletingId = id;
+      const p = products.find(x => x.id === id);
+      document.getElementById('deleteProductName').textContent = p ? p.nombre : '';
+      document.getElementById('modalDelete').classList.add('show');
+      closeAllDropdowns();
+    }
+    function confirmDelete() {
+      products = products.filter(x => x.id !== deletingId);
+      closeModal('modalDelete');
+      toast('Producto eliminado.', 'success');
+      refresh();
+    }
 
-// ─── ACTION MODAL ─────────────────────────────────────────────────────────────
-function openAction(id, type) {
-  actionId = id;
-  const p = products.find(x => x.id === id);
-  const modal = document.getElementById('modalAction');
-  const title = document.getElementById('modalActionTitle');
-  const content = document.getElementById('modalActionContent');
-  const footer = document.getElementById('modalActionFooter');
-  closeAllDropdowns();
+    // ─── ACTION MODAL ─────────────────────────────────────────────────────────────
+    function openAction(id, type) {
+      actionId = id;
+      const p = products.find(x => x.id === id);
+      const modal = document.getElementById('modalAction');
+      const title = document.getElementById('modalActionTitle');
+      const content = document.getElementById('modalActionContent');
+      const footer = document.getElementById('modalActionFooter');
+      closeAllDropdowns();
 
-  if (type === 'completado') {
-    title.textContent = 'Marcar como completado';
-    content.innerHTML = `<p class="confirm-text">¿Confirmas que la reposición de <span class="confirm-highlight">${p.nombre}</span> fue completada? El estado cambiará a <strong>Completado</strong>.</p>`;
-    footer.innerHTML = `
+      if (type === 'completado') {
+        title.textContent = 'Marcar como completado';
+        content.innerHTML = `<p class="confirm-text">¿Confirmas que la reposición de <span class="confirm-highlight">${p.nombre}</span> fue completada? El estado cambiará a <strong>Completado</strong>.</p>`;
+        footer.innerHTML = `
       <button class="btn-cancel" onclick="closeModal('modalAction')">Cancelar</button>
       <button class="btn-save" onclick="markCompletado()"><i class="bi bi-check-circle"></i> Confirmar</button>`;
-  } else if (type === 'reposicion') {
-    title.textContent = 'Reponer stock';
-    content.innerHTML = `
+      } else if (type === 'reposicion') {
+        title.textContent = 'Reponer stock';
+        content.innerHTML = `
       <p class="confirm-text" style="margin-bottom:14px">Ingresa la cantidad a reponer para <span class="confirm-highlight">${p.nombre}</span> (stock actual: <strong>${p.cantidad}</strong>).</p>
       <div class="form-group">
         <label>Cantidad a añadir</label>
         <input type="number" id="repoQty" min="1" max="${20000 - p.cantidad}" placeholder="Ej: 200">
         <div class="form-hint">Máximo que puedes añadir: ${(20000 - p.cantidad).toLocaleString()} unidades</div>
       </div>`;
-    footer.innerHTML = `
+        footer.innerHTML = `
       <button class="btn-cancel" onclick="closeModal('modalAction')">Cancelar</button>
       <button class="btn-save" onclick="reponer()"><i class="bi bi-arrow-repeat"></i> Reponer</button>`;
-  } else if (type === 'observacion') {
-    title.textContent = 'Agregar observación';
-    content.innerHTML = `
+      } else if (type === 'observacion') {
+        title.textContent = 'Agregar observación';
+        content.innerHTML = `
       <p class="confirm-text" style="margin-bottom:14px">Añade una nota u observación para <span class="confirm-highlight">${p.nombre}</span>.</p>
       <div class="form-group">
         <label>Observación</label>
         <input type="text" id="obsText" placeholder="Ej: Lote con temperatura controlada" maxlength="120">
       </div>`;
-    footer.innerHTML = `
+        footer.innerHTML = `
       <button class="btn-cancel" onclick="closeModal('modalAction')">Cancelar</button>
       <button class="btn-save" onclick="guardarObs()"><i class="bi bi-chat-dots"></i> Guardar nota</button>`;
-  }
+      }
 
-  modal.classList.add('show');
-}
+      modal.classList.add('show');
+    }
 
-function markCompletado() {
-  const p = products.find(x => x.id === actionId);
-  if (p) p.completado = true;
-  closeModal('modalAction');
-  toast(`${p.nombre} marcado como completado.`, 'success');
-  refresh();
-}
+    function markCompletado() {
+      const p = products.find(x => x.id === actionId);
+      if (p) p.completado = true;
+      closeModal('modalAction');
+      toast(`${p.nombre} marcado como completado.`, 'success');
+      refresh();
+    }
 
-function reponer() {
-  const qty = parseInt(document.getElementById('repoQty').value);
-  const p = products.find(x => x.id === actionId);
-  if (!qty || qty < 1) return toast('Ingresa una cantidad válida.', 'error');
-  if (p.cantidad + qty > 20000) return toast('La cantidad total superaría 20,000 unidades.', 'error');
-  p.cantidad += qty;
-  p.completado = false;
-  closeModal('modalAction');
-  toast(`Stock repuesto: ${p.nombre} ahora tiene ${p.cantidad.toLocaleString()} unidades.`, 'success');
-  refresh();
-}
+    function reponer() {
+      const qty = parseInt(document.getElementById('repoQty').value);
+      const p = products.find(x => x.id === actionId);
+      if (!qty || qty < 1) return toast('Ingresa una cantidad válida.', 'error');
+      if (p.cantidad + qty > 20000) return toast('La cantidad total superaría 20,000 unidades.', 'error');
+      p.cantidad += qty;
+      p.completado = false;
+      closeModal('modalAction');
+      toast(`Stock repuesto: ${p.nombre} ahora tiene ${p.cantidad.toLocaleString()} unidades.`, 'success');
+      refresh();
+    }
 
-function guardarObs() {
-  const obs = document.getElementById('obsText').value.trim();
-  if (!obs) return toast('Escribe una observación.', 'error');
-  closeModal('modalAction');
-  toast(`Observación guardada para el producto.`, 'info');
-}
+    function guardarObs() {
+      const obs = document.getElementById('obsText').value.trim();
+      if (!obs) return toast('Escribe una observación.', 'error');
+      closeModal('modalAction');
+      toast(`Observación guardada para el producto.`, 'info');
+    }
 
-// ─── UTILS ────────────────────────────────────────────────────────────────────
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
-}
-function closeAllDropdowns() {
-  document.querySelectorAll('.dropdown-menu-custom').forEach(d => d.classList.remove('show'));
-}
-function refresh() {
-  updateCards();
-  applyFilters();
-}
-function toast(msg, type = 'success') {
-  const cont = document.getElementById('toastContainer');
-  const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  const iconMap = { success: 'bi-check-circle-fill', error: 'bi-x-circle-fill', info: 'bi-info-circle-fill' };
-  el.innerHTML = `<i class="bi ${iconMap[type] || 'bi-info-circle-fill'}"></i> ${msg}`;
-  cont.appendChild(el);
-  setTimeout(() => el.remove(), 3800);
-}
+    // ─── UTILS ────────────────────────────────────────────────────────────────────
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-menu-custom').forEach(d => d.classList.remove('show'));
+    }
+    function refresh() {
+      updateCards();
+      applyFilters();
+    }
+    function toast(msg, type = 'success') {
+      const cont = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = `toast ${type}`;
+      const iconMap = { success: 'bi-check-circle-fill', error: 'bi-x-circle-fill', info: 'bi-info-circle-fill' };
+      el.innerHTML = `<i class="bi ${iconMap[type] || 'bi-info-circle-fill'}"></i> ${msg}`;
+      cont.appendChild(el);
+      setTimeout(() => el.remove(), 3800);
+    }
 
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.classList.remove('show');
-  });
-});
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) overlay.classList.remove('show');
+      });
+    });
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-refresh();
-</script>
+    // ─── INIT ─────────────────────────────────────────────────────────────────────
+    refresh();
+  </script>
 </body>
+
 </html>
