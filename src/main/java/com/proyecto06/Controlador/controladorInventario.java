@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,13 +64,18 @@ public class controladorInventario {
         return "inventario";
     }
 
-   
+    @PostMapping("/guardarInventario")
+    public String guardarInventario(@ModelAttribute Producto producto) {
+        // Esto guarda los cambios hechos en el modal
+        productoRepository.save(producto);
+        return "redirect:/inventario"; // Recarga la página después de guardar
+    }
 
-    @PostMapping("/producto/guardar")
-    @ResponseBody
-    public String guardarProducto(@RequestBody Producto producto) {
-        productoRepository.save(producto); // Esto funciona tanto para INSERT como para UPDATE
-        return "Éxito";
+    @GetMapping("/eliminarInventario/{id}")
+    public String eliminarInventario(@PathVariable("id") Integer id) {
+        // Esto borra el producto
+        productoRepository.deleteById(id);
+        return "redirect:/inventario"; // Recarga la página después de borrar
     }
 
     @GetMapping("/cerrarSesion")

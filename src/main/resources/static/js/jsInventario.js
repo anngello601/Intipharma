@@ -37,69 +37,23 @@ function applyFilters() {
     });
 }
 
-// Variable global para guardar el ID que se va a eliminar
-let idProductoAEliminar = null;
+document.addEventListener("DOMContentLoaded", function () {
+    const modalEditar = document.getElementById('modalEditar');
 
+    if (modalEditar) {
+        modalEditar.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
 
+            // Llenar inputs simples
+            document.getElementById('editId').value = button.getAttribute('data-id');
+            document.getElementById('editNombre').value = button.getAttribute('data-nombre');
+            document.getElementById('editLote').value = button.getAttribute('data-lote');
+            document.getElementById('editStock').value = button.getAttribute('data-cantidad');
+            document.getElementById('editVencimiento').value = button.getAttribute('data-vencimiento');
 
-function saveForm() {
-    // 1. Recopilar datos del formulario
-    const formData = {
-        idProducto: document.getElementById('id_producto').value,
-        nombreProducto: document.getElementById('nombre_producto').value,
-        lote: document.getElementById('lote').value,
-        cantidad: document.getElementById('cantidad').value,
-        // ... agrega todos los campos que tengas en tu formulario
-    };
-
-    // 2. Enviar datos al controlador
-    fetch('/producto/guardar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-    })
-        .then(response => {
-            if (response.ok) {
-                closeModal('modalForm');
-                location.reload(); // Recarga simple para mostrar el cambio
-            } else {
-                alert('Error al guardar');
-            }
+            // Llenar Selects (el valor del atributo debe coincidir con el value de la option)
+            document.getElementById('editUbicacion').value = button.getAttribute('data-ubicacion');
+            document.getElementById('editEstado').value = button.getAttribute('data-estado');
         });
-}
-
-// --- 2. LÓGICA DE EDICIÓN CON MODAL ---
-const listaProductos = /*[[${listaProductos}]]*/[];
-
-// Pon solo esto en tu archivo .js
-modalEditar.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-
-    document.getElementById('editId').value = button.getAttribute('data-id');
-    document.getElementById('editNombre').value = button.getAttribute('data-nombre');
-    document.getElementById('editStock').value = button.getAttribute('data-stock');
-    document.getElementById('editCodigo').value = button.getAttribute('data-codigo');
-    document.getElementById('editCategoria').value = button.getAttribute('data-id-cat');
-    document.getElementById('editLote').value = button.getAttribute('data-lote');
-
-    // BORRA ESTA LÍNEA TAMBIÉN:
-    // document.getElementById('editIdUsuario').value = button.getAttribute('data-id-user');
+    }
 });
-// Asegúrate de que esta línea esté en tu archivo JS
-
-
-function confirmDelete() {
-    // Lógica para enviar eliminación al controlador
-    window.location.href = '/producto/eliminar/' + idProductoAEliminar;
-}
-function abrirMiModal(btn) {
-    // 1. Cargamos los datos del botón al formulario
-    document.getElementById('editId').value = btn.getAttribute('data-id');
-    document.getElementById('editNombre').value = btn.getAttribute('data-nombre');
-    document.getElementById('editStock').value = btn.getAttribute('data-stock');
-
-    // 2. FORZAMOS la apertura del modal con el objeto Bootstrap
-    var elementoModal = document.getElementById('modalEditar');
-    var modalInstancia = new bootstrap.Modal(elementoModal);
-    modalInstancia.show();
-}
