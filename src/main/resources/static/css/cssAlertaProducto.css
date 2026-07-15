@@ -1,0 +1,206 @@
+:root {
+    --gold: #C8972A;
+    --gold-dark: #A87820;
+    --gold-light: #E8B84B;
+    --sidebar-bg: #C8972A;
+    --text-dark: #1a1a2e;
+    --text-mid: #4a4a6a;
+    --text-light: #8888aa;
+    --bg: #f4f6fb;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --green: #22c55e;
+    --green-bg: #dcfce7;
+    --orange: #f59e0b;
+    --orange-bg: #fef3c7;
+    --red: #ef4444;
+    --red-bg: #fee2e2;
+    --blue: #3b82f6;
+    --blue-bg: #dbeafe;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/*Parte Izqueirda*/
+.sidebar {
+    width: 210px;
+    min-width: 210px;
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+}
+
+.sidebar-logo {
+    font-family: 'Sora', sans-serif;
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 28px 20px 24px;
+    line-height: 1.3;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 18px 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px;
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    border-radius: 0;
+    transition: background 0.18s, color 0.18s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+}
+
+.nav-item .nav-icon {
+    font-size: 1.2rem;
+    width: 22px;
+    text-align: center;
+    color: #fff;
+}
+
+.nav-item .nav-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    display: block;
+}
+
+.btn-logout {
+    width: 100%;
+    background: #fff;
+    color: var(--gold-dark);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 0;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.15s;
+}
+
+.btn-logout:hover {
+    background: #f0e4c5;
+}
+/*Parte Derecha*/
+
+.sidebar-footer {
+    padding: 16px 16px 20px;
+}
+
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    margin-left: 8px;
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.user-chip img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user-chip-name {
+    font-weight: bold;
+}
+
+.user-chip-role {
+    font-size: 12px;
+    color: gray;
+}
+
+.main {
+    flex-grow: 1;
+    height: 100vh;
+    overflow: auto;
+}
+
+.content {
+    padding: 30px;
+}
+
+.page-title {
+    margin-bottom: 20px;
+}
+
+.page-title h2 {
+    color: var(--primary-blue);
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.inventory-container,
+.products-container {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}

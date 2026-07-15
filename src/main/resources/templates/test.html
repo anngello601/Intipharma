@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Test</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow p-4">
+
+        <h2 class="mb-3">🧪 Página de Prueba</h2>
+
+        <!-- Ver usuario -->
+        <p><b>Nombre:</b>
+            <span th:text="${usuario != null ? usuario.nombre : 'NO HAY USUARIO'}"></span>
+        </p>
+
+        <p><b>Username:</b>
+            <span th:text="${usuario != null ? usuario.username : 'SIN SESIÓN'}"></span>
+        </p>
+
+        <p><b>Email:</b>
+            <span th:text="${usuario != null ? usuario.correo : 'NO REGISTRADO'}"></span>
+        </p>
+
+        <hr>
+
+        <!-- Botones de prueba -->
+        <a href="/" class="btn btn-primary">Ir a Login</a>
+        <a href="/alertaProducto" class="btn btn-warning">Alerta Producto</a>
+        <a href="/test" class="btn btn-success">Recargar Test</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
