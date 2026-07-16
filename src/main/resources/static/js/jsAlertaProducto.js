@@ -33,15 +33,16 @@ function filtrarTabla() {
 
         fila.style.display =
             (coincideNombre && coincideCategoria)
-            ? ""
-            : "none";
+                ? ""
+                : "none";
     });
 }
 
 document
-.getElementById("buscarProducto")
-.addEventListener("keyup", filtrarTabla);
+    .getElementById("buscarProducto")
+    .addEventListener("keyup", filtrarTabla);
 
 document
-.getElementById("filtroCategoria")
-.addEventListener("change", filtrarTabla);
+    .getElementById("filtroCategoria")
+    .addEventListener("change", filtrarTabla);
+

@@ -9,8 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/cssIzquierda.css}">
-
+  <link rel="stylesheet" th:href="@{/css/navbar-sidebar.css}">
   <style>
     *,
     *::before,
@@ -325,10 +324,8 @@
 </head>
 
 <body>
-
   <!-- SIDEBAR -->
-<!-- SIDEBAR -->
-    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+  <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
   <!-- MAIN -->
   <div class="main">
@@ -341,6 +338,7 @@
           <input type="text" placeholder="Buscar...">
         </div>
       </div>
+      <!-- Hora-Fecha-usuario -->
       <div class="topbar-right">
         <div class="topbar-meta">
           <span><i class="bi bi-calendar3"></i> <span id="fechaHoy"></span></span>

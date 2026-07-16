@@ -9,7 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap"
     rel="stylesheet">
-  <link th:href="@{/css/cssInventario.css}" rel="stylesheet">
+  <link th:href="@{/css/navbar-sidebar.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -19,28 +19,14 @@
 
   <!-- MAIN -->
   <div class="main">
-    <!-- TOPBAR -->
+    <!-- Nombre de la pagina -->
     <div class="topbar">
       <h1>Inventario</h1>
       <div class="topbar-right">
-        <div class="search-box">
-          <i class="bi bi-search"></i>
-          <input type="text" id="topSearch" placeholder="Buscar por nombre o lote..." oninput="applyFilters()">
-        </div>
-        <div class="user-chip d-flex align-items-center bg-white p-2 rounded-pill shadow-sm border">
+        <!-- TOPBAR -->
+        <div th:replace="~{fragments/topbar :: logo}"></div>
+        <div th:replace="~{fragments/topbar :: scripts}"></div>
 
-          <div class="me-2 text-primary">
-            <img src="https://i.pravatar.cc/40?img=12" alt="logoAvatar" class="rounded-circle" width="40" height="40">
-          </div>
-          <div class="user-chip-text d-flex flex-column">
-            <span class="fw-bold" style="line-height: 1.2;"
-              th:text="${session.nombre + ' ' + (session.apellido != null ? session.apellido : '')}">
-            </span>
-            <span class="small text-muted" style="line-height: 1.2;"
-              th:text="${session.rol == 0 ? 'Administrador' : (session.rol == 1 ? 'Asistente' : 'Usuario')}">
-            </span>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -118,17 +104,16 @@
             <input type="checkbox" id="soloAlertas" onchange="applyFilters()">
             <span class="slider"></span>
           </span>
-          Solo alertas
+          Bajo stock
         </label>
       </div>
 
       <!-- TABLE -->
       <div class="table-container">
-        <table class="table">
+        <table id="tablaProductos" class="table table-hover align-middle" data-paginable data-filas="10">
           <thead>
             <tr>
-              <th>Producto <button class="sort-btn" onclick="sortTable('nombre')"><i
-                    class="bi bi-arrow-down-up"></i></button></th>
+              <th>Producto</th>
               <th>Lote</th>
               <th>Cantidad</th>
               <th>Ubicación</th>
@@ -174,10 +159,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="pagination-bar">
-          <span id="pagInfo">Mostrando 0 de 0 productos</span>
-          <div class="pag-btns" id="pagBtns"></div>
-        </div>
+        <div th:replace="~{fragments/paginacion :: paginacion}"></div>
       </div>
 
     </div>
@@ -326,6 +308,48 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script th:src="@{/js/jsInventario.js}"></script>
+  <script th:src="@{/js/paginacionGlobal.js}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      inicializarPaginacion('tableBody', 10);
+    });
+
+    // Sobrescribir applyFilters para reiniciar paginación
+    const applyFiltersOriginal = window.applyFilters;
+    window.applyFilters = function () {
+      if (typeof applyFiltersOriginal === 'function') {
+        applyFiltersOriginal();
+      } else {
+        // Filtros básicos si no existe la función original
+        const busqueda = document.getElementById('tableSearch')?.value?.toLowerCase() || '';
+        const ubicacion = document.getElementById('filterUbicacion')?.value || '';
+        const estado = document.getElementById('filterEstado')?.value || '';
+        const soloAlertas = document.getElementById('soloAlertas')?.checked || false;
+
+        document.querySelectorAll('#tableBody tr').forEach(fila => {
+          const nombre = fila.cells[0]?.textContent?.toLowerCase() || '';
+          const ubicacionCelda = fila.cells[3]?.textContent?.toLowerCase() || '';
+          const estadoCelda = fila.cells[5]?.textContent?.toLowerCase() || '';
+          const cantidad = parseInt(fila.cells[2]?.textContent) || 0;
+
+          let mostrar = true;
+          if (busqueda && !nombre.includes(busqueda) && !ubicacionCelda.includes(busqueda)) mostrar = false;
+          if (ubicacion && !ubicacionCelda.includes(ubicacion.toLowerCase())) mostrar = false;
+          if (estado && !estadoCelda.includes(estado.toLowerCase())) mostrar = false;
+          if (soloAlertas && cantidad > 10) mostrar = false;
+
+          fila.style.display = mostrar ? '' : 'none';
+        });
+      }
+      reiniciarPaginacion('tableBody', 10);
+    };
+
+    // Eventos para reiniciar paginación al cambiar filtros
+    document.querySelectorAll('#tableSearch, #filterUbicacion, #filterEstado, #soloAlertas').forEach(el => {
+      el.addEventListener('change', window.applyFilters);
+      el.addEventListener('input', window.applyFilters);
+    });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
