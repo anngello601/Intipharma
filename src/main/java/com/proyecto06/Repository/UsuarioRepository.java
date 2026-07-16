@@ -8,4 +8,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     // Spring crea la consulta automáticamente por el nombre del método
     Optional<Usuario> findByCorreoAndPassword(String correo, String password);
+    Optional<Usuario> findByCorreo(String correo);
 }

@@ -31,7 +31,6 @@
             <h1>Configuración</h1>
             <!-- TOPBAR -->
             <div th:replace="~{fragments/topbar :: logo}"></div>
-            <div th:replace="~{fragments/topbar :: scripts}"></div>
 
         </div>
 
@@ -95,105 +94,133 @@
 
                         <!-- USUARIOS -->
                         <div class="config-box seccion" id="usuarios">
+                            <!-- Header con título, búsqueda y botón agregar -->
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
                                     <h4>Gestión de Usuarios</h4>
                                     <p class="text-muted">Administra accesos del sistema.</p>
                                 </div>
-                                <div class="search-box position-relative mb-3">
-                                    <i
-                                        class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                                    <input type="text" id="inputBuscarNombre" class="form-control ps-5"
-                                        placeholder="Buscar por nombre..." onkeyup="filtrarPorNombre()">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <div class="search-box position-relative">
+                                        <i
+                                            class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                        <input type="text" id="inputBuscarNombre" class="form-control ps-5"
+                                            placeholder="Buscar por nombre..." onkeyup="filtrarPorNombre()">
+                                    </div>
+                                    <button class="btn btn-success" onclick="abrirModalAgregarUsuario()">
+                                        <i class="bi bi-person-plus"></i> Agregar Usuario
+                                    </button>
                                 </div>
-                                <button class="btn btn-warning text-white" onclick="probarConexion()">
-                                    <i class="bi bi-person-plus"></i>
-                                    Probar Conexión
-                                </button>
                             </div>
 
-                            <table id="tablaProductos" class="table table-hover align-middle" data-paginable
-                                data-filas="5">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Correo</th>
-                                        <th>Rol</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tablaUsuarios">
-                                    <tr th:each="u : ${usuarios}">
-                                        <td th:text="${u.nombre + ' ' + (u.apellido != null ? u.apellido : '')}">Nombre
-                                        </td>
-                                        <td th:text="${u.correo}">Correo</td>
-                                        <td>
-                                        <td>
-                                            <span class="badge"
-                                                th:classappend="${u.rol.nombreRol == 'ADMIN' ? 'bg-danger' : (u.rol.nombreRol == 'ASISTENTE' ? 'bg-warning text-dark' : 'bg-secondary')}"
-                                                th:text="${u.rol != null ? u.rol.nombreRol : 'Sin Rol'}">
-                                            </span>
-                                        </td>
-                                        </td>
-                                        <td><span class="text-success fw-bold">Activo</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editarUsuarioModal" th:attr="data-id=${u.idUsuario}, 
-                 data-dni=${u.dni}, 
-                 data-nombre=${u.nombre}, 
-                 data-apellido=${u.apellido}, 
-                 data-correo=${u.correo},
-                 data-rol=${u.rol.idRol}" onclick="llenarModal(this)">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-
-                                            <form th:action="@{/configuracion/eliminar/{id}(id=${u.idUsuario})}"
-                                                method="post" style="display:inline;">
-                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="bi bi-trash"></i>
+                            <!-- TABLA -->
+                            <div class="table-responsive">
+                                <table id="tablaProductos" class="table table-hover align-middle" data-paginable
+                                    data-filas="5">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Correo</th>
+                                            <th>Rol</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaUsuarios">
+                                        <tr th:each="u : ${usuarios}">
+                                            <td th:text="${u.nombre + ' ' + (u.apellido != null ? u.apellido : '')}">
+                                                Nombre</td>
+                                            <td th:text="${u.correo}">Correo</td>
+                                            <td>
+                                                <span class="badge"
+                                                    th:classappend="${u.rol.nombreRol == 'ADMIN' ? 'bg-danger' : (u.rol.nombreRol == 'ASISTENTE' ? 'bg-warning text-dark' : 'bg-secondary')}"
+                                                    th:text="${u.rol != null ? u.rol.nombreRol : 'Sin Rol'}">
+                                                </span>
+                                            </td>
+                                            <td><span class="text-success fw-bold">Activo</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                    data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" th:attr="data-id=${u.idUsuario}, 
+                         data-dni=${u.dni}, 
+                         data-nombre=${u.nombre}, 
+                         data-apellido=${u.apellido}, 
+                         data-correo=${u.correo},
+                         data-rol=${u.rol.idRol}" onclick="llenarModal(this)">
+                                                    <i class="bi bi-pencil"></i>
                                                 </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                                <form th:action="@{/configuracion/eliminar/{id}(id=${u.idUsuario})}"
+                                                    method="post" style="display:inline;">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('¿Eliminar usuario?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- PAGINACIÓN -->
                             <div th:replace="~{fragments/paginacion :: paginacion}"></div>
                         </div>
 
-                        <!-- ALERTAS -->
+
                         <div class="config-box seccion d-none" id="alertas">
                             <h4>Configuración de Alertas</h4>
                             <br>
-                            <label>Días previos para alertar vencimiento:</label>
-                            <input type="number" class="form-control mb-3" value="15">
-                            <label>Prioridad de alertas:</label>
-                            <select class="form-select">
-                                <option>Alta</option>
-                                <option>Media</option>
-                                <option>Baja</option>
-                            </select>
+                            <div class="mb-3">
+                                <label>Días previos para alertar vencimiento:</label>
+                                <input type="number" id="diasAlerta" class="form-control" value="15">
+                            </div>
+                            <div class="mb-3">
+                                <label>Prioridad de alertas:</label>
+                                <select id="prioridadAlerta" class="form-select">
+                                    <option value="alta">Alta</option>
+                                    <option value="media" selected>Media</option>
+                                    <option value="baja">Baja</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="guardarConfiguracionAlertas()">
+                                <i class="bi bi-save"></i> Guardar Configuración
+                            </button>
                         </div>
 
                         <!-- CORREOS -->
                         <div class="config-box seccion d-none" id="correos">
                             <h4>Correos Automáticos</h4>
                             <br>
-                            <label>Correo principal:</label>
-                            <input type="email" class="form-control mb-3" placeholder="correo@empresa.com">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" checked>
+                            <div class="mb-3">
+                                <label>Correo principal:</label>
+                                <input type="email" id="correoPrincipal" class="form-control"
+                                    placeholder="correo@empresa.com">
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="alertasAutomaticas" checked>
                                 <label class="form-check-label">Enviar alertas automáticas</label>
                             </div>
+                            <button class="btn btn-primary" onclick="guardarConfiguracionCorreos()">
+                                <i class="bi bi-save"></i> Guardar Configuración
+                            </button>
                         </div>
 
                         <!-- SEGURIDAD -->
                         <div class="config-box seccion d-none" id="seguridad">
                             <h4>Seguridad</h4>
                             <br>
-                            <label>Cambiar contraseña:</label>
-                            <input type="password" class="form-control mb-3" placeholder="Nueva contraseña">
-                            <button class="btn btn-primary">Actualizar contraseña</button>
+                            <div class="mb-3">
+                                <label>Cambiar contraseña:</label>
+                                <input type="password" id="nuevaPassword" class="form-control"
+                                    placeholder="Nueva contraseña">
+                            </div>
+                            <div class="mb-3">
+                                <label>Confirmar contraseña:</label>
+                                <input type="password" id="confirmarPassword" class="form-control"
+                                    placeholder="Confirmar contraseña">
+                            </div>
+                            <button class="btn btn-primary" onclick="cambiarPassword()">
+                                <i class="bi bi-key"></i> Actualizar contraseña
+                            </button>
                         </div>
 
                         <!-- NOTIFICACIONES -->
@@ -201,28 +228,37 @@
                             <h4>Notificaciones</h4>
                             <br>
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" checked>
+                                <input class="form-check-input" type="checkbox" id="notifSistema" checked>
                                 <label class="form-check-label">Notificaciones del sistema</label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="notifSonido">
                                 <label class="form-check-label">Sonidos de alerta</label>
                             </div>
+                            <button class="btn btn-primary" onclick="guardarNotificaciones()">
+                                <i class="bi bi-save"></i> Guardar Preferencias
+                            </button>
                         </div>
 
-                        <!-- BACKUP -->
+                        <!-- BACKUP (Copia de Seguridad) -->
                         <div class="config-box seccion d-none" id="backup">
                             <h4>Copia de Seguridad</h4>
                             <br>
-                            <p>Última copia: 20/05/2026</p>
-                            <button class="btn btn-success">Generar respaldo</button>
+                            <p>Última copia: <span id="ultimaCopia">20/05/2026</span></p>
+                            <div class="d-flex gap-3">
+                                <button class="btn btn-success" onclick="exportarExcel()">
+                                    <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
+                                </button>
+                                <button class="btn btn-info text-white" onclick="exportarPDF()">
+                                    <i class="bi bi-file-earmark-pdf"></i> Exportar a PDF
+                                </button>
+                                <button class="btn btn-warning text-white" onclick="generarBackupCompleto()">
+                                    <i class="bi bi-database"></i> Generar Respaldo Completo
+                                </button>
+                            </div>
                         </div>
 
-                    </div>
-                </div>
-            </div>
-
-        </div> <!-- Cierre del row -->
+                    </div> <!-- Cierre del row -->
 
     </main> <!-- ← Cierre del main (CORREGIDO) -->
 
@@ -278,11 +314,219 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL AGREGAR USUARIO -->
+    <div class="modal fade" id="agregarUsuarioModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/configuracion/guardar}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>DNI:</label>
+                                <input type="text" name="dni" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Nombre:</label>
+                                <input type="text" name="nombre" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Apellido:</label>
+                                <input type="text" name="apellido" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Correo:</label>
+                                <input type="email" name="correo" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Rol:</label>
+                            <select name="rol.idRol" class="form-select" required>
+                                <option th:each="r : ${roles}" th:value="${r.idRol}" th:text="${r.nombreRol}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Contraseña:</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Guardar Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- SCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script th:src="@{/js/jsConfiguracion.js}"></script>
-    <script th:src="@{/js/paginacionGlobal.js}"></script>
+    <script th:src="@{/js/paginacionGlobal.js}"></script> <!-- PRIMERO: script global -->
+    <script th:src="@{/js/jsConfiguracion.js}"></script> <!-- SEGUNDO: configuraciones adicionales -->
+    <script>
+        // ==========================================
+        // FUNCIONES DE CONFIGURACIÓN
+        // ==========================================
 
+        // Mostrar/ocultar secciones
+        function mostrarSeccion(id) {
+            document.querySelectorAll('.seccion').forEach(el => el.classList.add('d-none'));
+            const seccion = document.getElementById(id);
+            if (seccion) seccion.classList.remove('d-none');
+            document.querySelectorAll('.config-item').forEach(el => el.classList.remove('active-option'));
+            const btn = document.querySelector(`.config-item[onclick*="'${id}'"]`);
+            if (btn) btn.classList.add('active-option');
+        }
+
+        // ---------- Alertas ----------
+        function guardarConfiguracionAlertas() {
+            const dias = document.getElementById('diasAlerta').value;
+            const prioridad = document.getElementById('prioridadAlerta').value;
+            fetch('/configuracion/alertas/guardar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `dias=${dias}&prioridad=${prioridad}`
+            })
+                .then(() => mostrarToast('Configuración de alertas guardada', 'success'))
+                .catch(() => mostrarToast('Error al guardar', 'danger'));
+        }
+
+        // ---------- Correos ----------
+        function guardarConfiguracionCorreos() {
+            const correo = document.getElementById('correoPrincipal').value;
+            const alertas = document.getElementById('alertasAutomaticas').checked;
+            fetch('/configuracion/correos/guardar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `correo=${encodeURIComponent(correo)}&enviarAlertas=${alertas}`
+            })
+                .then(() => mostrarToast('Configuración de correos guardada', 'success'))
+                .catch(() => mostrarToast('Error al guardar', 'danger'));
+        }
+
+        // ---------- Seguridad ----------
+        function cambiarPassword() {
+            const pass = document.getElementById('nuevaPassword').value;
+            const confirm = document.getElementById('confirmarPassword').value;
+            if (pass !== confirm) {
+                mostrarToast('Las contraseñas no coinciden', 'danger');
+                return;
+            }
+            if (pass.length < 6) {
+                mostrarToast('La contraseña debe tener al menos 6 caracteres', 'warning');
+                return;
+            }
+            fetch('/configuracion/seguridad/cambiar-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `password=${encodeURIComponent(pass)}`
+            })
+                .then(() => {
+                    mostrarToast('Contraseña actualizada', 'success');
+                    document.getElementById('nuevaPassword').value = '';
+                    document.getElementById('confirmarPassword').value = '';
+                })
+                .catch(() => mostrarToast('Error al cambiar contraseña', 'danger'));
+        }
+
+        // ---------- Notificaciones ----------
+        function guardarNotificaciones() {
+            const sistema = document.getElementById('notifSistema').checked;
+            const sonido = document.getElementById('notifSonido').checked;
+            fetch('/configuracion/notificaciones/guardar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `sistema=${sistema}&sonidos=${sonido}`
+            })
+                .then(() => mostrarToast('Preferencias guardadas', 'success'))
+                .catch(() => mostrarToast('Error al guardar', 'danger'));
+        }
+
+        // ---------- Backup ----------
+        function exportarExcel() {
+            window.location.href = '/configuracion/exportar-excel';
+            mostrarToast('Descargando Excel...', 'info');
+        }
+
+        function exportarPDF() {
+            mostrarToast('Función de PDF en desarrollo', 'warning');
+            // Si quieres implementarlo, descomenta:
+            // window.location.href = '/configuracion/exportar-pdf';
+        }
+
+        function generarBackupCompleto() {
+            fetch('/configuracion/backup')
+                .then(() => {
+                    mostrarToast('Backup generado exitosamente', 'success');
+                    document.getElementById('ultimaCopia').textContent = new Date().toLocaleDateString();
+                })
+                .catch(() => mostrarToast('Error al generar backup', 'danger'));
+        }
+
+        // ---------- Usuarios ----------
+        function abrirModalAgregarUsuario() {
+            const modal = new bootstrap.Modal(document.getElementById('agregarUsuarioModal'));
+            modal.show();
+        }
+
+        function llenarModal(btn) {
+            document.getElementById('editId').value = btn.getAttribute('data-id');
+            document.getElementById('editDni').value = btn.getAttribute('data-dni');
+            document.getElementById('editNombre').value = btn.getAttribute('data-nombre');
+            document.getElementById('editApellido').value = btn.getAttribute('data-apellido');
+            document.getElementById('editCorreo').value = btn.getAttribute('data-correo');
+            document.getElementById('editRol').value = btn.getAttribute('data-rol');
+            document.getElementById('editPassword').value = '';
+        }
+
+        // ---------- Filtro por nombre ----------
+        function filtrarPorNombre() {
+            const input = document.getElementById('inputBuscarNombre');
+            const filtro = input.value.toLowerCase();
+            const filas = document.querySelectorAll('#tablaUsuarios tr');
+            filas.forEach(fila => {
+                const nombre = fila.querySelector('td:first-child')?.textContent.toLowerCase() || '';
+                fila.style.display = nombre.includes(filtro) ? '' : 'none';
+            });
+            // Reiniciar paginación después de filtrar
+            if (typeof reiniciarPaginacion === 'function') {
+                reiniciarPaginacion('tablaProductos', 5);
+            }
+        }
+
+        // ---------- Toast ----------
+        function mostrarToast(mensaje, tipo = 'success') {
+            const container = document.getElementById('toastContainer');
+            const colores = {
+                success: 'bg-success text-white',
+                danger: 'bg-danger text-white',
+                warning: 'bg-warning text-dark',
+                info: 'bg-info text-white'
+            };
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center ${colores[tipo] || 'bg-primary text-white'} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">${mensaje}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        `;
+            container.appendChild(toast);
+            const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+            bsToast.show();
+            toast.addEventListener('hidden.bs.toast', () => toast.remove());
+        }
+    </script>
+
+    <!-- Contenedor de Toasts -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
 </body>
 
 </html>
