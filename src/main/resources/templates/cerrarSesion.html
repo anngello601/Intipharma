@@ -330,35 +330,11 @@
   <!-- MAIN -->
   <div class="main">
 
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <div class="search-box">
-          <i class="bi bi-search"></i>
-          <input type="text" placeholder="Buscar...">
-        </div>
-      </div>
-      <!-- Hora-Fecha-usuario -->
-      <div class="topbar-right">
-        <div class="topbar-meta">
-          <span><i class="bi bi-calendar3"></i> <span id="fechaHoy"></span></span>
-          <span><i class="bi bi-clock"></i> <span id="horaActual"></span></span>
-        </div>
-        <div class="user-chip d-flex align-items-center bg-white p-2 rounded-pill shadow-sm border">
+    <div class="topbar d-flex justify-content-between align-items-center">
+      <h1>Cerrar Sesion</h1>
 
-          <div class="me-2 text-primary">
-            <img src="https://i.pravatar.cc/40?img=12" alt="logoAvatar" class="rounded-circle" width="40" height="40">
-          </div>
-          <div class="user-chip-text d-flex flex-column">
-            <span class="fw-bold" style="line-height: 1.2;"
-              th:text="${session.nombre + ' ' + (session.apellido != null ? session.apellido : '')}">
-            </span>
-            <span class="small text-muted" style="line-height: 1.2;"
-              th:text="${session.rol == 0 ? 'Administrador' : (session.rol == 1 ? 'Asistente' : 'Usuario')}">
-            </span>
-          </div>
-        </div>
-      </div>
+      <!-- TOPBAR -->
+      <div th:replace="~{fragments/topbar :: logo}"></div>
     </div>
 
     <!-- CONTENT -->
@@ -379,7 +355,7 @@
     </div>
 
   </div>
-
+  <script th:src="@{/js/sidebar.js}"></script>
   <script>
     // Fecha y hora en tiempo real
     function updateDateTime() {
