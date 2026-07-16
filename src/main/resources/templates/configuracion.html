@@ -22,6 +22,7 @@
 
     <!-- SIDEBAR -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{fragments/topbar :: scripts}"></div>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="col py-4 px-4 flex-grow-1 vh-100 overflow-auto bg-light">
@@ -245,19 +246,18 @@
                             <h4>Copia de Seguridad</h4>
                             <br>
                             <p>Última copia: <span id="ultimaCopia">20/05/2026</span></p>
-                            <div class="d-flex gap-3">
-                                <button class="btn btn-success" onclick="exportarExcel()">
+                            <div class="d-flex gap-3 flex-wrap">
+                                <a href="/configuracion/exportar-productos-excel" class="btn btn-success">
                                     <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
-                                </button>
-                                <button class="btn btn-info text-white" onclick="exportarPDF()">
+                                </a>
+                                <a href="/configuracion/exportar-productos-pdf" class="btn btn-info text-white">
                                     <i class="bi bi-file-earmark-pdf"></i> Exportar a PDF
-                                </button>
-                                <button class="btn btn-warning text-white" onclick="generarBackupCompleto()">
+                                </a>
+                                <a href="/configuracion/generar-backup-sql" class="btn btn-warning text-white">
                                     <i class="bi bi-database"></i> Generar Respaldo Completo
-                                </button>
+                                </a>
                             </div>
                         </div>
-
                     </div> <!-- Cierre del row -->
 
     </main> <!-- ← Cierre del main (CORREGIDO) -->
