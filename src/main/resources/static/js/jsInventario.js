@@ -47,7 +47,12 @@ function llenarModalEditar(boton) {
     document.getElementById('editPrecio').value = boton.getAttribute('data-precio');
     document.getElementById('editCantidad').value = boton.getAttribute('data-cantidad');
     document.getElementById('editVencimiento').value = boton.getAttribute('data-vencimiento');
-    document.getElementById('editEstado').value = boton.getAttribute('data-estado');
+    // Ya no usamos el estado guardado, lo calculamos
+    // Forzamos la actualización del estado según la cantidad
+    const cantidad = parseInt(boton.getAttribute('data-cantidad')) || 0;
+    const estadoCalculado = cantidad <= 10 ? 'Bajo stock' : 'Activo';
+    document.getElementById('editEstado').value = estadoCalculado;
+    document.getElementById('editEstadoHidden').value = estadoCalculado;
     //Nuevo
     document.getElementById('editDescripcion').value = boton.getAttribute('data-descripcion');
     document.getElementById('editRegistro').value = boton.getAttribute('data-registro');
@@ -116,3 +121,28 @@ function prepararFormularioAgregar() {
     var myModal = new bootstrap.Modal(document.getElementById('modalEditar'));
     myModal.show();
 }
+// ==========================================
+// ACTUALIZAR ESTADO AUTOMÁTICAMENTE
+// ==========================================
+function actualizarEstado() {
+    const cantidad = parseInt(document.getElementById('editCantidad')?.value) || 0;
+    const estadoInput = document.getElementById('editEstado');
+    const estadoHidden = document.getElementById('editEstadoHidden');
+
+    let nuevoEstado = cantidad <= 10 ? 'Bajo stock' : 'Activo';
+
+    if (estadoInput) {
+        estadoInput.value = nuevoEstado;
+    }
+    if (estadoHidden) {
+        estadoHidden.value = nuevoEstado;
+    }
+}
+
+// Escuchar cambios en el campo cantidad
+document.addEventListener('DOMContentLoaded', function () {
+    const cantidadInput = document.getElementById('editCantidad');
+    if (cantidadInput) {
+        cantidadInput.addEventListener('input', actualizarEstado);
+    }
+});

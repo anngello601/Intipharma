@@ -246,10 +246,10 @@
             </div>
             <div class="col-md-6 mb-2">
               <label>Estado:</label>
-              <select name="estado" id="editEstado" class="form-select">
-                <option value="Activo">Activo</option>
-                <option value="Bajo stock">Bajo stock</option>
-              </select>
+              <input type="text" id="editEstado" class="form-control" readonly disabled>
+              <small class="text-muted">El estado se calcula automáticamente según la cantidad.</small>
+              <!-- Campo oculto para enviar el estado -->
+              <input type="hidden" name="estado" id="editEstadoHidden">
             </div>
           </div>
         </div>

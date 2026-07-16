@@ -176,10 +176,12 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <label>Estado:</label>
-                            <select name="estado" id="editEstado" class="form-select">
+                            <select name="estado" id="editEstado" class="form-select" disabled>
                                 <option value="Activo">Activo</option>
                                 <option value="Bajo stock">Bajo stock</option>
                             </select>
+                            <!-- Campo oculto para enviar el valor real al servidor -->
+                            <input type="hidden" name="estado" id="editEstadoHidden">
                         </div>
                     </div>
                 </div>
