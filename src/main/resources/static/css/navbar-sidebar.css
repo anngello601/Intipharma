@@ -862,3 +862,21 @@ input:checked+.slider::before {
         padding: 4px 6px;
     }
 }
+
+/* FORZAR VISIBILIDAD EN MÓVIL */
+@media (max-width: 768px) {
+    .hamburger-btn {
+        display: block !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hamburger-btn {
+        display: block !important;
+    }
+}
+
+/* Si el botón está dentro de un contenedor con overflow, asegurar que se vea */
+.topbar-right {
+    overflow: visible !important;
+}
