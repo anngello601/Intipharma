@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>FragmentosLogo</title>
-</head>
-<body>
-    <!-- Fragmento de la barra lateral -->
-     <nav class="logo" th:fragment="logo">
-    <div class="topbar-right">
-        <div class="topbar-meta">
-          <span><i class="bi bi-calendar3"></i> <span id="fechaHoy"></span></span>
-          <span><i class="bi bi-clock"></i> <span id="horaActual"></span></span>
-        </div>
-        <div class="user-chip d-flex align-items-center bg-white p-2 rounded-pill shadow-sm border">
 
-          <div class="me-2 text-primary">
-            <img src="https://i.pravatar.cc/40?img=12" alt="logoAvatar" class="rounded-circle" width="40" height="40">
-          </div>
-          <div class="user-chip-text d-flex flex-column">
-            <span class="fw-bold" style="line-height: 1.2;"
-              th:text="${session.nombre + ' ' + (session.apellido != null ? session.apellido : '')}">
-            </span>
-            <span class="small text-muted" style="line-height: 1.2;"
-              th:text="${session.rol == 0 ? 'Administrador' : (session.rol == 1 ? 'Asistente' : 'Usuario')}">
-            </span>
-          </div>
+<head>
+  <meta charset="UTF-8">
+  <title>FragmentosLogo</title>
+</head>
+
+<body>
+  <!-- Fragmento de la barra lateral -->
+  <nav class="logo" th:fragment="logo">
+    <div class="topbar-right">
+      <div class="topbar-meta">
+
+        <!-- Reloj -->
+        <span><i class="bi bi-calendar3"></i> <span id="fechaHoy"></span></span>
+        <span><i class="bi bi-clock"></i> <span id="horaActual"></span></span>
+      </div>
+      <div class="user-chip d-flex align-items-center bg-white p-2 rounded-pill shadow-sm border">
+
+        <div class="me-2 text-primary">
+          <img src="https://i.pravatar.cc/40?img=12" alt="logoAvatar" class="rounded-circle" width="40" height="40">
+        </div>
+        <div class="user-chip-text d-flex flex-column">
+          <span class="fw-bold" style="line-height: 1.2;"
+            th:text="${session.nombre + ' ' + (session.apellido != null ? session.apellido : '')}">
+          </span>
+          <span class="small text-muted" style="line-height: 1.2;"
+            th:text="${session.rol == 0 ? 'Administrador' : (session.rol == 1 ? 'Asistente' : 'Usuario')}">
+          </span>
         </div>
       </div>
-      </nav>
-       <!-- Script al final del fragmento -->
+    </div>
+    <!-- Script al final del fragmento -->
     <script th:fragment="scripts">
-        document.addEventListener('DOMContentLoaded', function() {
-            function updateDateTime() {
-                const now = new Date();
-                const opcFecha = { day: 'numeric', month: 'short', year: 'numeric' };
-                const fechaElem = document.getElementById('fechaHoy');
-                const horaElem = document.getElementById('horaActual');
-                if (fechaElem) {
-                    fechaElem.textContent = now.toLocaleDateString('es-PE', opcFecha);
-                }
-                if (horaElem) {
-                    const hh = String(now.getHours()).padStart(2, '0');
-                    const mm = String(now.getMinutes()).padStart(2, '0');
-                    const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-                    const hh12 = String(now.getHours() % 12 || 12).padStart(2, '0');
-                    horaElem.textContent = `${hh12}:${mm} ${ampm}`;
-                }
-            }
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
-        });
+      document.addEventListener('DOMContentLoaded', function () {
+        function updateDateTime() {
+          const now = new Date();
+          const opcFecha = { day: 'numeric', month: 'short', year: 'numeric' };
+          const fechaElem = document.getElementById('fechaHoy');
+          const horaElem = document.getElementById('horaActual');
+          if (fechaElem) {
+            fechaElem.textContent = now.toLocaleDateString('es-PE', opcFecha);
+          }
+          if (horaElem) {
+            const hh = String(now.getHours()).padStart(2, '0');
+            const mm = String(now.getMinutes()).padStart(2, '0');
+            const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+            const hh12 = String(now.getHours() % 12 || 12).padStart(2, '0');
+            horaElem.textContent = `${hh12}:${mm} ${ampm}`;
+          }
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+      });
     </script>
-</body>
-</html>
+  </nav>
 
+</body>
+
+</html>
