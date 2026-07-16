@@ -10,31 +10,8 @@
 </head>
 
 <body class="d-flex vh-100 overflow-hidden">
-
-    <nav class="sidebar">
-        <div class="sidebar-logo">IntiPharma<br>S.A.C.</div>
-        <div class="sidebar-nav">
-            <a class="nav-item" th:href="@{/alertaProducto}">
-                <span class="nav-icon"><i class="bi bi-shield-exclamation"></i></span> Alerta de productos
-            </a>
-            <div th:if="${session.rol == 0 || session.rol == 1}">
-                <a class="nav-item" th:href="@{/inventario}">
-                    <span class="nav-icon"><i class="bi bi-box-seam"></i></span> Inventario
-                </a>
-                <a class="nav-item" th:href="@{/productos}">
-                    <span class="nav-icon"><i class="bi bi-capsule"></i></span> Productos
-                </a>
-            </div>
-            <a th:if="${session.rol == 0}" class="nav-item" th:href="@{/configuracion}">
-                <span class="nav-icon"><i class="bi bi-gear"></i></span> Configuración
-            </a>
-        </div>
-        <div class="sidebar-footer">
-            <button class="btn-logout" onclick="window.location.href='/cerrarSesion'">
-                <i class="bi bi-box-arrow-left"></i> Cerrar sesión
-            </button>
-        </div>
-    </nav>
+<!-- SIDEBAR -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
     <main class="col py-4 px-4 flex-grow-1 vh-100 overflow-auto bg-light">
         <div class="topbar d-flex justify-content-between align-items-center">
