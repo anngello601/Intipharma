@@ -1,4 +1,3 @@
-
 /* ============================================
    VARIABLES Y RESET
    ============================================ */
@@ -25,7 +24,9 @@
     --radius: 12px;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -86,7 +87,8 @@ body {
     transition: background 0.18s, color 0.18s;
 }
 
-.nav-item:hover, .nav-item.active {
+.nav-item:hover,
+.nav-item.active {
     background: rgba(255, 255, 255, 0.18);
     color: #fff;
 }
@@ -195,9 +197,19 @@ body {
     object-fit: cover;
 }
 
-.user-chip-text { line-height: 1.2; }
-.user-chip-name { font-weight: 600; font-size: 0.88rem; }
-.user-chip-role { font-size: 0.76rem; color: var(--text-light); }
+.user-chip-text {
+    line-height: 1.2;
+}
+
+.user-chip-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+.user-chip-role {
+    font-size: 0.76rem;
+    color: var(--text-light);
+}
 
 /* ============================================
    CONTENIDO Y CARDS
@@ -291,6 +303,7 @@ body {
     font-size: 0.78rem;
     color: var(--text-light);
 }
+
 /* ============================================
    TABLAS Y FILTROS
    ============================================ */
@@ -418,7 +431,8 @@ input:checked+.slider::before {
     min-width: 800px;
 }
 
-.table th, .table td {
+.table th,
+.table td {
     padding: 12px 10px;
     white-space: nowrap;
     border-bottom: 1px solid var(--border);
@@ -430,8 +444,11 @@ input:checked+.slider::before {
 .modal-overlay {
     display: none;
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -447,10 +464,22 @@ input:checked+.slider::before {
 
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-    .sidebar { width: 70px; min-width: 70px; }
-    .sidebar-logo, .nav-item span, .btn-logout span { display: none; }
-    .cards { grid-template-columns: 1fr; }
+    .sidebar {
+        width: 70px;
+        min-width: 70px;
+    }
+
+    .sidebar-logo,
+    .nav-item span,
+    .btn-logout span {
+        display: none;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
 }
+
 /* Estilos para la paginación */
 .pagination-container {
     margin-top: 15px;
@@ -518,4 +547,318 @@ input:checked+.slider::before {
     gap: 6px;
     transition: background 0.15s, transform 0.1s;
     white-space: nowrap;
+}
+
+/* ============================================
+   SIDEBAR HAMBURGUESA (RESPONSIVE)
+   ============================================ */
+
+/* Botón hamburguesa (visible solo en móvil) */
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+
+.hamburger-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Overlay para oscurecer el fondo */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE MÓVIL (max-width: 768px)
+   ============================================ */
+@media (max-width: 768px) {
+
+    /* Mostrar botón hamburguesa */
+    .hamburger-btn {
+        display: block;
+    }
+
+    /* Sidebar: se convierte en un panel deslizable */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        /* Oculto por defecto */
+        width: 260px;
+        min-width: 260px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+        overflow-y: auto;
+        background: var(--sidebar-bg);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    /* Mostrar logo y texto de los items en móvil */
+    .sidebar-logo {
+        display: block !important;
+        font-size: 1rem;
+        padding: 20px 16px;
+    }
+
+    .nav-item span {
+        display: inline !important;
+    }
+
+    .btn-logout span {
+        display: inline !important;
+    }
+
+    /* Main: ocupa todo el ancho */
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Topbar: ajustes */
+    .topbar {
+        padding: 0 12px;
+        height: 56px;
+        gap: 8px;
+    }
+
+    .topbar h1 {
+        font-size: 1.1rem;
+        white-space: nowrap;
+    }
+
+    .topbar-right {
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
+
+    .topbar-meta {
+        font-size: 0.7rem;
+        display: flex;
+        gap: 6px;
+    }
+
+    .topbar-meta span {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .user-chip {
+        padding: 3px 8px 3px 3px;
+        gap: 4px;
+    }
+
+    .user-chip img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .user-chip-text .fw-bold {
+        font-size: 0.7rem;
+    }
+
+    .user-chip-text .small {
+        font-size: 0.6rem;
+    }
+
+    /* Ocultar búsqueda en móvil si es muy ancha */
+    .search-box {
+        width: 120px;
+        padding: 4px 10px;
+    }
+
+    .search-box input {
+        width: 70px;
+        font-size: 0.75rem;
+    }
+
+    /* Contenido: padding reducido */
+    .content {
+        padding: 12px;
+    }
+
+    .header-section h2 {
+        font-size: 1rem;
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .card-box {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .card-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .card-body-text h1 {
+        font-size: 1.2rem;
+    }
+
+    .card-body-text h3 {
+        font-size: 0.65rem;
+    }
+
+    .card-body-text p {
+        font-size: 0.65rem;
+    }
+
+    /* Filtros: apilados */
+    .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .filter-search {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
+
+    .toggle-container {
+        justify-content: center;
+    }
+
+    /* Tabla: scroll horizontal */
+    .table-container {
+        border-radius: 8px;
+    }
+
+    .table {
+        min-width: 600px;
+        font-size: 0.75rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 6px 8px;
+        white-space: nowrap;
+    }
+
+    /* Paginación */
+    .pagination-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        font-size: 0.8rem;
+        padding: 8px 0;
+    }
+
+    .pag-btns {
+        justify-content: center;
+        gap: 3px;
+    }
+
+    .btn-pag {
+        padding: 3px 8px;
+        font-size: 0.75rem;
+        min-width: 28px;
+    }
+
+    /* Botón gold */
+    .btn-gold {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+/* ============================================
+   RESPONSIVE MÓVIL MUY PEQUEÑO (max-width: 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 220px;
+        min-width: 220px;
+        left: -240px;
+    }
+
+    .topbar h1 {
+        font-size: 0.95rem;
+    }
+
+    .topbar-meta {
+        font-size: 0.6rem;
+        gap: 4px;
+    }
+
+    .topbar-meta span {
+        gap: 2px;
+    }
+
+    .search-box {
+        width: 80px;
+        padding: 3px 6px;
+    }
+
+    .search-box input {
+        width: 50px;
+        font-size: 0.65rem;
+    }
+
+    .user-chip-text .fw-bold {
+        font-size: 0.6rem;
+    }
+
+    .user-chip-text .small {
+        font-size: 0.5rem;
+    }
+
+    .user-chip img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 8px;
+    }
+
+    .table {
+        font-size: 0.65rem;
+        min-width: 480px;
+    }
+
+    .table th,
+    .table td {
+        padding: 4px 6px;
+    }
 }

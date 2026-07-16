@@ -10,6 +10,8 @@
 </head>
 
 <body class="d-flex vh-100 overflow-hidden">
+    <!-- Overlay para móvil -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <!-- SIDEBAR -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
@@ -106,6 +108,7 @@
 
     <script th:src="@{/js/jsAlertaProducto.js}"></script>
     <script th:src="@{/js/paginacionGlobal.js}"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
     <script>
         // Lógica simple para el filtro de estado combinado
         document.getElementById('filtroEstado').addEventListener('change', function () {
