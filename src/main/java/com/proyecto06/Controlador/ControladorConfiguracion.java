@@ -26,7 +26,6 @@ import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import com.itextpdf.kernel.geom.PageSize;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,17 +47,16 @@ public class ControladorConfiguracion {
     private final UsuarioRepository usuarioRepo;
     private final RolRepository rolRepo;
     private final ProductoRepository productoRepository;
-    private final Environment environment;
+
+
 
     public ControladorConfiguracion(UsuarioRepository usuarioRepo,
             RolRepository rolRepo,
             ProductoRepository productoRepository,
-            Environment environment,
             JdbcTemplate jdbcTemplate) {
         this.usuarioRepo = usuarioRepo;
         this.rolRepo = rolRepo;
         this.productoRepository = productoRepository;
-        this.environment = environment;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -75,32 +73,27 @@ public class ControladorConfiguracion {
         return "configuracion";
     }
 
-    // ========== CRUD Usuarios ==========
     // ========== ACTUALIZAR USUARIO ==========
     @PostMapping("/editar")
     public String actualizarUsuario(@ModelAttribute Usuario usuario,
             RedirectAttributes redirectAttrs) {
         try {
-            // Buscar usuario existente
             Usuario existente = usuarioRepo.findById(usuario.getIdUsuario()).orElse(null);
             if (existente == null) {
                 redirectAttrs.addFlashAttribute("error", "Usuario no encontrado");
                 return "redirect:/configuracion";
             }
 
-            // Actualizar campos (excepto contraseña si está vacía)
             existente.setDni(usuario.getDni());
             existente.setNombre(usuario.getNombre());
             existente.setApellido(usuario.getApellido());
             existente.setCorreo(usuario.getCorreo());
 
-            // Actualizar rol si se seleccionó uno
             if (usuario.getRol() != null && usuario.getRol().getIdRol() != null) {
                 Rol nuevoRol = rolRepo.findById(usuario.getRol().getIdRol()).orElse(null);
                 existente.setRol(nuevoRol);
             }
 
-            // Solo actualizar contraseña si se proporcionó una nueva (no vacía)
             if (usuario.getPassword() != null && !usuario.getPassword().trim().isEmpty()) {
                 existente.setPassword(usuario.getPassword().trim());
             }
@@ -137,19 +130,10 @@ public class ControladorConfiguracion {
     public String guardarUsuario(@ModelAttribute Usuario usuario,
             RedirectAttributes redirectAttrs) {
         try {
-            // Validar que el correo no esté duplicado
             if (usuarioRepo.findByCorreo(usuario.getCorreo()).isPresent()) {
                 redirectAttrs.addFlashAttribute("error", "El correo ya está registrado");
                 return "redirect:/configuracion";
             }
-
-            // Validar que el nombre de usuario no esté duplicado
-            if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
-                // Si tienes un método para buscar por username, úsalo
-                // Si no, puedes omitir esta validación
-            }
-
-            // Guardar nuevo usuario (la contraseña ya viene del formulario)
             usuarioRepo.save(usuario);
             redirectAttrs.addFlashAttribute("mensaje", "Usuario creado correctamente");
         } catch (Exception e) {
@@ -279,12 +263,11 @@ public class ControladorConfiguracion {
     }
 
     // ============================================================
-    // MÉTODO PRINCIPAL: GENERA EL BACKUP MANUAL CON TODAS LAS TABLAS
+    // MÉTODO PRINCIPAL: GENERA EL BACKUP DINÁMICO (todas las tablas)
     // ============================================================
     private void generarBackupManual(HttpServletResponse response) throws IOException {
         StringBuilder sql = new StringBuilder();
 
-        // Cabecera
         sql.append("-- ============================================================\n");
         sql.append("-- BACKUP COMPLETO DE LA BASE DE DATOS\n");
         sql.append("-- Generado: ")
@@ -294,30 +277,25 @@ public class ControladorConfiguracion {
         sql.append("SET FOREIGN_KEY_CHECKS=0;\n");
         sql.append("SET AUTOCOMMIT=0;\n\n");
 
-        // Obtener todas las tablas del esquema actual
         List<String> tablas = obtenerNombresTablas();
 
         if (tablas.isEmpty()) {
-            // Si no hay tablas, escribir un mensaje
             sql.append("-- No se encontraron tablas en la base de datos.\n");
             response.getOutputStream().write(sql.toString().getBytes(StandardCharsets.UTF_8));
             response.getOutputStream().flush();
             return;
         }
 
-        // Exportar cada tabla
         for (String nombreTabla : tablas) {
             try {
                 exportarTabla(nombreTabla, sql);
             } catch (Exception e) {
-                // Si una tabla falla, continuar con la siguiente
                 sql.append("-- Error al exportar tabla '").append(nombreTabla).append("': ").append(e.getMessage())
                         .append("\n");
                 e.printStackTrace();
             }
         }
 
-        // Finalizar
         sql.append("SET FOREIGN_KEY_CHECKS=1;\n");
         sql.append("COMMIT;\n");
 
@@ -325,22 +303,18 @@ public class ControladorConfiguracion {
         response.getOutputStream().flush();
     }
 
-    // Obtener nombres de todas las tablas en el esquema actual
     private List<String> obtenerNombresTablas() {
         String query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE()";
         try {
             return jdbcTemplate.query(query, (rs, rowNum) -> rs.getString("TABLE_NAME"));
         } catch (Exception e) {
             e.printStackTrace();
-            // Fallback: lista de tablas comunes si no se puede consultar INFORMATION_SCHEMA
             return List.of("roles", "categorias", "ubicaciones", "productos", "usuarios", "alertas", "movimientos",
                     "notificaciones", "historial_cambios", "logs", "reportes");
         }
     }
 
-    // Exportar una tabla individual (estructura + datos)
     private void exportarTabla(String nombreTabla, StringBuilder sql) {
-        // Obtener estructura de la tabla
         String estructura = obtenerEstructuraTabla(nombreTabla);
         if (estructura == null || estructura.isEmpty()) {
             sql.append("-- Tabla '").append(nombreTabla).append("' no existe o no se pudo obtener estructura.\n");
@@ -353,7 +327,6 @@ public class ControladorConfiguracion {
         sql.append("DROP TABLE IF EXISTS `").append(nombreTabla).append("`;\n");
         sql.append(estructura).append(";\n\n");
 
-        // Obtener datos de la tabla
         List<Object[]> datos = obtenerDatosTabla(nombreTabla);
         if (datos.isEmpty()) {
             sql.append("-- No hay datos en `").append(nombreTabla).append("`\n\n");
@@ -364,8 +337,6 @@ public class ControladorConfiguracion {
         sql.append("LOCK TABLES `").append(nombreTabla).append("` WRITE;\n");
         sql.append("/*!40000 ALTER TABLE `").append(nombreTabla).append("` DISABLE KEYS */;\n");
 
-        // Generar INSERTs
-        int columnasCount = obtenerColumnasCount(nombreTabla);
         String columnasSql = obtenerColumnas(nombreTabla);
 
         for (Object[] row : datos) {
@@ -382,7 +353,6 @@ public class ControladorConfiguracion {
         sql.append("UNLOCK TABLES;\n\n");
     }
 
-    // Obtener estructura CREATE TABLE de una tabla
     private String obtenerEstructuraTabla(String nombreTabla) {
         try {
             String query = "SHOW CREATE TABLE `" + nombreTabla + "`";
@@ -393,7 +363,6 @@ public class ControladorConfiguracion {
         }
     }
 
-    // Obtener todos los datos de una tabla
     private List<Object[]> obtenerDatosTabla(String nombreTabla) {
         String query = "SELECT * FROM `" + nombreTabla + "`";
         try {
@@ -411,24 +380,13 @@ public class ControladorConfiguracion {
         }
     }
 
-    // Obtener número de columnas de una tabla (para generar el INSERT)
-    private int obtenerColumnasCount(String nombreTabla) {
-        String query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?";
-        try {
-            return jdbcTemplate.queryForObject(query, Integer.class, nombreTabla);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    // Obtener lista de nombres de columnas separados por coma
     private String obtenerColumnas(String nombreTabla) {
         String query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? ORDER BY ORDINAL_POSITION";
         try {
             List<String> columnas = jdbcTemplate.query(query, (rs, rowNum) -> rs.getString("COLUMN_NAME"), nombreTabla);
             return String.join(", ", columnas);
         } catch (Exception e) {
-            return "*"; // Fallback
+            return "*";
         }
     }
 
@@ -445,16 +403,6 @@ public class ControladorConfiguracion {
         } else {
             return "'" + escaparSQL(valor.toString()) + "'";
         }
-    }
-
-    private List<Object[]> jdbcQuery(String query) {
-        return jdbcTemplate.query(query, (rs, rowNum) -> {
-            Object[] row = new Object[rs.getMetaData().getColumnCount()];
-            for (int i = 0; i < row.length; i++) {
-                row[i] = rs.getObject(i + 1);
-            }
-            return row;
-        });
     }
 
     private String escaparSQL(Object valor) {
