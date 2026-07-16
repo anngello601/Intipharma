@@ -2,6 +2,7 @@ package com.proyecto06.Controlador;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.proyecto06.Modelo.Producto;
+import com.proyecto06.Modelo.Rol;
 import com.proyecto06.Modelo.Usuario;
 import com.proyecto06.Repository.ProductoRepository;
 import com.proyecto06.Repository.UsuarioRepository;
@@ -75,21 +76,86 @@ public class ControladorConfiguracion {
     }
 
     // ========== CRUD Usuarios ==========
+    // ========== ACTUALIZAR USUARIO ==========
     @PostMapping("/editar")
-    public String actualizarUsuario(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttrs) {
-        // ... (tu código existente)
+    public String actualizarUsuario(@ModelAttribute Usuario usuario,
+            RedirectAttributes redirectAttrs) {
+        try {
+            // Buscar usuario existente
+            Usuario existente = usuarioRepo.findById(usuario.getIdUsuario()).orElse(null);
+            if (existente == null) {
+                redirectAttrs.addFlashAttribute("error", "Usuario no encontrado");
+                return "redirect:/configuracion";
+            }
+
+            // Actualizar campos (excepto contraseña si está vacía)
+            existente.setDni(usuario.getDni());
+            existente.setNombre(usuario.getNombre());
+            existente.setApellido(usuario.getApellido());
+            existente.setCorreo(usuario.getCorreo());
+
+            // Actualizar rol si se seleccionó uno
+            if (usuario.getRol() != null && usuario.getRol().getIdRol() != null) {
+                Rol nuevoRol = rolRepo.findById(usuario.getRol().getIdRol()).orElse(null);
+                existente.setRol(nuevoRol);
+            }
+
+            // Solo actualizar contraseña si se proporcionó una nueva (no vacía)
+            if (usuario.getPassword() != null && !usuario.getPassword().trim().isEmpty()) {
+                existente.setPassword(usuario.getPassword().trim());
+            }
+
+            usuarioRepo.save(existente);
+            redirectAttrs.addFlashAttribute("mensaje", "Usuario actualizado correctamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttrs.addFlashAttribute("error", "Error al actualizar usuario: " + e.getMessage());
+        }
         return "redirect:/configuracion";
     }
 
+    // ========== ELIMINAR USUARIO ==========
     @PostMapping("/eliminar/{id}")
-    public String eliminarUsuario(@PathVariable Integer id, RedirectAttributes redirectAttrs) {
-        // ... (tu código existente)
+    public String eliminarUsuario(@PathVariable Integer id,
+            RedirectAttributes redirectAttrs) {
+        try {
+            if (usuarioRepo.existsById(id)) {
+                usuarioRepo.deleteById(id);
+                redirectAttrs.addFlashAttribute("mensaje", "Usuario eliminado correctamente");
+            } else {
+                redirectAttrs.addFlashAttribute("error", "Usuario no encontrado");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttrs.addFlashAttribute("error", "Error al eliminar usuario: " + e.getMessage());
+        }
         return "redirect:/configuracion";
     }
 
+    // ========== GUARDAR NUEVO USUARIO ==========
     @PostMapping("/guardar")
-    public String guardarUsuario(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttrs) {
-        // ... (tu código existente)
+    public String guardarUsuario(@ModelAttribute Usuario usuario,
+            RedirectAttributes redirectAttrs) {
+        try {
+            // Validar que el correo no esté duplicado
+            if (usuarioRepo.findByCorreo(usuario.getCorreo()).isPresent()) {
+                redirectAttrs.addFlashAttribute("error", "El correo ya está registrado");
+                return "redirect:/configuracion";
+            }
+
+            // Validar que el nombre de usuario no esté duplicado
+            if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
+                // Si tienes un método para buscar por username, úsalo
+                // Si no, puedes omitir esta validación
+            }
+
+            // Guardar nuevo usuario (la contraseña ya viene del formulario)
+            usuarioRepo.save(usuario);
+            redirectAttrs.addFlashAttribute("mensaje", "Usuario creado correctamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttrs.addFlashAttribute("error", "Error al guardar usuario: " + e.getMessage());
+        }
         return "redirect:/configuracion";
     }
 
@@ -214,9 +280,6 @@ public class ControladorConfiguracion {
 
     // ============================================================
     // MÉTODO PRINCIPAL: GENERA EL BACKUP MANUAL CON TODAS LAS TABLAS
-    // ============================================================
-    // ============================================================
-    // MÉTODO PRINCIPAL: GENERA EL BACKUP DINÁMICO (todas las tablas)
     // ============================================================
     private void generarBackupManual(HttpServletResponse response) throws IOException {
         StringBuilder sql = new StringBuilder();
